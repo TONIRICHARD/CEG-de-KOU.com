@@ -1,0 +1,2594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion Scolaire — CEG de Kou</title>
+<style>
+@font-face { font-family:'Cormorant Garamond'; font-weight:400 900; src:local('Georgia'),local('Times New Roman'); }
+@font-face { font-family:'JetBrains Mono'; font-weight:400 700; src:local('Consolas'),local('Courier New'),local('Lucida Console'); }
+@font-face { font-family:'DM Sans'; font-weight:300 700; src:local('Segoe UI'),local('Helvetica Neue'),local('Arial'); }
+</style>
+<style>
+:root {
+  --ink:#0e0e12; --gold:#b8942a; --gold2:#e8c75a; --cream:#f4f0e8;
+  --steel:#1a1e2a; --slate:#252a38; --line:#2e3445; --muted:#6b7280;
+  --red:#9b2335; --green:#1a5c34; --blue:#1a2f5e; --w:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+#app-header{background:linear-gradient(180deg,#0a0c12 0%,#12151f 100%);border-bottom:1px solid var(--gold);padding:0 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;height:60px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:14px;}
+.brand-seal{width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1200,#0e0e12);font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);font-weight:900;overflow:hidden;}
+.brand-seal img{width:100%;height:100%;object-fit:cover;}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--gold);font-weight:700;letter-spacing:1px;line-height:1.1;}
+.brand-sub{font-size:0.65rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+.header-info{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);text-align:right;line-height:1.6;}
+.header-info span{color:var(--gold2);}
+#app-nav{display:flex;gap:2px;background:#0a0c12;border-bottom:1px solid var(--line);padding:6px 12px;overflow-x:auto;scrollbar-width:none;}
+#app-nav::-webkit-scrollbar{display:none;}
+.nav-btn{background:none;border:none;color:var(--muted);padding:7px 16px;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;white-space:nowrap;transition:all 0.18s;letter-spacing:0.3px;display:flex;align-items:center;gap:6px;}
+.nav-btn:hover{color:var(--cream);background:var(--slate);}
+.nav-btn.on{background:var(--gold);color:var(--ink);font-weight:700;}
+.nav-ico{font-size:0.9rem;}
+.page{display:none;padding:20px 16px;max-width:1100px;margin:0 auto;animation:fadeIn 0.25s ease;}
+.page.on{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px;flex-wrap:wrap;}
+.sec-title small{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);font-weight:400;letter-spacing:1px;}
+.card{background:var(--slate);border:1px solid var(--line);border-radius:6px;padding:18px;margin-bottom:16px;}
+.card-head{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gold2);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.card-head::after{content:'';flex:1;height:1px;background:var(--line);}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.fg{flex:1;min-width:140px;}
+.fg label{display:block;font-size:0.72rem;color:var(--muted);margin-bottom:4px;letter-spacing:0.3px;}
+input[type=text],input[type=number],input[type=file],select,textarea{width:100%;background:#11141d;border:1px solid var(--line);color:var(--cream);padding:9px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:0.85rem;transition:border 0.15s;}
+input:focus,select:focus{outline:none;border-color:var(--gold);}
+select option{background:#11141d;}
+input[type=number]{font-family:'JetBrains Mono',monospace;}
+.btn{padding:9px 20px;border:none;border-radius:4px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.83rem;font-weight:600;letter-spacing:0.4px;transition:all 0.18s;display:inline-flex;align-items:center;gap:6px;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-gold:hover{background:var(--gold2);}
+.btn-green{background:#163a28;color:#5fe09a;}
+.btn-green:hover{background:var(--green);color:#fff;}
+.btn-red{background:#3a1018;color:#f47a8a;}
+.btn-red:hover{background:var(--red);color:#fff;}
+.btn-blue{background:#111d40;color:#7ab0f5;}
+.btn-blue:hover{background:var(--blue);color:#fff;}
+.btn-ghost{background:none;border:1px solid var(--line);color:var(--muted);}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.btn-sm{padding:5px 12px;font-size:0.75rem;}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+th{background:#0d1020;color:var(--gold2);font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;padding:10px 12px;text-align:left;border-bottom:2px solid var(--gold);white-space:nowrap;}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle;}
+tr:hover td{background:#1c2030;}
+.tc{text-align:center;}
+.tr{text-align:right;}
+.b{display:inline-block;padding:2px 9px;border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;}
+.bA{background:#0d3320;color:#5fe09a;}
+.bB{background:#0d1f45;color:#7ab0f5;}
+.bC{background:#2e2800;color:#e8c75a;}
+.bD{background:#2e1400;color:#f0a060;}
+.bE{background:#2e0810;color:#f07080;}
+.bABS{background:#1a1a1a;color:#666;}
+.mention{font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;padding:3px 8px;border-radius:3px;}
+.mEX{background:#0d3320;color:#5fe09a;}
+.mTB{background:#0d1f45;color:#7ab0f5;}
+.mBI{background:#2e2800;color:#e8c75a;}
+.mAB{background:#2e1400;color:#f0a060;}
+.mEc{background:#2e0810;color:#f07080;}
+.mPA{background:#2e2800;color:#e8c75a;}
+.mIN{background:#2e1400;color:#f0a060;}
+.mFA{background:#2e0810;color:#f07080;}
+.mTF{background:#380a10;color:#ff5060;}
+.rang{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);}
+.rang-1{color:#ffd700;}
+.rang-2{color:#c0c0c0;}
+.rang-3{color:#cd7f32;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px;}
+.stat-box{background:#0d1020;border:1px solid var(--line);border-radius:6px;padding:14px;text-align:center;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);font-weight:700;line-height:1;}
+.stat-lbl{font-size:0.67rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px;font-family:'JetBrains Mono',monospace;}
+.alert{padding:10px 14px;border-radius:4px;font-size:0.8rem;margin-bottom:12px;font-family:'JetBrains Mono',monospace;}
+.aOK{background:#0d3320;color:#5fe09a;border-left:3px solid #5fe09a;}
+.aERR{background:#2e0810;color:#f07080;border-left:3px solid #f07080;}
+.aINF{background:#0d1f45;color:#7ab0f5;border-left:3px solid #7ab0f5;}
+.empty{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty .eico{font-size:3rem;display:block;margin-bottom:12px;}
+.note-inp{width:70px!important;text-align:center;background:#0d1020!important;border:1px solid var(--line)!important;color:var(--cream)!important;padding:6px 4px!important;border-radius:3px;font-family:'JetBrains Mono',monospace!important;font-size:0.88rem!important;}
+.note-inp:focus{border-color:var(--gold)!important;}
+.note-inp.filled{border-color:#2e4a2e!important;background:#0d2018!important;}
+.abs-cb{width:16px;height:16px;cursor:pointer;accent-color:var(--red);}
+.pbar-wrap{background:#0d1020;border-radius:4px;height:8px;overflow:hidden;margin-top:6px;}
+.pbar{height:100%;border-radius:4px;transition:width 0.5s ease;}
+.bul{background:#fff;color:#111;border-radius:8px;padding:28px 32px;max-width:750px;margin:0 auto 24px;font-family:'DM Sans',sans-serif;box-shadow:0 0 60px rgba(184,148,42,0.12);border:1px solid #e0d8c0;}
+.bul-top{text-align:center;border-bottom:2.5px solid #b8942a;padding-bottom:14px;margin-bottom:16px;}
+.bul-pays{font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:2px;}
+.bul-devise{font-size:0.7rem;color:#888;margin-bottom:6px;font-style:italic;}
+.bul-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:900;color:#b8942a;letter-spacing:1px;}
+.bul-logo img{max-height:52px;max-width:52px;object-fit:contain;}
+.bul-etab{font-size:0.82rem;color:#444;margin-top:2px;}
+.bul-examen{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#111;margin:8px 0 2px;}
+.bul-session{font-size:0.8rem;color:#666;}
+.bul-infos{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;margin-bottom:16px;background:#faf8f2;border:1px solid #e0d8c0;border-radius:4px;padding:12px 14px;}
+.bul-info-item{font-size:0.82rem;}
+.bul-info-item strong{color:#b8942a;}
+.bul table{width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;}
+.bul th{background:#b8942a;color:#fff;padding:8px 10px;text-align:left;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;}
+.bul td{padding:7px 10px;border-bottom:1px solid #ede8d8;}
+.bul tr:nth-child(even) td{background:#faf8f2;}
+.bul .bul-total td{background:#f5f0e0!important;font-weight:700;border-top:2px solid #b8942a;}
+.bul-result{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-top:12px;border-top:2px solid #b8942a;padding-top:12px;}
+.bul-moy-box{background:#b8942a;color:#fff;border-radius:6px;padding:10px 18px;text-align:center;min-width:120px;}
+.bul-moy-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:900;line-height:1;}
+.bul-moy-lbl{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;opacity:0.85;}
+.bul-mention-box{padding:10px 16px;border-radius:6px;text-align:center;min-width:120px;}
+.bul-sign{font-size:0.78rem;color:#666;text-align:right;line-height:1.8;}
+.bul-decision{margin-top:10px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;padding:8px;border-radius:4px;}
+.dec-white-ADMIS{background:#e8f5ee;color:#1a5c34;border:1px solid #5fe09a;}
+.dec-white-ECHOUE{background:#fcecea;color:#9b2335;border:1px solid #f07080;}
+.carte{background:#fff;color:#111;border-radius:10px;width:340px;height:210px;padding:14px 16px;box-shadow:0 0 30px rgba(184,148,42,0.15);border:1.5px solid #b8942a;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.carte-grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;}
+.carte-top{display:flex;align-items:center;gap:8px;border-bottom:1.5px solid #b8942a;padding-bottom:6px;margin-bottom:8px;}
+.carte-seal{width:30px;height:30px;border-radius:50%;border:1.5px solid #b8942a;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Cormorant Garamond',serif;font-weight:900;color:#b8942a;font-size:0.9rem;flex-shrink:0;}
+.carte-seal img{width:100%;height:100%;object-fit:cover;}
+.carte-etab{font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:700;color:#111;line-height:1.1;}
+.carte-titre{font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;color:#b8942a;font-weight:700;}
+.carte-body{display:flex;gap:12px;flex:1;}
+.carte-photo{width:70px;height:85px;border:1.5px dashed #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#aaa;text-align:center;flex-shrink:0;}
+.carte-info{flex:1;font-size:0.72rem;line-height:1.55;}
+.carte-info b{color:#b8942a;}
+.carte-nom{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:800;color:#111;margin-bottom:2px;}
+.carte-foot{font-size:0.58rem;color:#888;text-align:right;margin-top:auto;border-top:1px solid #eee;padding-top:4px;}
+/* Bulletin officiel façon C.E.G. de Kou */
+.bul2{background:#fff;color:#111;border:2.5px solid #000;border-radius:6px;padding:14mm 16mm;width:210mm;min-height:297mm;box-sizing:border-box;margin:0 auto 28px;font-family:'DM Sans',Arial,sans-serif;box-shadow:0 0 40px rgba(0,0,0,0.35);overflow-x:hidden;}
+.bul2-pays{text-align:center;font-weight:700;font-size:0.85rem;letter-spacing:0.5px;}
+.bul2-devise{text-align:center;font-size:0.78rem;margin:2px 0;}
+.bul2-ministere{text-align:center;font-size:0.78rem;line-height:1.35;margin-bottom:10px;}
+.bul2-etab-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;}
+.bul2-seal{width:66px;height:66px;border:1.5px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:0.65rem;color:#999;flex-shrink:0;}
+.bul2-seal img{width:100%;height:100%;object-fit:cover;}
+.bul2-etab-txt{text-align:center;}
+.bul2-etab-name{font-size:1.35rem;font-weight:800;letter-spacing:0.5px;}
+.bul2-etab-sub{font-size:0.82rem;}
+.bul2-etab-annee{font-size:0.82rem;font-weight:700;}
+.bul2-titlebar{background:#dce8f5;border:1px solid #333;text-align:center;padding:9px;font-weight:800;font-size:1.05rem;margin:14px 0;}
+.bul2-infos{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin-bottom:14px;font-size:0.86rem;line-height:1.6;}
+.bul2 table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:0.76rem;margin-bottom:14px;}
+.bul2 th,.bul2 td{border:1px solid #333;padding:6px 6px;text-align:left;word-wrap:break-word;overflow-wrap:break-word;color:#111;background:#fff;}
+.bul2 th{background:#eef2f6;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.2px;color:#333;}
+.bul2 tr:hover td{background:inherit!important;}
+.bul2 th:nth-child(1),.bul2 td:nth-child(1){width:15%;}
+.bul2 th:nth-child(2),.bul2 td:nth-child(2){width:6%;}
+.bul2 th:nth-child(3),.bul2 td:nth-child(3){width:10%;}
+.bul2 th:nth-child(4),.bul2 td:nth-child(4){width:14%;}
+.bul2 th:nth-child(5),.bul2 td:nth-child(5){width:9%;}
+.bul2 th:nth-child(6),.bul2 td:nth-child(6){width:10%;}
+.bul2 th:nth-child(7),.bul2 td:nth-child(7){width:14%;}
+.bul2 th:nth-child(8),.bul2 td:nth-child(8){width:22%;}
+.bul2 td:nth-child(8){padding-bottom:16px;vertical-align:top;}
+.bul2 .bloc-row td{background:#dde6ef;font-weight:800;text-transform:uppercase;font-size:0.76rem;letter-spacing:0.5px;}
+.bul2 .tot-row td{font-weight:800;background:#eef2f6;}
+.bul2-boxes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;}
+.bul2-box{border:1px solid #333;padding:10px 14px;font-size:0.85rem;line-height:1.7;}
+.bul2-abs{font-size:0.85rem;margin-bottom:12px;}
+.bul2-decision{border:1px solid #333;padding:10px 14px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.bul2-decision-title{font-weight:800;margin-bottom:8px;font-size:0.88rem;}
+.bul2-check{display:flex;align-items:center;gap:8px;font-size:0.84rem;margin:4px 0;}
+.bul2-check .cb{width:16px;height:16px;border:1.5px solid #000;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900;flex-shrink:0;}
+.bul2-annual-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #333;margin-bottom:14px;text-align:center;}
+.bul2-annual-row>div{padding:10px;border-right:1px solid #333;font-size:0.76rem;color:#555;}
+.bul2-annual-row>div:last-child{border-right:none;}
+.bul2-annual-row .val{font-size:1.2rem;font-weight:800;color:#111;margin-top:4px;}
+.bul2-stamp{border:3px solid #1a5c34;color:#1a5c34;font-weight:900;font-size:1.35rem;text-align:center;padding:10px;margin-top:10px;letter-spacing:1px;}
+.bul2-sign{text-align:right;font-size:0.86rem;margin-top:20px;line-height:1.7;}
+.bul2-footer{text-align:center;font-size:0.68rem;color:#777;border-top:1px solid #ccc;margin-top:18px;padding-top:8px;}
+@media print{
+  @page{ size: A4; margin: 0; }
+  #app-header,#app-nav,.no-print,.btn,.card.no-print{display:none!important;}
+  .page{display:block!important;padding:0!important;}
+  body{background:#fff!important;color:#111!important;}
+  .bul{box-shadow:none!important;border:none!important;page-break-after:always;}
+  .bul2{box-shadow:none!important;border-radius:0!important;width:210mm!important;min-height:297mm!important;margin:0!important;page-break-after:always;}
+  .carte{box-shadow:none!important;page-break-inside:avoid;}
+}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:#0a0c12;}
+::-webkit-scrollbar-thumb{background:#2e3445;border-radius:3px;}
+.tag{display:inline-block;background:#0d1020;border:1px solid var(--line);color:var(--muted);padding:1px 7px;border-radius:3px;font-size:0.72rem;font-family:'JetBrains Mono',monospace;}
+.sep{border:none;border-top:1px solid var(--line);margin:14px 0;}
+.ml8{margin-left:8px;}
+.mt8{margin-top:8px;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:center;justify-content:center;}
+.overlay.on{display:flex;}
+.modal{background:var(--slate);border:1px solid var(--gold);border-radius:8px;padding:24px;width:min(500px,95vw);max-height:80vh;overflow-y:auto;}
+.modal h3{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1.2rem;margin-bottom:12px;}
+#save-bar{background:#0a0c12;border-bottom:1px solid #1e2535;padding:6px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+#save-bar .sb-label{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-right:4px;}
+#save-status{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);margin-left:auto;}
+#save-status.ok{color:#5fe09a;}
+#save-status.err{color:#f07080;}
+</style>
+</head>
+<body>
+
+<div id="app-header">
+  <div class="brand">
+    <div class="brand-seal" id="hdr-seal">K</div>
+    <div>
+      <div class="brand-name" id="hdr-etab">CEG de Kou</div>
+      <div class="brand-sub">Gestion Scolaire · 6ème → 3ème</div>
+    </div>
+  </div>
+  <div class="header-info">
+    Directeur : <span id="hdr-directeur">—</span><br>
+    Prof. M. TONI &nbsp;|&nbsp; Année <span id="hdr-annee">—</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;">
+    <input type="text" id="rech-input" placeholder="🔍 Rechercher un élève..." style="width:170px;padding:6px 10px;font-size:0.78rem;" oninput="rechercherEleve(this.value)" onfocus="q('rech-results').classList.add('on')">
+    <div class="overlay" id="rech-results" style="position:absolute;top:60px;right:20px;inset:auto;align-items:flex-start;justify-content:flex-end;">
+      <div class="modal" style="width:320px;max-height:60vh;">
+        <h3>🔍 Résultats</h3>
+        <div id="rech-liste"></div>
+        <button class="btn btn-ghost btn-sm mt8" onclick="q('rech-results').classList.remove('on')">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="app-nav">
+  <button class="nav-btn on" data-role-admin onclick="nav('config',this)"><span class="nav-ico">⚙</span> Configuration</button>
+  <button class="nav-btn" data-role-admin onclick="nav('classes',this)"><span class="nav-ico">🏫</span> Classes</button>
+  <button class="nav-btn" data-role-admin onclick="nav('profs',this)"><span class="nav-ico">🎓</span> Professeurs</button>
+  <button class="nav-btn" data-role-admin onclick="nav('eleves',this)"><span class="nav-ico">👥</span> Élèves</button>
+  <button class="nav-btn" onclick="nav('notes',this)"><span class="nav-ico">✏</span> Saisie des notes</button>
+  <button class="nav-btn" data-role-admin onclick="nav('bulletins',this)"><span class="nav-ico">📋</span> Bulletins</button>
+  <button class="nav-btn" data-role-admin onclick="nav('documents',this)"><span class="nav-ico">📜</span> Documents</button>
+  <button class="nav-btn" data-role-admin onclick="nav('absences',this)"><span class="nav-ico">📅</span> Absences</button>
+  <button class="nav-btn" data-role-admin onclick="nav('scolarite',this)"><span class="nav-ico">💰</span> Scolarité</button>
+  <button class="nav-btn" data-role-admin onclick="nav('cartes',this)"><span class="nav-ico">🪪</span> Cartes scolaires</button>
+  <button class="nav-btn" data-role-admin onclick="nav('stats',this)"><span class="nav-ico">📊</span> Statistiques</button>
+  <button class="nav-btn" data-role-admin onclick="nav('dashboard',this)"><span class="nav-ico">📌</span> Tableau de bord</button>
+</div>
+
+
+<div id="save-bar">
+  <span data-role-admin style="display:contents">
+    <span class="sb-label">💾 Données :</span>
+    <button class="btn btn-green btn-sm" onclick="sauvegarderFichier()">⬇ Sauvegarder (.json)</button>
+    <button class="btn btn-blue btn-sm" onclick="q('inp-charger').click()">⬆ Charger un fichier</button>
+    <input type="file" id="inp-charger" accept=".json" style="display:none" onchange="chargerFichier(this)"/>
+    <button class="btn btn-ghost btn-sm" onclick="sauvegarderLocal()">📌 Sauvegarde rapide</button>
+    <button class="btn btn-ghost btn-sm" onclick="chargerLocal()">🔄 Restaurer sauvegarde rapide</button>
+    <span id="save-status">Aucune sauvegarde</span>
+  </span>
+  <span id="bloc-utilisateur" style="display:none;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gold2);">
+    👤 <span id="utilisateur-connecte"></span>
+    <button class="btn btn-ghost btn-sm" onclick="deconnecter()">Déconnexion</button>
+  </span>
+</div>
+
+<!-- CONNEXION DIRECTEUR (Firebase Auth) -->
+<div class="overlay" id="ov-login">
+  <div class="modal" style="text-align:center;">
+    <h3 id="login-titre">🔐 Connexion requise</h3>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;">Accès réservé au Directeur et aux professeurs enregistrés du CEG de Kou.</p>
+    <div class="fg" style="margin-bottom:10px;text-align:left;"><label>E-mail</label><input type="text" id="login-email" placeholder="prof@cegdekou.bf"/></div>
+    <div class="fg" style="margin-bottom:14px;text-align:left;"><label>Mot de passe</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
+    <button class="btn btn-gold" style="width:100%;" id="login-btn-principal" onclick="connecterDirecteur()">Se connecter</button>
+    <div id="login-erreur" style="color:#f07080;font-size:0.8rem;margin-top:10px;min-height:1.2em;"></div>
+    <hr class="sep">
+    <p id="login-bascule-txt" style="font-size:0.8rem;color:var(--muted);">Professeur, première connexion ?</p>
+    <button class="btn btn-ghost btn-sm" id="login-bascule-btn" onclick="basculerModeLogin()">Créer mon mot de passe</button>
+  </div>
+</div>
+
+<!-- ══ CONFIG ══ -->
+<div id="p-config" class="page on">
+  <div class="sec-title">⚙ Configuration de l'établissement</div>
+  <div class="card">
+    <div class="card-head">Informations générales</div>
+    <div class="row">
+      <div class="fg"><label>Établissement</label><input id="c-etab" value="CEG de Kou"/></div>
+      <div class="fg"><label>Province</label><input id="c-province" value="Ziro"/></div>
+      <div class="fg"><label>Ville</label><input id="c-ville" value="Kou"/></div>
+      <div class="fg"><label>Année scolaire</label><input id="c-annee" value="2025–2026"/></div>
+    </div>
+    <div class="row">
+      <div class="fg"><label>Directeur / Directrice</label><input id="c-directeur" value=""/></div>
+      <div class="fg"><label>E-mail du Directeur (compte de connexion)</label><input type="text" id="c-email-directeur" placeholder="directeur@cegdekou.bf"/></div>
+    </div>
+    <div class="row">
+      <div class="fg" style="max-width:140px"><label>Note de passage</label>
+        <select id="c-passage"><option value="10">10/20</option><option value="12">12/20</option></select>
+      </div>
+      <div class="fg" style="max-width:150px"><label>Places au Tableau d'Honneur</label><input type="number" id="c-tableau" value="5" min="1"/></div>
+      <div class="fg"><label>Logo de l'établissement</label><input type="file" id="c-logo" accept="image/*" onchange="importerLogo(this)"/></div>
+    </div>
+    <div class="alert aINF" style="font-size:0.78rem;">🔐 L'e-mail du Directeur détermine qui a accès complet au logiciel. Toute autre personne connectée doit être enregistrée comme professeur (avec son e-mail) dans l'onglet Professeurs pour n'avoir accès qu'à la saisie de ses propres notes.</div>
+    <button class="btn btn-gold" onclick="sauverConfig()">✔ Enregistrer la configuration</button>
+    <div id="al-config" class="mt8"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Blocs de matières (regroupement affiché sur le bulletin)</div>
+    <p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">Dès que la liste officielle des matières et blocs sera transmise, ajustez ici les blocs et l'affectation de chaque matière — le bulletin se regroupera automatiquement.</p>
+    <div id="tags-blocs" class="mt8" style="margin-bottom:10px;"></div>
+    <div class="row">
+      <div class="fg"><label>Nouveau bloc</label><input id="bl-nom" placeholder="Ex: Sciences"/></div>
+      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-blue btn-sm" onclick="ajouterBloc()">+ Ajouter un bloc</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Matières (communes à toutes les classes)</div>
+    <div class="tw">
+      <table id="tab-matieres">
+        <thead><tr><th>#</th><th>Matière</th><th>Bloc</th><th>Coeff.</th><th>Note / …</th><th>Suppr.</th></tr></thead>
+        <tbody id="tb-matieres"></tbody>
+      </table>
+    </div>
+    <hr class="sep">
+    <div class="row">
+      <div class="fg"><label>Intitulé</label><input id="m-nom" placeholder="Ex: Mathématiques"/></div>
+      <div class="fg"><label>Bloc</label><select id="m-bloc"></select></div>
+      <div class="fg" style="max-width:90px"><label>Coeff.</label><input type="number" id="m-coef" value="2" min="1" max="10"/></div>
+      <div class="fg" style="max-width:90px"><label>Note sur</label><select id="m-sur"><option value="20">20</option><option value="10">10</option></select></div>
+      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-gold" onclick="ajouterMatiere()">+ Ajouter</button></div>
+    </div>
+    <div class="mt8"><button class="btn btn-blue btn-sm" onclick="loadPresetMatieres()">📚 Charger matières collège (FR, ANG, HG, SVT, PC, MATH, EPS, EC)</button></div>
+  </div>
+</div>
+
+<!-- ══ CLASSES ══ -->
+<div id="p-classes" class="page">
+  <div class="sec-title">🏫 Classes <small id="nb-cl">0 classe(s)</small></div>
+  <div class="card no-print">
+    <div class="card-head">Ajouter une classe</div>
+    <div class="row">
+      <div class="fg" style="max-width:140px"><label>Niveau</label>
+        <select id="cl-niveau"><option value="6ème">6ème</option><option value="5ème">5ème</option><option value="4ème">4ème</option><option value="3ème">3ème</option></select>
+      </div>
+      <div class="fg" style="max-width:100px"><label>Section (optionnel)</label><input id="cl-section" placeholder="Ex: A"/></div>
+      <div class="fg"><label>Professeur principal</label><input id="cl-pp" placeholder="Nom du professeur"/></div>
+      <div class="fg" style="max-width:150px"><label>Frais annuel (FCFA)</label><input type="number" id="cl-frais" placeholder="0"/></div>
+      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-gold" onclick="ajouterClasse()">+ Ajouter</button></div>
+    </div>
+    <div id="al-classes" class="mt8"></div>
+  </div>
+  <div class="card">
+    <div class="card-head">Liste des classes</div>
+    <div class="tw"><table>
+      <thead><tr><th>Classe</th><th>Professeur principal</th><th>Frais annuel</th><th>Effectif</th><th>Suppr.</th></tr></thead>
+      <tbody id="tb-classes"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ══ PROFESSEURS ══ -->
+<div id="p-profs" class="page">
+  <div class="sec-title">🎓 Professeurs <small id="nb-pr">0 professeur(s)</small></div>
+  <div class="card no-print">
+    <div class="card-head">Ajouter un professeur</div>
+    <div class="row">
+      <div class="fg"><label>Nom du professeur</label><input id="pr-nom" placeholder="Ex: M. OUATTARA"/></div>
+      <div class="fg"><label>E-mail (pour sa connexion)</label><input type="text" id="pr-email" placeholder="prof@cegdekou.bf"/></div>
+      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-gold" onclick="ajouterProfesseur()">+ Ajouter</button></div>
+    </div>
+    <div class="alert aINF" style="font-size:0.78rem;">Le professeur pourra créer lui-même son mot de passe depuis l'écran de connexion, avec cet e-mail exactement.</div>
+    <div id="al-profs" class="mt8"></div>
+  </div>
+  <div class="card">
+    <div class="card-head">Liste des professeurs</div>
+    <div class="tw"><table>
+      <thead><tr><th>Nom</th><th>E-mail</th><th>Matières enseignées</th><th>Suppr.</th></tr></thead>
+      <tbody id="tb-profs"></tbody>
+    </table></div>
+  </div>
+  <div class="card no-print">
+    <div class="card-head">Affectations — quel professeur enseigne quelle matière, par classe</div>
+    <div class="row">
+      <div class="fg" style="max-width:260px"><label>Classe</label><select id="aff-classe" onchange="renderAffectations()"></select></div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Matière</th><th>Professeur</th></tr></thead>
+      <tbody id="tb-affectations"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ══ ELEVES ══ -->
+<div id="p-eleves" class="page">
+  <div class="sec-title">👥 Élèves <small id="nb-el">0 élève(s)</small></div>
+  <div class="card no-print">
+    <div class="card-head">Classe de travail</div>
+    <div class="row">
+      <div class="fg"><label>Classe sélectionnée</label><select id="sel-classe-eleves" onchange="renderEleves()"></select></div>
+    </div>
+    <div class="card-head" style="margin-top:10px">Ajouter un élève dans cette classe</div>
+    <div class="row">
+      <div class="fg" style="max-width:110px"><label>Matricule</label><input id="e-matricule" placeholder="Auto"/></div>
+      <div class="fg"><label>NOM (majuscules)</label><input id="e-nom" placeholder="NOM"/></div>
+      <div class="fg"><label>Prénom(s)</label><input id="e-prenom" placeholder="Prénom(s)"/></div>
+      <div class="fg" style="max-width:90px"><label>Sexe</label><select id="e-sexe"><option value="M">M</option><option value="F">F</option></select></div>
+      <div class="fg" style="max-width:110px"><label>Date naissance</label><input id="e-ddn" type="text" placeholder="jj/mm/aaaa"/></div>
+      <div class="fg"><label>Lieu de naissance</label><input id="e-lieu" type="text" placeholder="Ex: Bobo-Dioulasso"/></div>
+      <div class="fg" style="max-width:130px;display:flex;align-items:flex-end;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--muted);cursor:pointer;">
+          <input type="checkbox" id="e-redoublant"> Redoublant(e)
+        </label>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-gold" onclick="ajouterEleve()">+ Ajouter</button>
+      <button class="btn btn-blue btn-sm" onclick="document.getElementById('ov-import').classList.add('on')">📤 Import liste</button>
+      <button class="btn btn-ghost btn-sm" onclick="viderEleves()">🗑 Vider cette classe</button>
+      <button class="btn btn-green btn-sm" onclick="genererListeClasse()">🖨 Fiche d'appel / liste de classe</button>
+      <button class="btn btn-green btn-sm" onclick="exporterElevesCSV()">⬇ Exporter CSV</button>
+    </div>
+    <div id="al-eleves" class="mt8"></div>
+  </div>
+  <div class="card">
+    <div class="card-head">Liste des élèves de la classe</div>
+    <div class="tw"><table>
+      <thead><tr><th>Matricule</th><th>Nom & Prénom(s)</th><th>Sexe</th><th>Date Naiss.</th><th>Notes saisies</th><th>Suppr.</th></tr></thead>
+      <tbody id="tb-eleves"></tbody>
+    </table></div>
+  </div>
+  <div id="zone-liste-classe"></div>
+</div>
+
+<!-- ══ NOTES ══ -->
+<div id="p-notes" class="page">
+  <div class="sec-title">✏ Saisie des Notes</div>
+  <div id="notif-prof" class="mt8"></div>
+  <div class="card no-print">
+    <div class="card-head">Contrôles de saisie</div>
+    <div class="row">
+      <div class="fg"><label>Classe</label><select id="n-classe" onchange="initSaisieNotes()"></select></div>
+      <div class="fg" style="max-width:130px"><label>Trimestre</label>
+        <select id="n-tri" onchange="refreshGrilleNotes()"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select>
+      </div>
+      <div class="fg"><label>Matière</label><select id="n-mat" onchange="refreshGrilleNotes()"></select></div>
+      <div class="fg" style="display:flex;align-items:flex-end;gap:8px;">
+        <button class="btn btn-gold" onclick="enregistrerNotesGrille()">💾 Enregistrer</button>
+        <button class="btn btn-ghost btn-sm" onclick="remplirZeroNotes()">Mettre 0 si vide</button>
+        <button class="btn btn-blue btn-sm" data-role-admin onclick="document.getElementById('ov-import-notes').classList.add('on')">📤 Importer Devoirs/Compo</button>
+        <button class="btn btn-green btn-sm" data-role-admin onclick="genererFicheReleve()">🖨 Fiche de relevé pour le professeur</button>
+        <button class="btn btn-green btn-sm no-print" onclick="window.print()">🖨 Imprimer</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head" id="n-titre-grille">Grille de saisie</div>
+    <div class="tw"><table>
+      <thead><tr><th>Matricule</th><th>Élève</th><th>Moy. Devoirs</th><th>Composition</th><th>Absent</th><th>Moyenne actuelle</th></tr></thead>
+      <tbody id="tb-notes"></tbody>
+    </table></div>
+  </div>
+  <div id="zone-fiche-releve"></div>
+</div>
+
+<!-- ══ TABLEAU DE BORD (suivi des saisies par les professeurs) ══ -->
+<div id="p-dashboard" class="page">
+  <div class="sec-title">📌 Tableau de bord — Suivi des saisies</div>
+  <div id="notif-directeur" class="mt8"></div>
+  <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+    <div class="fg" style="max-width:220px"><label>Classe</label><select id="db-classe" onchange="genDashboard()"></select></div>
+    <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="db-tri" onchange="genDashboard()"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
+    <button class="btn btn-gold" onclick="synchroniserMaintenant()">🔄 Synchroniser maintenant</button>
+    <button class="btn btn-ghost btn-sm" onclick="genDashboard()">Actualiser l'affichage</button>
+  </div>
+  <div id="zone-dashboard"></div>
+</div>
+
+<!-- ══ BULLETINS ══ -->
+<div id="p-bulletins" class="page">
+  <div class="sec-title">📋 Bulletins de notes</div>
+  <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+    <div class="fg" style="max-width:220px"><label>Classe</label><select id="b-classe" onchange="initBulletins()"></select></div>
+    <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="b-tri"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
+    <div class="fg" style="max-width:280px"><label>Élève</label><select id="b-eleve"></select></div>
+    <button class="btn btn-gold" onclick="afficherBulletin()">📋 Afficher le bulletin</button>
+    <button class="btn btn-blue btn-sm" onclick="tousLesBulletins()">📑 Tous les bulletins de la classe</button>
+    <button class="btn btn-blue btn-sm" onclick="afficherBulletinAnnuel()">🎓 Bulletin annuel (T1+T2+T3)</button>
+    <button class="btn btn-green btn-sm" onclick="window.print()">🖨 Imprimer</button>
+    <button class="btn btn-green btn-sm" onclick="exporterNotesCSV()">⬇ Exporter les notes (CSV)</button>
+  </div>
+  <div id="zone-bulletins"></div>
+</div>
+
+<!-- ══ DOCUMENTS ══ -->
+<div id="p-documents" class="page">
+  <div class="sec-title">📜 Documents administratifs</div>
+  <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+    <div class="fg" style="max-width:220px"><label>Classe</label><select id="doc-classe" onchange="updateDocEleveOptions();renderPenalites();"></select></div>
+    <div class="fg" style="max-width:280px"><label>Élève</label><select id="doc-eleve" onchange="renderPenalites()"></select></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Pénalités de l'élève</div>
+    <div class="tw"><table>
+      <thead><tr><th>Date</th><th>Motif</th><th>Type</th><th>Quantité</th><th>Statut</th><th>Suppr.</th></tr></thead>
+      <tbody id="tb-penalites"></tbody>
+    </table></div>
+    <hr class="sep">
+    <div class="row">
+      <div class="fg"><label>Motif</label><input id="pe-motif" placeholder="Ex: Absence non justifiée le 12/09"/></div>
+      <div class="fg" style="max-width:170px"><label>Type</label>
+        <select id="pe-type"><option>Absence</option><option>Retard</option><option>Indiscipline</option><option>Tenue non conforme</option><option>Autre</option></select>
+      </div>
+      <div class="fg" style="max-width:150px"><label>Quantité (ex: 3 jours, 2h)</label><input type="text" id="pe-montant" placeholder="Ex: 1 jour"/></div>
+      <div class="fg" style="max-width:130px;display:flex;align-items:flex-end;gap:6px;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--muted);cursor:pointer;">
+          <input type="checkbox" id="pe-reglee"> Déjà traitée
+        </label>
+      </div>
+      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-gold" onclick="ajouterPenalite()">+ Ajouter</button></div>
+    </div>
+    <div id="al-penalites" class="mt8"></div>
+  </div>
+
+  <div class="card no-print">
+    <div class="card-head">Convocation des parents</div>
+    <div class="row">
+      <div class="fg" style="max-width:200px"><label>Motif</label>
+        <select id="cv-motif"><option>Absences répétées</option><option>Indiscipline</option><option>Résultats insuffisants</option><option>Frais de scolarité</option><option>Autre</option></select>
+      </div>
+      <div class="fg"><label>Précisions (optionnel)</label><input id="cv-message" placeholder="Détails à ajouter au message"/></div>
+    </div>
+    <button class="btn btn-blue" onclick="afficherConvocation()">✉ Générer la convocation</button>
+  </div>
+
+  <div class="card no-print" style="display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="btn btn-gold" onclick="afficherCertificat()">🎓 Générer le certificat de scolarité</button>
+    <button class="btn btn-blue" onclick="afficherQuitus()">📤 Générer le quitus de sortie</button>
+    <button class="btn btn-green btn-sm" onclick="window.print()">🖨 Imprimer</button>
+  </div>
+  <div id="zone-documents"></div>
+</div>
+
+<!-- ══ CARTES ══ -->
+<div id="p-cartes" class="page">
+  <div class="sec-title">🪪 Cartes scolaires</div>
+  <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+    <div class="fg" style="max-width:260px"><label>Classe</label>
+      <select id="ca-classe"><option value="__all__">Toutes les classes</option></select>
+    </div>
+    <button class="btn btn-gold" onclick="genererCartes()">🪪 Générer les cartes</button>
+    <button class="btn btn-green btn-sm" onclick="window.print()">🖨 Imprimer</button>
+  </div>
+  <div id="zone-cartes"></div>
+</div>
+
+<!-- ══ ABSENCES ══ -->
+<div id="p-absences" class="page">
+  <div class="sec-title">📅 Registre des absences</div>
+  <div class="card no-print">
+    <div class="card-head">Faire l'appel</div>
+    <div class="row">
+      <div class="fg" style="max-width:220px"><label>Classe</label><select id="ap-classe" onchange="renderAppel()"></select></div>
+      <div class="fg" style="max-width:160px"><label>Date</label><input type="text" id="ap-date" placeholder="jj/mm/aaaa"></div>
+      <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="ap-tri"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Élève</th><th>Absent(e)</th><th>Justifiée ?</th></tr></thead>
+      <tbody id="tb-appel"></tbody>
+    </table></div>
+    <button class="btn btn-gold mt8" onclick="enregistrerAppel()">💾 Enregistrer l'appel du jour</button>
+    <div id="al-appel" class="mt8"></div>
+  </div>
+  <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+    <div class="fg" style="max-width:220px"><label>Classe</label><select id="ab-classe" onchange="updateAbEleveOptions();renderHistoriqueAbsences();"></select></div>
+    <div class="fg" style="max-width:280px"><label>Élève</label><select id="ab-eleve" onchange="renderHistoriqueAbsences()"></select></div>
+  </div>
+  <div class="card">
+    <div class="card-head">Historique de l'élève <small id="ab-total"></small></div>
+    <div class="tw"><table>
+      <thead><tr><th>Date</th><th>Statut</th><th>Suppr.</th></tr></thead>
+      <tbody id="tb-absences"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ══ SCOLARITÉ ══ -->
+<div id="p-scolarite" class="page">
+  <div class="sec-title">💰 Suivi de la scolarité</div>
+  <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+    <div class="fg" style="max-width:220px"><label>Classe</label><select id="sc-classe" onchange="updateScEleveOptions();renderScolarite();"></select></div>
+    <div class="fg" style="max-width:280px"><label>Élève</label><select id="sc-eleve" onchange="renderScolarite()"></select></div>
+  </div>
+  <div class="stat-grid" id="sc-resume"></div>
+  <div class="card">
+    <div class="card-head">Versements enregistrés</div>
+    <div class="tw"><table>
+      <thead><tr><th>Date</th><th>Montant</th><th>Note</th><th>Suppr.</th></tr></thead>
+      <tbody id="tb-versements"></tbody>
+    </table></div>
+    <hr class="sep">
+    <div class="row">
+      <div class="fg" style="max-width:150px"><label>Montant (FCFA)</label><input type="number" id="pa-montant" placeholder="0"/></div>
+      <div class="fg"><label>Note (optionnel)</label><input type="text" id="pa-note" placeholder="Ex: 1er versement"/></div>
+      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-gold" onclick="ajouterVersement()">+ Enregistrer</button></div>
+    </div>
+    <div id="al-scolarite" class="mt8"></div>
+  </div>
+  <div class="card">
+    <div class="card-head">Vue d'ensemble par classe</div>
+    <div class="tw"><table>
+      <thead><tr><th>Classe</th><th>Frais annuel</th><th>Effectif</th><th>Attendu total</th><th>Perçu total</th><th>Reliquat</th></tr></thead>
+      <tbody id="tb-scolarite-classes"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ══ STATS ══ -->
+<div id="p-stats" class="page">
+  <div class="sec-title">📊 Statistiques</div>
+  <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+    <div class="fg" style="max-width:220px"><label>Classe</label><select id="st-classe" onchange="genStats()"></select></div>
+    <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="st-tri" onchange="genComparatif();genStats();"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
+    <button class="btn btn-gold" onclick="genComparatif();genStats();">🔄 Actualiser</button>
+  </div>
+  <div class="card">
+    <div class="card-head">Comparatif entre toutes les classes — <span id="cmp-tri-lbl"></span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Classe</th><th>Effectif</th><th>Moyenne</th><th>Taux de réussite</th><th>Meilleure moyenne</th></tr></thead>
+      <tbody id="tb-comparatif"></tbody>
+    </table></div>
+  </div>
+  <div id="zone-stats"><div class="empty"><span class="eico">📊</span>Sélectionnez une classe pour voir les statistiques.</div></div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="overlay" id="ov-import">
+  <div class="modal">
+    <h3>📤 Import de la liste des élèves</h3>
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:10px;">
+      Une ligne par élève, dans la classe actuellement sélectionnée : <code style="color:var(--gold2)">NOM Prénom(s) Sexe DDN</code><br>
+      Le premier mot est toujours le nom de famille ; tout ce qui suit jusqu'au sexe (M/F) est pris comme prénom(s), même s'il y en a plusieurs.<br>
+      Exemple : <code style="color:var(--gold2)">TONI Richard Lawabarkanè M 12/05/2013</code>
+    </p>
+    <textarea id="import-txt" style="height:180px;resize:vertical;" placeholder="KONE Amadou M 03/11/2012&#10;OUEDRAOGO Marie F 15/07/2013&#10;..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn btn-gold" onclick="importerEleves()">✔ Importer</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('ov-import').classList.remove('on')">Annuler</button>
+    </div>
+    <div id="al-import" class="mt8"></div>
+  </div>
+</div>
+
+<!-- IMPORT NOTES MODAL -->
+<div class="overlay" id="ov-import-notes">
+  <div class="modal">
+    <h3>📤 Import Moy.Devoirs / Composition</h3>
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:10px;">
+      Pour la classe, le trimestre et la matière actuellement sélectionnés dans « Saisie des Notes ».<br>
+      Une ligne par élève : <code style="color:var(--gold2)">Devoirs Composition</code> (dans l'ordre de la grille) ou
+      <code style="color:var(--gold2)">Matricule Devoirs Composition</code>. Écrire <code style="color:var(--gold2)">ABS</code> pour un(e) absent(e).<br>
+      Exemples : <code style="color:var(--gold2)">13.5 15.5</code> &nbsp;ou&nbsp; <code style="color:var(--gold2)">E0001 13.5 15.5</code> &nbsp;ou&nbsp; <code style="color:var(--gold2)">E0002 ABS</code>
+    </p>
+    <textarea id="import-notes-txt" style="height:180px;resize:vertical;" placeholder="13.5 15.5&#10;12 14&#10;ABS&#10;..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn btn-gold" onclick="importerNotesDevoirsCompo()">✔ Importer</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('ov-import-notes').classList.remove('on')">Annuler</button>
+    </div>
+    <div id="al-import-notes" class="mt8"></div>
+  </div>
+</div>
+
+<!-- Firebase (synchronisation multi-appareils quand ce fichier est hébergé/ouvert hors de claude.ai) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+
+<script>
+/* ════════════════════════════════
+   FIREBASE — CEG de Kou
+════════════════════════════════ */
+const firebaseConfig = {
+  apiKey: "AIzaSyBNwoszr7xEwyqnZsZxqRSfeyjrC9zWqUA",
+  authDomain: "ceg-de-kou.firebaseapp.com",
+  projectId: "ceg-de-kou",
+  storageBucket: "ceg-de-kou.firebasestorage.app",
+  messagingSenderId: "430289261206",
+  appId: "1:430289261206:web:71f0add3f5fe0b371c28b7"
+};
+
+/* ════════════════════════════════
+   ÉTAT GLOBAL
+════════════════════════════════ */
+const DB = {
+  config:{ etab:'CEG de Kou', province:'Ziro', ville:'Kou', annee:'2025–2026', directeur:'', emailDirecteur:'', passage:10, tableauHonneur:5, logo:'' },
+  classes:[],   // {id, nom, profPrincipal}
+  matieres:[],  // {nom, coef, sur, bloc}
+  blocs:['Sciences','Littérature','E.C.M.','E.P.S.'], // regroupements de matières, modifiables
+  professeurs:[], // {id, nom, email}
+  affectations:{}, // affectations[classeId][matiereNom] = professeurId
+  eleves:[],    // {matricule, nom, prenom, sexe, ddn, classeId}
+  notes:{},     // notes[classeId][tri][matricule][matiereNom] = {val,absent}
+  penalites:[],  // {id, matricule, date, motif, type, quantite, reglee}
+  absences:[],  // {id, matricule, date, justifiee}
+  paiements:[],  // {id, matricule, date, montant, note}
+  suivi:{}      // suivi["classeId|tri|matiere"] = {profId, premiereFois, derniereModif, parDirecteur, notifProfVue, notifDirVue}
+};
+let monRole=null;      // 'directeur' | 'professeur' | null (accès complet par défaut hors mode Firebase)
+let monProfId=null;    // id du professeur connecté (si role==='professeur')
+let monEmail=null;
+
+function q(id){return document.getElementById(id);}
+
+/* ════════════════════════════════
+   NAVIGATION
+════════════════════════════════ */
+function nav(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
+  q('p-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='classes')   renderClasses();
+  if(id==='profs')     { remplirSelectsClasses(); renderProfesseurs(); renderAffectations(); }
+  if(id==='eleves')    { remplirSelectsClasses(); renderEleves(); }
+  if(id==='notes')     { remplirSelectsClasses(); initSaisieNotes(); }
+  if(id==='bulletins') { remplirSelectsClasses(); initBulletins(); }
+  if(id==='documents') { remplirSelectsClasses(); initDocuments(); }
+  if(id==='absences')  { remplirSelectsClasses(); initAbsences(); }
+  if(id==='scolarite') { remplirSelectsClasses(); initScolarite(); }
+  if(id==='cartes')    remplirSelectsClasses();
+  if(id==='stats')     { remplirSelectsClasses(); genComparatif(); genStats(); }
+  if(id==='dashboard') { remplirSelectsClasses(); genDashboard(); }
+}
+
+function showAl(id,msg,cls){
+  const el=q(id);if(!el)return;
+  el.innerHTML=`<div class="alert ${cls}">${msg}</div>`;
+  setTimeout(()=>{if(el)el.innerHTML='';},4000);
+}
+let flashTimer;
+function showFlash(msg){
+  let fl=document.getElementById('_flash');
+  if(!fl){fl=document.createElement('div');fl.id='_flash';fl.style.cssText='position:fixed;bottom:20px;right:20px;z-index:999;background:#0d3320;color:#5fe09a;border:1px solid #5fe09a;border-radius:4px;padding:10px 18px;font-family:"JetBrains Mono",monospace;font-size:0.8rem;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:opacity 0.3s;';document.body.appendChild(fl);}
+  fl.textContent=msg;fl.style.opacity='1';
+  clearTimeout(flashTimer);
+  flashTimer=setTimeout(()=>{fl.style.opacity='0';},3000);
+}
+
+/* ════════════════════════════════
+   CONFIG
+════════════════════════════════ */
+function sauverConfig(){
+  DB.config={
+    etab:q('c-etab').value||'CEG de Kou', province:q('c-province').value, ville:q('c-ville').value,
+    annee:q('c-annee').value, directeur:q('c-directeur').value, emailDirecteur:q('c-email-directeur').value.trim().toLowerCase(),
+    passage:parseFloat(q('c-passage').value)||10, tableauHonneur:parseInt(q('c-tableau').value)||5, logo:DB.config.logo
+  };
+  appliquerConfigHeader();
+  showAl('al-config','✔ Configuration enregistrée.','aOK');
+}
+function importerLogo(inp){
+  const f=inp.files[0]; if(!f)return;
+  const reader=new FileReader();
+  reader.onload=e=>{ DB.config.logo=e.target.result; appliquerConfigHeader(); showFlash('✔ Logo importé.'); };
+  reader.readAsDataURL(f);
+}
+function appliquerConfigHeader(){
+  q('hdr-etab').textContent=DB.config.etab;
+  q('hdr-directeur').textContent=DB.config.directeur||'—';
+  q('hdr-annee').textContent=DB.config.annee;
+  const seal=q('hdr-seal');
+  seal.innerHTML=DB.config.logo?`<img src="${DB.config.logo}"/>`:(DB.config.etab||'K').charAt(0);
+}
+function loadPresetMatieres(){
+  DB.matieres=[
+    {nom:'Mathématiques',coef:4,sur:20,bloc:'Sciences'},
+    {nom:'Physique-Chimie',coef:3,sur:20,bloc:'Sciences'},
+    {nom:'Sciences de la Vie et de la Terre',coef:2,sur:20,bloc:'Sciences'},
+    {nom:'Français',coef:4,sur:20,bloc:'Littérature'},
+    {nom:'Anglais',coef:2,sur:20,bloc:'Littérature'},
+    {nom:'Histoire-Géographie',coef:2,sur:20,bloc:'Littérature'},
+    {nom:'Éducation Civique et Morale',coef:1,sur:20,bloc:'E.C.M.'},
+    {nom:'Éducation Physique et Sportive',coef:1,sur:20,bloc:'E.P.S.'}
+  ];
+  renderMatieres();
+  renderBlocs();
+  showAl('al-config','✔ Matières collège chargées ('+DB.matieres.length+').','aOK');
+}
+function ajouterBloc(){
+  const n=q('bl-nom').value.trim();
+  if(!n)return;
+  if(DB.blocs.find(b=>b.toLowerCase()===n.toLowerCase())){showAl('al-config','Ce bloc existe déjà.','aERR');return;}
+  DB.blocs.push(n);
+  q('bl-nom').value='';
+  renderBlocs();
+}
+function supprimerBloc(n){
+  if(!confirm('Supprimer le bloc « '+n+' » ? Les matières de ce bloc passeront en « Non classé ».'))return;
+  DB.blocs=DB.blocs.filter(b=>b!==n);
+  DB.matieres.forEach(m=>{ if(m.bloc===n) m.bloc=''; });
+  renderBlocs();
+  renderMatieres();
+}
+function renderBlocs(){
+  const wrap=q('tags-blocs');
+  wrap.innerHTML=DB.blocs.length? DB.blocs.map(b=>`<span class="tag" style="margin:2px 4px 2px 0;font-size:0.78rem;">${b} <span style="cursor:pointer;color:#f07080" onclick="supprimerBloc('${b.replace(/'/g,"\\'")}')">✕</span></span>`).join('') : '<span style="color:var(--muted);font-size:0.8rem">Aucun bloc défini.</span>';
+  const sel=q('m-bloc');
+  if(sel){ const cur=sel.value; sel.innerHTML='<option value="">Non classé</option>'+DB.blocs.map(b=>`<option value="${b}">${b}</option>`).join(''); if(cur)sel.value=cur; }
+}
+function ajouterMatiere(){
+  const n=q('m-nom').value.trim(), c=parseInt(q('m-coef').value)||1, s=parseInt(q('m-sur').value)||20, bloc=q('m-bloc').value;
+  if(!n)return;
+  DB.matieres.push({nom:n,coef:c,sur:s,bloc});
+  q('m-nom').value='';
+  renderMatieres();
+}
+function supprimerMatiere(i){ DB.matieres.splice(i,1); renderMatieres(); }
+function renderMatieres(){
+  renderBlocs();
+  const tb=q('tb-matieres');
+  if(!DB.matieres.length){tb.innerHTML='<tr><td colspan="6" class="empty" style="padding:20px">Aucune matière.</td></tr>';return;}
+  tb.innerHTML=DB.matieres.map((m,i)=>`
+    <tr><td class="rang">${i+1}</td><td><strong>${m.nom}</strong></td>
+    <td><select onchange="majBlocMatiere(${i},this.value)">
+      <option value="" ${!m.bloc?'selected':''}>Non classé</option>
+      ${DB.blocs.map(b=>`<option value="${b}" ${m.bloc===b?'selected':''}>${b}</option>`).join('')}
+    </select></td>
+    <td><span class="tag">×${m.coef}</span></td><td><span class="tag">${m.sur}</span></td>
+    <td><button class="btn btn-red btn-sm" onclick="supprimerMatiere(${i})">✕</button></td></tr>`).join('');
+}
+function majBlocMatiere(i,val){ if(DB.matieres[i]) DB.matieres[i].bloc=val; }
+
+/* ════════════════════════════════
+   CLASSES
+════════════════════════════════ */
+function slugClasse(niveau,section){
+  return (niveau+(section?('-'+section):'')).replace(/\s+/g,'').toLowerCase();
+}
+function ajouterClasse(){
+  const niveau=q('cl-niveau').value, section=q('cl-section').value.trim().toUpperCase();
+  const pp=q('cl-pp').value.trim();
+  const frais=parseFloat(q('cl-frais').value)||0;
+  const id=slugClasse(niveau,section);
+  if(DB.classes.find(c=>c.id===id)){showAl('al-classes','Cette classe existe déjà.','aERR');return;}
+  const nom=niveau+(section?(' '+section):'');
+  DB.classes.push({id,nom,profPrincipal:pp,fraisAnnuel:frais});
+  DB.notes[id]={T1:{},T2:{},T3:{}};
+  q('cl-section').value='';q('cl-pp').value='';q('cl-frais').value='';
+  renderClasses();
+  showAl('al-classes','✔ Classe « '+nom+' » ajoutée.','aOK');
+}
+function supprimerClasse(id){
+  if(!confirm('Supprimer cette classe ? Les élèves et notes associés seront perdus.'))return;
+  DB.classes=DB.classes.filter(c=>c.id!==id);
+  DB.eleves=DB.eleves.filter(e=>e.classeId!==id);
+  delete DB.notes[id];
+  desabonnerClasseCloud(id);
+  renderClasses();
+}
+function majProfPrincipal(id,val){
+  const c=DB.classes.find(x=>x.id===id); if(c)c.profPrincipal=val;
+}
+function majFraisClasse(id,val){
+  const c=DB.classes.find(x=>x.id===id); if(c)c.fraisAnnuel=parseFloat(val)||0;
+  if(q('p-scolarite').classList.contains('on')) initScolarite();
+}
+function renderClasses(){
+  q('nb-cl').textContent=DB.classes.length+' classe(s)';
+  const tb=q('tb-classes');
+  if(!DB.classes.length){tb.innerHTML='<tr><td colspan="5" class="empty">Aucune classe créée.</td></tr>';return;}
+  tb.innerHTML=DB.classes.map(c=>{
+    const eff=DB.eleves.filter(e=>e.classeId===c.id).length;
+    return `<tr>
+      <td><strong>${c.nom}</strong></td>
+      <td><input type="text" value="${c.profPrincipal||''}" onchange="majProfPrincipal('${c.id}',this.value)"></td>
+      <td><input type="number" value="${c.fraisAnnuel||0}" style="max-width:110px" onchange="majFraisClasse('${c.id}',this.value)"></td>
+      <td class="tc"><span class="tag">${eff}</span></td>
+      <td><button class="btn btn-red btn-sm" onclick="supprimerClasse('${c.id}')">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function remplirSelectsClasses(){
+  const opts=DB.classes.map(c=>`<option value="${c.id}">${c.nom}</option>`).join('');
+  ['sel-classe-eleves','n-classe','b-classe','st-classe','aff-classe','doc-classe','ap-classe','ab-classe','sc-classe','db-classe'].forEach(id=>{
+    const el=q(id); if(!el)return;
+    const cur=el.value;
+    el.innerHTML=opts||'<option value="">Aucune classe</option>';
+    if(cur && DB.classes.find(c=>c.id===cur)) el.value=cur;
+  });
+  const ca=q('ca-classe');
+  if(ca){ const cur=ca.value; ca.innerHTML='<option value="__all__">Toutes les classes</option>'+opts; if(cur)ca.value=cur; }
+  if(monRole==='professeur') restreindreSelectClasseProf();
+}
+function restreindreSelectClasseProf(){
+  const sel=q('n-classe'); if(!sel) return;
+  const idsAutorises=[...new Set(combosDuProf(monProfId).map(c=>c.classeId))];
+  const cur=sel.value;
+  sel.innerHTML = idsAutorises.length
+    ? idsAutorises.map(id=>{const c=DB.classes.find(x=>x.id===id); return c?`<option value="${id}">${c.nom}</option>`:'';}).join('')
+    : '<option value="">Aucune classe qui vous est assignée</option>';
+  if(cur && idsAutorises.includes(cur)) sel.value=cur;
+}
+
+/* ════════════════════════════════
+   PROFESSEURS & AFFECTATIONS
+════════════════════════════════ */
+function nextProfId(){
+  if(!DB.professeurs.length)return'P1';
+  const nums=DB.professeurs.map(p=>parseInt(p.id.replace(/\D/g,''))||0);
+  return 'P'+(Math.max(...nums)+1);
+}
+function ajouterProfesseur(){
+  const nom=q('pr-nom').value.trim();
+  const email=q('pr-email').value.trim().toLowerCase();
+  if(!nom){showAl('al-profs','Le nom du professeur est requis.','aERR');return;}
+  if(DB.professeurs.find(p=>p.nom.toLowerCase()===nom.toLowerCase())){showAl('al-profs','Ce professeur existe déjà.','aERR');return;}
+  if(email && DB.professeurs.find(p=>p.email===email)){showAl('al-profs','Cet e-mail est déjà utilisé par un autre professeur.','aERR');return;}
+  DB.professeurs.push({id:nextProfId(),nom,email});
+  q('pr-nom').value='';q('pr-email').value='';
+  renderProfesseurs();
+  renderAffectations();
+  showAl('al-profs','✔ Professeur ajouté.','aOK');
+}
+function majEmailProf(id,val){
+  const p=DB.professeurs.find(x=>x.id===id); if(p) p.email=val.trim().toLowerCase();
+}
+function supprimerProfesseur(id){
+  if(!confirm('Supprimer ce professeur ? Ses affectations seront retirées.'))return;
+  DB.professeurs=DB.professeurs.filter(p=>p.id!==id);
+  Object.keys(DB.affectations).forEach(classeId=>{
+    Object.keys(DB.affectations[classeId]||{}).forEach(mat=>{
+      if(DB.affectations[classeId][mat]===id) delete DB.affectations[classeId][mat];
+    });
+  });
+  renderProfesseurs();
+  renderAffectations();
+}
+function matieresDuProf(profId){
+  const res=[];
+  DB.classes.forEach(c=>{
+    Object.entries(DB.affectations[c.id]||{}).forEach(([mat,pid])=>{
+      if(pid===profId) res.push(mat+' ('+c.nom+')');
+    });
+  });
+  return res;
+}
+function combosDuProf(profId){
+  // retourne [{classeId, matiere}] pour tout ce qu'enseigne ce professeur
+  const res=[];
+  DB.classes.forEach(c=>{
+    Object.entries(DB.affectations[c.id]||{}).forEach(([mat,pid])=>{
+      if(pid===profId) res.push({classeId:c.id, matiere:mat});
+    });
+  });
+  return res;
+}
+function renderProfesseurs(){
+  q('nb-pr').textContent=DB.professeurs.length+' professeur(s)';
+  const tb=q('tb-profs');
+  if(!DB.professeurs.length){tb.innerHTML='<tr><td colspan="4" class="empty">Aucun professeur enregistré.</td></tr>';return;}
+  tb.innerHTML=DB.professeurs.map(p=>{
+    const mats=matieresDuProf(p.id);
+    return `<tr>
+    <td><strong>${p.nom}</strong></td>
+    <td><input type="text" value="${p.email||''}" placeholder="—" onchange="majEmailProf('${p.id}',this.value)"></td>
+    <td style="font-size:0.78rem;color:var(--muted)">${mats.length?mats.join(', '):'—'}</td>
+    <td><button class="btn btn-red btn-sm" onclick="supprimerProfesseur('${p.id}')">✕</button></td>
+  </tr>`;
+  }).join('');
+}
+function renderAffectations(){
+  const classeId=q('aff-classe').value;
+  const tb=q('tb-affectations');
+  if(!classeId||!DB.matieres.length){tb.innerHTML='<tr><td colspan="2" class="empty">Sélectionnez une classe.</td></tr>';return;}
+  if(!DB.affectations[classeId]) DB.affectations[classeId]={};
+  const optsProf='<option value="">— Non affecté —</option>'+DB.professeurs.map(p=>`<option value="${p.id}">${p.nom}</option>`).join('');
+  tb.innerHTML=DB.matieres.map(m=>{
+    const cur=DB.affectations[classeId][m.nom]||'';
+    return `<tr><td><strong>${m.nom}</strong></td>
+      <td><select onchange="majAffectation('${classeId}','${m.nom.replace(/'/g,"\\'")}',this.value)">
+        ${optsProf}
+      </select></td></tr>`;
+  }).join('');
+  // sélectionner la valeur courante après insertion (évite les soucis d'échappement dans le HTML)
+  const selects=tb.querySelectorAll('select');
+  DB.matieres.forEach((m,i)=>{ if(selects[i]) selects[i].value=DB.affectations[classeId][m.nom]||''; });
+}
+function majAffectation(classeId,matNom,profId){
+  if(!DB.affectations[classeId]) DB.affectations[classeId]={};
+  if(profId) DB.affectations[classeId][matNom]=profId; else delete DB.affectations[classeId][matNom];
+  renderProfesseurs();
+}
+function nomProfPour(classeId,matNom){
+  const id=DB.affectations[classeId]?.[matNom];
+  if(!id)return'';
+  const p=DB.professeurs.find(x=>x.id===id);
+  return p?p.nom:'';
+}
+
+/* ════════════════════════════════
+   ÉLÈVES
+════════════════════════════════ */
+function classeCourante(){ return q('sel-classe-eleves').value; }
+function nextMatricule(){
+  if(!DB.eleves.length)return'E0001';
+  const nums=DB.eleves.map(e=>parseInt(e.matricule.replace(/\D/g,''))||0);
+  return 'E'+String(Math.max(...nums)+1).padStart(4,'0');
+}
+function ajouterEleve(){
+  const classeId=classeCourante();
+  if(!classeId){showAl('al-eleves','Créez d\'abord une classe.','aERR');return;}
+  const nom=q('e-nom').value.trim().toUpperCase();
+  const prenom=q('e-prenom').value.trim();
+  if(!nom||!prenom){showAl('al-eleves','Nom et prénom requis.','aERR');return;}
+  const matricule=q('e-matricule').value.trim()||nextMatricule();
+  if(DB.eleves.find(e=>e.matricule===matricule)){showAl('al-eleves','Matricule déjà existant.','aERR');return;}
+  DB.eleves.push({matricule,nom,prenom,sexe:q('e-sexe').value,ddn:q('e-ddn').value,lieuNaissance:q('e-lieu').value.trim(),redoublant:q('e-redoublant').checked,classeId});
+  q('e-nom').value='';q('e-prenom').value='';q('e-ddn').value='';q('e-lieu').value='';q('e-redoublant').checked=false;q('e-matricule').value='';
+  renderEleves();
+}
+function parseLigneEleve(l){
+  const tokens=l.trim().split(/\s+/);
+  if(tokens.length<2)return null;
+  const nom=tokens[0].toUpperCase();
+  let sexeIdx=-1;
+  for(let i=1;i<tokens.length;i++){ if(/^[MF]$/i.test(tokens[i])){ sexeIdx=i; break; } }
+  let prenom,sexe,ddn;
+  if(sexeIdx>-1){
+    prenom=tokens.slice(1,sexeIdx).join(' ');
+    sexe=tokens[sexeIdx].toUpperCase();
+    ddn=tokens.slice(sexeIdx+1).join(' ');
+  }else{
+    const last=tokens[tokens.length-1];
+    const estDate=/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(last);
+    if(estDate&&tokens.length>2){ prenom=tokens.slice(1,-1).join(' '); ddn=last; }
+    else{ prenom=tokens.slice(1).join(' '); ddn=''; }
+    sexe='M';
+  }
+  if(!prenom)return null;
+  return {nom,prenom,sexe,ddn};
+}
+function importerEleves(){
+  const classeId=classeCourante();
+  if(!classeId){showAl('al-import','Sélectionnez une classe avant d\'importer.','aERR');return;}
+  const txt=q('import-txt').value;
+  let nb=0;
+  txt.split('\n').forEach(l=>{
+    l=l.trim();if(!l)return;
+    const p=parseLigneEleve(l);
+    if(!p)return;
+    DB.eleves.push({matricule:nextMatricule(),nom:p.nom,prenom:p.prenom,sexe:p.sexe,ddn:p.ddn,lieuNaissance:'',redoublant:false,classeId});
+    nb++;
+  });
+  showAl('al-import',`✔ ${nb} élève(s) importé(s).`,'aOK');
+  renderEleves();
+  setTimeout(()=>document.getElementById('ov-import').classList.remove('on'),1500);
+}
+function supprimerEleve(matricule){
+  if(!confirm('Supprimer cet élève ?'))return;
+  const el=DB.eleves.find(e=>e.matricule===matricule);
+  DB.eleves=DB.eleves.filter(e=>e.matricule!==matricule);
+  if(el)['T1','T2','T3'].forEach(t=>{ if(DB.notes[el.classeId]&&DB.notes[el.classeId][t]) delete DB.notes[el.classeId][t][matricule]; });
+  renderEleves();
+}
+function viderEleves(){
+  const classeId=classeCourante();
+  if(!classeId||!confirm('Vider la liste des élèves de cette classe ?'))return;
+  DB.eleves=DB.eleves.filter(e=>e.classeId!==classeId);
+  ['T1','T2','T3'].forEach(t=>{ if(DB.notes[classeId]) DB.notes[classeId][t]={}; });
+  renderEleves();
+}
+function renderEleves(){
+  const classeId=classeCourante();
+  const liste=DB.eleves.filter(e=>e.classeId===classeId);
+  q('nb-el').textContent=liste.length+' élève(s)';
+  const tb=q('tb-eleves');
+  if(!liste.length){tb.innerHTML='<tr><td colspan="6" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
+  tb.innerHTML=liste.map(e=>{
+    let nb=0;
+    ['T1','T2','T3'].forEach(t=>{
+      const notesE=DB.notes[classeId]?.[t]?.[e.matricule];
+      if(notesE) nb+=Object.keys(notesE).length;
+    });
+    const tot=DB.matieres.length*3;
+    const pct=tot?Math.round(nb/tot*100):0;
+    const barCol=pct===100?'#5fe09a':pct>40?'#e8c75a':'#f07080';
+    return `<tr>
+      <td class="rang">${e.matricule}</td>
+      <td><strong>${e.nom}</strong> ${e.prenom}</td>
+      <td>${e.sexe==='M'?'♂ M':'♀ F'}</td>
+      <td style="font-size:0.78rem;color:var(--muted)">${e.ddn||'—'}</td>
+      <td style="min-width:120px">
+        <div style="font-size:0.72rem;color:var(--muted);margin-bottom:2px;">${nb}/${tot} notes (3 trim.)</div>
+        <div class="pbar-wrap"><div class="pbar" style="width:${pct}%;background:${barCol}"></div></div>
+      </td>
+      <td><button class="btn btn-red btn-sm" onclick="supprimerEleve('${e.matricule}')">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+
+/* ════════════════════════════════
+   LISTE DE CLASSE IMPRIMABLE & EXPORT CSV
+════════════════════════════════ */
+function genererListeClasse(){
+  const classeId=classeCourante();
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!eleves.length){ q('zone-liste-classe').innerHTML='<div class="empty">Aucun élève dans cette classe.</div>'; return; }
+  const lignes=eleves.map((e,i)=>`<tr><td class="tc">${i+1}</td><td>${e.matricule}</td><td>${e.nom} ${e.prenom}</td><td class="tc">${e.sexe}</td><td>${e.ddn||'—'}</td><td style="min-width:90px"></td></tr>`).join('');
+  q('zone-liste-classe').innerHTML=`<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">Unité — Progrès — Justice</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">LISTE DE CLASSE / FICHE D'APPEL</div>
+      <div class="bul-session">Classe : ${cl.nom||'—'} — Année scolaire ${DB.config.annee} — Effectif : ${eleves.length}</div>
+    </div>
+    <table><thead><tr><th>N°</th><th>Matricule</th><th>Nom & Prénom(s)</th><th>Sexe</th><th>Date naiss.</th><th>Présence</th></tr></thead>
+      <tbody>${lignes}</tbody></table>
+    <div class="bul-sign" style="margin-top:20px;">Le Professeur Principal — ${cl.profPrincipal||'________________'}</div>
+  </div>
+  <div class="no-print" style="text-align:center;margin-bottom:20px;"><button class="btn btn-green btn-sm" onclick="window.print()">🖨 Imprimer cette liste</button></div>`;
+}
+function genererFicheReleve(){
+  const classeId=q('n-classe').value, tri=q('n-tri').value, mat=q('n-mat').value;
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const m=DB.matieres.find(x=>x.nom===mat);
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!eleves.length||!m){ q('zone-fiche-releve').innerHTML='<div class="empty">Sélectionnez une classe et une matière.</div>'; return; }
+  const prof=nomProfPour(classeId,mat)||'________________';
+  const lignes=eleves.map((e,i)=>`<tr><td class="tc">${i+1}</td><td><strong>${e.matricule}</strong></td><td>${e.nom} ${e.prenom}</td><td style="min-width:110px"></td><td style="min-width:110px"></td></tr>`).join('');
+  q('zone-fiche-releve').innerHTML=`<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">Unité — Progrès — Justice</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">FICHE DE RELEVÉ DE NOTES</div>
+      <div class="bul-session">Classe : ${cl.nom||'—'} — Matière : ${mat} — ${labelTri(tri)} — Année scolaire ${DB.config.annee}</div>
+    </div>
+    <p style="font-size:0.85rem;color:#444;margin-bottom:12px;">Professeur : <strong>${prof}</strong> — Coeff. ${m.coef} — Noté sur ${m.sur}. Merci de remplir « Moy. Devoirs » et « Composition » puis de remettre cette fiche à l'administration.</p>
+    <table><thead><tr><th>N°</th><th>Matricule</th><th>Nom & Prénom(s)</th><th>Moy. Devoirs</th><th>Composition</th></tr></thead>
+      <tbody>${lignes}</tbody></table>
+    <div class="bul-sign" style="margin-top:20px;">Signature du professeur — ${prof}</div>
+  </div>
+  <div class="no-print" style="text-align:center;margin-bottom:20px;"><button class="btn btn-green btn-sm" onclick="window.print()">🖨 Imprimer cette fiche</button></div>`;
+}
+function toCSV(rows){
+  return rows.map(r=>r.map(v=>{
+    v=(v===undefined||v===null)?'':String(v);
+    if(v.includes(';')||v.includes('"')||v.includes('\n')) v='"'+v.replace(/"/g,'""')+'"';
+    return v;
+  }).join(';')).join('\r\n');
+}
+let _downloadsCap=undefined; // undefined=pas encore vérifié, null=indisponible, objet=disponible
+async function getDownloadsCap(){
+  if(_downloadsCap!==undefined) return _downloadsCap;
+  try{
+    if(typeof claude!=='undefined' && claude.use){
+      _downloadsCap = await claude.use('downloads');
+    } else { _downloadsCap = null; }
+  }catch(e){ _downloadsCap = null; }
+  return _downloadsCap;
+}
+async function sauverFichierViaNavigateur(filename,blob){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=filename; a.click();
+  URL.revokeObjectURL(url);
+}
+async function offrirTelechargement(filename,blob){
+  const cap=await getDownloadsCap();
+  if(cap){
+    try{ await cap.save({filename,data:blob}); return true; }
+    catch(e){ if(e&&e.code==='declined')return false; /* sinon on retente en local */ }
+  }
+  sauverFichierViaNavigateur(filename,blob);
+  return true;
+}
+function downloadCSV(filename,csv){
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  offrirTelechargement(filename,blob);
+}
+function exporterElevesCSV(){
+  const classeId=classeCourante();
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!eleves.length){ showAl('al-eleves','Aucun élève à exporter.','aERR'); return; }
+  const rows=[['Matricule','Nom','Prénom(s)','Sexe','Date de naissance','Classe']];
+  eleves.forEach(e=>rows.push([e.matricule,e.nom,e.prenom,e.sexe,e.ddn||'',cl.nom||'']));
+  downloadCSV('Eleves_'+(cl.nom||classeId)+'.csv',toCSV(rows));
+}
+function exporterNotesCSV(){
+  const classeId=q('b-classe').value, tri=q('b-tri').value;
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!eleves.length){ q('zone-bulletins').innerHTML='<div class="empty">Aucun élève dans cette classe.</div>'; return; }
+  const rows=[['Matricule','Nom','Prénom(s)',...DB.matieres.map(m=>m.nom),'Moyenne générale','Rang']];
+  const {classement}=classementClasse(classeId,tri);
+  eleves.forEach(e=>{
+    const pos=classement.find(x=>x.e.matricule===e.matricule);
+    const ligne=[e.matricule,e.nom,e.prenom];
+    DB.matieres.forEach(m=>{
+      const n=DB.notes[classeId]?.[tri]?.[e.matricule]?.[m.nom];
+      const v=n?valNote(n):null;
+      ligne.push(n?(n.absent?'ABS':(v!==null?v.toFixed(2):'')):'');
+    });
+    ligne.push(pos?pos.r.moy.toFixed(2):'');
+    ligne.push(pos?pos.rang:'');
+    rows.push(ligne);
+  });
+  downloadCSV('Notes_'+(cl.nom||classeId)+'_'+tri+'.csv',toCSV(rows));
+}
+
+/* ════════════════════════════════
+   SAISIE DES NOTES
+════════════════════════════════ */
+function initSaisieNotes(){
+  const sel=q('n-mat');
+  const classeId=q('n-classe').value;
+  let matieres=DB.matieres;
+  if(monRole==='professeur'){
+    const mesMat=combosDuProf(monProfId).filter(c=>c.classeId===classeId).map(c=>c.matiere);
+    matieres=DB.matieres.filter(m=>mesMat.includes(m.nom));
+  }
+  sel.innerHTML=matieres.length?matieres.map(m=>`<option>${m.nom}</option>`).join(''):'<option value="">Aucune matière qui vous est assignée ici</option>';
+  refreshGrilleNotes();
+  afficherNotifProf();
+}
+function refreshGrilleNotes(){
+  const classeId=q('n-classe').value, tri=q('n-tri').value, mat=q('n-mat').value;
+  const m=DB.matieres.find(x=>x.nom===mat);
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!m||!eleves.length){ q('tb-notes').innerHTML='<tr><td colspan="6" class="empty">Aucun élève ou matière.</td></tr>'; return; }
+  q('n-titre-grille').textContent=`${mat} — ${(DB.classes.find(c=>c.id===classeId)||{}).nom||''} — ${labelTri(tri)} — coeff. ${m.coef} — /`+m.sur;
+  if(!DB.notes[classeId]) DB.notes[classeId]={T1:{},T2:{},T3:{}};
+  if(!DB.notes[classeId][tri]) DB.notes[classeId][tri]={};
+  q('tb-notes').innerHTML=eleves.map((e,i)=>{
+    const nObj=DB.notes[classeId][tri][e.matricule]?.[mat];
+    const val=valNote(nObj);
+    const cur=nObj?(nObj.absent?'<span class="b bABS">ABS</span>':(val!==null?`<span class="b ${badge(val,20)}">${val.toFixed(2)}</span>`:'—')):'—';
+    return `<tr>
+      <td class="rang">${e.matricule}</td>
+      <td><strong>${e.nom}</strong> ${e.prenom}</td>
+      <td><input class="note-inp" id="nd-${i}" type="number" min="0" max="${m.sur}" step="0.25" placeholder="—" value="${nObj&&nObj.devoirs!==null&&nObj.devoirs!==undefined?nObj.devoirs:''}" oninput="this.classList.toggle('filled',this.value!=='')"></td>
+      <td><input class="note-inp" id="nc-${i}" type="number" min="0" max="${m.sur}" step="0.25" placeholder="—" value="${nObj&&nObj.compo!==null&&nObj.compo!==undefined?nObj.compo:''}" oninput="this.classList.toggle('filled',this.value!=='')"></td>
+      <td class="tc"><input class="abs-cb" type="checkbox" id="na-${i}" ${nObj&&nObj.absent?'checked':''} onchange="q('nd-'+${i}).disabled=this.checked;q('nc-'+${i}).disabled=this.checked;"></td>
+      <td class="tc">${cur}</td>
+    </tr>`;
+  }).join('');
+}
+function valNote(n){
+  if(!n||n.absent)return null;
+  const d=(n.devoirs===null||n.devoirs===undefined)?null:n.devoirs;
+  const c=(n.compo===null||n.compo===undefined)?null:n.compo;
+  if(d!==null&&c!==null)return (d+c)/2;
+  if(d!==null)return d;
+  if(c!==null)return c;
+  return null;
+}
+function enregistrerNotesGrille(){
+  const classeId=q('n-classe').value, tri=q('n-tri').value, mat=q('n-mat').value;
+  const m=DB.matieres.find(x=>x.nom===mat);
+  if(!m)return;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!DB.notes[classeId]) DB.notes[classeId]={T1:{},T2:{},T3:{}};
+  if(!DB.notes[classeId][tri]) DB.notes[classeId][tri]={};
+  let nb=0;
+  eleves.forEach((e,i)=>{
+    if(!DB.notes[classeId][tri][e.matricule]) DB.notes[classeId][tri][e.matricule]={};
+    const abs=q('na-'+i)?.checked;
+    const rawD=parseFloat(q('nd-'+i)?.value);
+    const rawC=parseFloat(q('nc-'+i)?.value);
+    if(abs){ DB.notes[classeId][tri][e.matricule][mat]={devoirs:null,compo:null,absent:true}; nb++; }
+    else if(!isNaN(rawD)||!isNaN(rawC)){
+      const d=!isNaN(rawD)?(Math.min(rawD,m.sur)/m.sur)*20:null;
+      const c=!isNaN(rawC)?(Math.min(rawC,m.sur)/m.sur)*20:null;
+      DB.notes[classeId][tri][e.matricule][mat]={devoirs:d,compo:c,absent:false}; nb++;
+    }
+  });
+  if(nb>0) enregistrerSuivi(classeId,tri,mat);
+  showFlash(`✔ ${nb} note(s) enregistrée(s) pour « ${mat} ».`);
+  refreshGrilleNotes();
+}
+function enregistrerSuivi(classeId,tri,mat){
+  const cle=classeId+'|'+tri+'|'+mat;
+  const maintenant=new Date().toISOString();
+  const auteur = monRole==='professeur' ? monProfId : 'directeur';
+  const existant=DB.suivi[cle];
+  if(!existant){
+    DB.suivi[cle]={profId:auteur, premiereFois:maintenant, derniereModif:maintenant, parDirecteur:(monRole==='directeur'&&!!monEmail), notifProfVue:true, notifDirVue:true};
+  }else{
+    existant.derniereModif=maintenant;
+    if(monRole==='professeur'){
+      // le professeur modifie sa propre saisie après coup → l'administration doit le voir
+      existant.parDirecteur=false;
+      existant.notifDirVue=false;
+    }else if(monRole==='directeur' && !!monEmail){
+      // le directeur modifie/complète à la place d'un professeur → celui-ci doit le voir
+      existant.parDirecteur=true;
+      existant.notifProfVue=false;
+    }
+  }
+}
+function remplirZeroNotes(){
+  const eleves=DB.eleves.filter(e=>e.classeId===q('n-classe').value);
+  eleves.forEach((e,i)=>{
+    ['nd-','nc-'].forEach(pref=>{
+      const inp=q(pref+i);
+      if(inp&&!q('na-'+i)?.checked&&inp.value===''){ inp.value='0'; inp.classList.add('filled'); }
+    });
+  });
+}
+function labelTri(t){ return t==='T1'?'Trimestre 1':t==='T2'?'Trimestre 2':'Trimestre 3'; }
+function importerNotesDevoirsCompo(){
+  const classeId=q('n-classe').value, tri=q('n-tri').value, mat=q('n-mat').value;
+  const m=DB.matieres.find(x=>x.nom===mat);
+  if(!m){showAl('al-import-notes','Sélectionnez une matière.','aERR');return;}
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!eleves.length){showAl('al-import-notes','Aucun élève dans cette classe.','aERR');return;}
+  if(!DB.notes[classeId]) DB.notes[classeId]={T1:{},T2:{},T3:{}};
+  if(!DB.notes[classeId][tri]) DB.notes[classeId][tri]={};
+  const lignes=q('import-notes-txt').value.split('\n').map(l=>l.trim()).filter(l=>l!=='');
+  let nb=0, ignorees=0;
+  const normaliser=(raw)=>{ const v=parseFloat(raw); return isNaN(v)?null:(Math.min(v,m.sur)/m.sur)*20; };
+  lignes.forEach((l,idx)=>{
+    const tokens=l.split(/[;,\s]+/).filter(t=>t!=='');
+    let eleve=null, reste=tokens;
+    const parMatricule=eleves.find(e=>e.matricule.toLowerCase()===(tokens[0]||'').toLowerCase());
+    if(parMatricule){ eleve=parMatricule; reste=tokens.slice(1); }
+    else if(eleves[idx]){ eleve=eleves[idx]; reste=tokens; }
+    if(!eleve){ ignorees++; return; }
+    if(!DB.notes[classeId][tri][eleve.matricule]) DB.notes[classeId][tri][eleve.matricule]={};
+    if(/^ABS$/i.test(reste[0]||'')){
+      DB.notes[classeId][tri][eleve.matricule][mat]={devoirs:null,compo:null,absent:true}; nb++; return;
+    }
+    const d=reste[0]!==undefined?normaliser(reste[0]):null;
+    const c=reste[1]!==undefined?normaliser(reste[1]):null;
+    if(d===null&&c===null){ ignorees++; return; }
+    DB.notes[classeId][tri][eleve.matricule][mat]={devoirs:d,compo:c,absent:false};
+    nb++;
+  });
+  showAl('al-import-notes',`✔ ${nb} note(s) importée(s)${ignorees?(' — '+ignorees+' ligne(s) ignorée(s)'):''}.`,'aOK');
+  refreshGrilleNotes();
+  setTimeout(()=>document.getElementById('ov-import-notes').classList.remove('on'),1800);
+}
+
+/* ════════════════════════════════
+   CALCULS
+════════════════════════════════ */
+function moyEleve(classeId,tri,matricule){
+  let pts=0,coefTot=0,nbMat=0;
+  DB.matieres.forEach(m=>{
+    const n=DB.notes[classeId]?.[tri]?.[matricule]?.[m.nom];
+    if(n!==undefined){
+      const v=n.absent?0:valNote(n);
+      if(v!==null){ pts+=v*m.coef; coefTot+=m.coef; nbMat++; }
+    }
+  });
+  if(!nbMat)return null;
+  return {moy:pts/coefTot,pts,coef:coefTot,nb:nbMat,total:DB.matieres.length};
+}
+function getMention(moy){
+  if(moy>=18)return{t:'Excellent',c:'mEX'};
+  if(moy>=16)return{t:'Très Bien',c:'mTB'};
+  if(moy>=14)return{t:'Bien',c:'mBI'};
+  if(moy>=12)return{t:'Assez Bien',c:'mAB'};
+  if(moy>=10)return{t:'Passable',c:'mPA'};
+  if(moy>=7)return{t:'Insuffisant',c:'mIN'};
+  if(moy>=5)return{t:'Faible',c:'mFA'};
+  return{t:'Très Faible',c:'mTF'};
+}
+function appreciationMatiere(note){
+  if(note>=18)return'Excellent';
+  if(note>=16)return'Très Bien';
+  if(note>=14)return'Bien';
+  if(note>=12)return'Assez Bien';
+  if(note>=10)return'Passable';
+  if(note>=7)return'Insuffisant';
+  if(note>=5)return'Faible';
+  return'Très Faible';
+}
+function decisionConseil(moy,rang,effectif){
+  return {
+    felicitations: moy!==null && moy>=14,
+    encouragements: moy!==null && moy>=12,
+    tableauHonneur: rang!==null && rang<=(DB.config.tableauHonneur||5),
+    avertissement: moy!==null && moy<10,
+    blame: moy!==null && moy<8
+  };
+}
+function badge(val,sur=20){
+  const v=(val/sur)*20;
+  if(v>=16)return'bA';if(v>=14)return'bB';if(v>=12)return'bC';if(v>=10)return'bD';return'bE';
+}
+function classementClasse(classeId,tri){
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  const res=eleves.map(e=>({e,r:moyEleve(classeId,tri,e.matricule)})).filter(x=>x.r);
+  res.sort((a,b)=>b.r.moy-a.r.moy);
+  res.forEach((x,i)=>x.rang=i+1);
+  return {classement:res, effectif:eleves.length};
+}
+
+/* ════════════════════════════════
+   BULLETINS
+════════════════════════════════ */
+function initBulletins(){
+  const classeId=q('b-classe').value;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  q('b-eleve').innerHTML=eleves.map(e=>`<option value="${e.matricule}">${e.nom} ${e.prenom}</option>`).join('')||'<option value="">Aucun élève</option>';
+}
+function afficherBulletin(){
+  const classeId=q('b-classe').value, tri=q('b-tri').value, matricule=q('b-eleve').value;
+  if(!classeId||!matricule){ q('zone-bulletins').innerHTML='<div class="empty">Sélectionnez une classe et un élève.</div>'; return; }
+  q('zone-bulletins').innerHTML=genBulletinHTML(classeId,tri,matricule);
+}
+function tousLesBulletins(){
+  const classeId=q('b-classe').value, tri=q('b-tri').value;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  if(!eleves.length){ q('zone-bulletins').innerHTML='<div class="empty">Aucun élève dans cette classe.</div>'; return; }
+  q('zone-bulletins').innerHTML=eleves.map(e=>genBulletinHTML(classeId,tri,e.matricule)).join('');
+}
+function nbAbsencesTri(matricule,tri){
+  return DB.absences.filter(a=>a.matricule===matricule&&a.tri===tri).length;
+}
+function genBulletinHTML(classeId,tri,matricule){
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const e=DB.eleves.find(x=>x.matricule===matricule);
+  if(!e) return '<div class="empty">Élève introuvable.</div>';
+  const {classement}=classementClasse(classeId,tri);
+  const pos=classement.find(x=>x.e.matricule===matricule);
+  const r=pos?pos.r:null;
+  const rang=pos?pos.rang:null;
+  const effectif=classement.length;
+  const moyClasse=classement.length?(classement.reduce((s,x)=>s+x.r.moy,0)/classement.length):null;
+  const moyForte=classement.length?classement[0].r.moy:null;
+  const blocsOrdre=[...DB.blocs, ''];
+  let lignes='', totCoef=0, totPts=0;
+  blocsOrdre.forEach(bloc=>{
+    const matsBloc=DB.matieres.filter(m=>(m.bloc||'')===bloc);
+    if(!matsBloc.length)return;
+    lignes+=`<tr class="bloc-row"><td colspan="8">${bloc||'Non classé'}</td></tr>`;
+    matsBloc.forEach(m=>{
+      const n=DB.notes[classeId]?.[tri]?.[matricule]?.[m.nom];
+      const v=n?valNote(n):null;
+      const dev=n&&!n.absent&&n.devoirs!==null&&n.devoirs!==undefined?n.devoirs.toFixed(2):'—';
+      const comp=n&&!n.absent&&n.compo!==null&&n.compo!==undefined?n.compo.toFixed(2):'—';
+      const moyStr=n?(n.absent?'ABS':(v!==null?v.toFixed(2):'—')):'—';
+      const pts=v!==null&&n&&!n.absent?v*m.coef:null;
+      if(pts!==null){totPts+=pts;totCoef+=m.coef;}
+      const prof=nomProfPour(classeId,m.nom)||'—';
+      const appr=v!==null&&n&&!n.absent?appreciationMatiere(v):(n&&n.absent?'Absent(e)':'—');
+      lignes+=`<tr><td>${m.nom}</td><td class="tc">${m.coef}</td><td class="tc">${dev}</td><td class="tc">${comp}</td><td class="tc">${moyStr}</td><td class="tc">${pts!==null?pts.toFixed(2):'—'}</td><td>${appr}</td><td style="font-size:0.75rem;">${prof}</td></tr>`;
+    });
+  });
+  const moy=r?r.moy:null;
+  const mention=moy!==null?getMention(moy):null;
+  const dec=decisionConseil(moy,rang,effectif);
+  const nbAbs=nbAbsencesTri(matricule,tri);
+  const logoHTML=DB.config.logo?`<img src="${DB.config.logo}">`:'LOGO';
+  const cb=(on)=>`<span class="cb">${on?'✕':''}</span>`;
+  let annuelHTML='';
+  if(tri==='T3'){
+    const m1=moyEleve(classeId,'T1',matricule), m2=moyEleve(classeId,'T2',matricule), m3=moyEleve(classeId,'T3',matricule);
+    const moyAnnuelle=moyAnnuelleEleve(classeId,matricule);
+    const admis=moyAnnuelle!==null&&moyAnnuelle>=DB.config.passage;
+    annuelHTML=`
+    <div class="bul2-annual-row">
+      <div>Moyenne 1er trim.<div class="val">${m1?m1.moy.toFixed(2):'—'}/20</div></div>
+      <div>Moyenne 2e trim.<div class="val">${m2?m2.moy.toFixed(2):'—'}/20</div></div>
+      <div>Moyenne 3e trim.<div class="val">${m3?m3.moy.toFixed(2):'—'}/20</div></div>
+      <div>Moyenne annuelle<div class="val" style="color:${admis?'#1a5c34':'#9b2335'}">${moyAnnuelle!==null?moyAnnuelle.toFixed(2):'—'}/20</div></div>
+    </div>
+    <div class="bul2-decision">
+      <div>
+        <div class="bul2-decision-title">Résultat annuel</div>
+        <div class="bul2-check">${cb(admis)} Admis(e)</div>
+        <div class="bul2-check">${cb(moyAnnuelle!==null&&!admis)} Redouble</div>
+        <div class="bul2-check">${cb(false)} Exclu(e)</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;">
+        ${moyAnnuelle!==null?`<div class="bul2-stamp">${admis?'ADMIS(E)':'REDOUBLE'}</div>`:''}
+      </div>
+    </div>`;
+  }
+  return `<div class="bul2">
+    <div class="bul2-pays">BURKINA FASO</div>
+    <div class="bul2-devise">La Patrie ou la Mort, Nous Vaincrons</div>
+    <div class="bul2-ministere">MINISTÈRE DE L'ÉDUCATION NATIONALE, DE L'ALPHABÉTISATION<br>ET DE LA PROMOTION DES LANGUES NATIONALES</div>
+    <div class="bul2-etab-row">
+      <div class="bul2-seal">${logoHTML}</div>
+      <div class="bul2-etab-txt">
+        <div class="bul2-etab-name">${(DB.config.etab||'').toUpperCase()}</div>
+        <div class="bul2-etab-sub">Province du ${DB.config.province||'—'} &nbsp;-&nbsp; ${DB.config.ville||'—'}</div>
+        <div class="bul2-etab-annee">Année scolaire : ${DB.config.annee}</div>
+      </div>
+    </div>
+    <div class="bul2-titlebar">BULLETIN DE NOTES — ${labelTri(tri).replace('Trimestre 1','1er TRIMESTRE').replace('Trimestre 2','2e TRIMESTRE').replace('Trimestre 3','3e TRIMESTRE')}</div>
+    <div class="bul2-infos">
+      <div>Nom : ${e.nom}</div><div>Classe : ${cl.nom||'—'}</div>
+      <div>Prénom(s) : ${e.prenom}</div><div>Effectif de la classe : ${effectif}</div>
+      <div>Sexe : ${e.sexe} &nbsp; Né(e) le : ${e.ddn||'—'}${e.lieuNaissance?(' à '+e.lieuNaissance):''}</div><div>Redoublant(e) : ${e.redoublant?'Oui':'Non'}</div>
+    </div>
+    <table><thead><tr><th>Matières</th><th>Coeff.</th><th>Moy. Devoirs</th><th>Composition</th><th>Moyenne</th><th>Note pondérée</th><th>Appréciation</th><th>Professeur / Signature</th></tr></thead>
+      <tbody>${lignes}
+      <tr class="tot-row"><td>TOTAUX</td><td>${totCoef}</td><td></td><td></td><td></td><td>${totPts.toFixed(2)}</td><td></td><td></td></tr>
+      </tbody></table>
+    <div class="bul2-boxes">
+      <div class="bul2-box">
+        <strong>Moyenne trimestrielle : ${moy!==null?moy.toFixed(2):'—'} / 20</strong><br>
+        Moyenne de la classe : ${moyClasse!==null?moyClasse.toFixed(2):'—'} / 20<br>
+        Moyenne la plus forte : ${moyForte!==null?moyForte.toFixed(2):'—'} / 20
+      </div>
+      <div class="bul2-box">
+        <strong>Rang : ${rang?rang+'e':'—'}</strong><br>
+        Mention : ${mention?mention.t:'—'}<br>
+        Conduite : ${(function(){const nb=DB.penalites.filter(p=>p.matricule===matricule&&!p.reglee).length;return nb===0?'Très bonne':(nb<=2?'Bonne':'Passable');})()}
+      </div>
+    </div>
+    <div class="bul2-abs">Absences : ${nbAbs}</div>
+    <div class="bul2-decision">
+      <div>
+        <div class="bul2-decision-title">DÉCISION DU CONSEIL</div>
+        <div class="bul2-check">${cb(dec.felicitations)} Félicitations</div>
+        <div class="bul2-check">${cb(dec.encouragements)} Encouragements</div>
+        <div class="bul2-check">${cb(dec.tableauHonneur)} Tableau d'Honneur</div>
+        <div class="bul2-check">${cb(dec.avertissement)} Avertissement</div>
+        <div class="bul2-check">${cb(dec.blame)} Blâme</div>
+      </div>
+      <div></div>
+    </div>
+    ${annuelHTML}
+    <div class="bul2-sign">
+      Fait à ${DB.config.ville||'—'}, le ${new Date().toLocaleDateString('fr-FR')}<br><br>
+      Le Directeur<br><br><br>
+      <span style="font-style:italic;color:#666;font-size:0.78rem;">(Signature et cachet)</span>
+    </div>
+    <div class="bul2-footer">Bulletin généré électroniquement le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})} — Logiciel de Gestion Scolaire du ${DB.config.etab}</div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   BULLETIN ANNUEL (T1+T2+T3)
+════════════════════════════════ */
+function moyAnnuelleEleve(classeId,matricule){
+  const vals=['T1','T2','T3'].map(t=>moyEleve(classeId,t,matricule)).filter(r=>r);
+  if(!vals.length)return null;
+  return vals.reduce((s,r)=>s+r.moy,0)/vals.length;
+}
+function afficherBulletinAnnuel(){
+  const classeId=q('b-classe').value, matricule=q('b-eleve').value;
+  if(!classeId||!matricule){ q('zone-bulletins').innerHTML='<div class="empty">Sélectionnez une classe et un élève.</div>'; return; }
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const e=DB.eleves.find(x=>x.matricule===matricule);
+  const lignes=DB.matieres.map(m=>{
+    const cells=['T1','T2','T3'].map(t=>{
+      const n=DB.notes[classeId]?.[t]?.[matricule]?.[m.nom];
+      const v=n?valNote(n):null;
+      return n?(n.absent?'ABS':(v!==null?v.toFixed(2):'—')):'—';
+    });
+    const moys=['T1','T2','T3'].map(t=>{
+      const n=DB.notes[classeId]?.[t]?.[matricule]?.[m.nom];
+      return n&&!n.absent?valNote(n):null;
+    }).filter(v=>v!==null);
+    const moyMat=moys.length?(moys.reduce((a,b)=>a+b,0)/moys.length):null;
+    return `<tr><td>${m.nom}</td><td class="tc">${m.coef}</td><td class="tc">${cells[0]}</td><td class="tc">${cells[1]}</td><td class="tc">${cells[2]}</td><td class="tc"><strong>${moyMat!==null?moyMat.toFixed(2):'—'}</strong></td></tr>`;
+  }).join('');
+  const moyAnnuelle=moyAnnuelleEleve(classeId,matricule);
+  const {classement:clT1}=classementClasse(classeId,'T1');
+  const eleves=DB.eleves.filter(x=>x.classeId===classeId);
+  const rangAnnuel=eleves.map(x=>({e:x,m:moyAnnuelleEleve(classeId,x.matricule)})).filter(x=>x.m!==null).sort((a,b)=>b.m-a.m);
+  rangAnnuel.forEach((x,i)=>x.rang=i+1);
+  const pos=rangAnnuel.find(x=>x.e.matricule===matricule);
+  const mention=moyAnnuelle!==null?getMention(moyAnnuelle):null;
+  const admis=moyAnnuelle!==null&&moyAnnuelle>=DB.config.passage;
+  q('zone-bulletins').innerHTML=`<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">Unité — Progrès — Justice</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">BULLETIN ANNUEL DE SYNTHÈSE</div>
+      <div class="bul-session">Année scolaire ${DB.config.annee} — Classe : ${cl.nom||'—'}</div>
+    </div>
+    <div class="bul-infos">
+      <div class="bul-info-item"><strong>Nom & Prénoms :</strong> ${e?.nom||''} ${e?.prenom||''}</div>
+      <div class="bul-info-item"><strong>Matricule :</strong> ${matricule}</div>
+      <div class="bul-info-item"><strong>Effectif :</strong> ${eleves.length}</div>
+      <div class="bul-info-item"><strong>Rang annuel :</strong> ${pos?pos.rang:'—'}${rangAnnuel.length?('/'+rangAnnuel.length):''}</div>
+    </div>
+    <table><thead><tr><th>Matière</th><th>Coeff.</th><th>T1</th><th>T2</th><th>T3</th><th>Moyenne</th></tr></thead>
+      <tbody>${lignes}
+      <tr class="bul-total"><td colspan="5">Moyenne annuelle générale</td><td>${moyAnnuelle!==null?moyAnnuelle.toFixed(2):'—'}/20</td></tr>
+      </tbody></table>
+    <div class="bul-result">
+      <div class="bul-moy-box"><div class="bul-moy-val">${moyAnnuelle!==null?moyAnnuelle.toFixed(2):'—'}</div><div class="bul-moy-lbl">Moyenne annuelle</div></div>
+      <div class="bul-mention-box mention ${mention?mention.c:'mEc'}">${mention?mention.t:'—'}</div>
+      <div class="bul-sign">
+        Le Professeur Principal<br>${cl.profPrincipal||'________________'}<br><br>
+        Le Directeur<br>${DB.config.directeur||'________________'}
+      </div>
+    </div>
+    <div class="bul-decision ${admis?'dec-white-ADMIS':'dec-white-ECHOUE'}">
+      ${moyAnnuelle===null?'Moyennes insuffisantes pour statuer':(admis?'ADMIS(E) EN CLASSE SUPÉRIEURE':'DOIT REDOUBLER LA CLASSE')}
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   CARTES SCOLAIRES
+════════════════════════════════ */
+function genererCartes(){
+  const sel=q('ca-classe').value;
+  const eleves= sel==='__all__' ? DB.eleves.slice() : DB.eleves.filter(e=>e.classeId===sel);
+  if(!eleves.length){ q('zone-cartes').innerHTML='<div class="empty">Aucun élève à afficher.</div>'; return; }
+  const logoHTML=DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0);
+  const cartesHTML=eleves.map(e=>{
+    const cl=DB.classes.find(c=>c.id===e.classeId)||{};
+    return `<div class="carte">
+      <div class="carte-top">
+        <div class="carte-seal">${logoHTML}</div>
+        <div><div class="carte-etab">${DB.config.etab}</div><div class="carte-titre">Carte Scolaire ${DB.config.annee}</div></div>
+      </div>
+      <div class="carte-body">
+        <div class="carte-photo">PHOTO</div>
+        <div class="carte-info">
+          <div class="carte-nom">${e.nom} ${e.prenom}</div>
+          <div><b>Classe :</b> ${cl.nom||'—'}</div>
+          <div><b>Matricule :</b> ${e.matricule}</div>
+          <div><b>Sexe :</b> ${e.sexe}</div>
+          <div><b>Né(e) le :</b> ${e.ddn||'—'}</div>
+        </div>
+      </div>
+      <div class="carte-foot">Le Directeur — ${DB.config.directeur||'________________'}</div>
+    </div>`;
+  }).join('');
+  q('zone-cartes').innerHTML=`<div class="carte-grid">${cartesHTML}</div>`;
+}
+
+/* ════════════════════════════════
+   DOCUMENTS : PÉNALITÉS, CERTIFICAT, QUITUS
+════════════════════════════════ */
+function initDocuments(){ updateDocEleveOptions(); renderPenalites(); }
+function updateDocEleveOptions(){
+  const classeId=q('doc-classe').value;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  q('doc-eleve').innerHTML=eleves.map(e=>`<option value="${e.matricule}">${e.nom} ${e.prenom}</option>`).join('')||'<option value="">Aucun élève</option>';
+}
+function docEleveCourant(){ return q('doc-eleve').value; }
+function nextPenId(){
+  if(!DB.penalites.length)return'PEN1';
+  const nums=DB.penalites.map(p=>parseInt(p.id.replace(/\D/g,''))||0);
+  return 'PEN'+(Math.max(...nums)+1);
+}
+function ajouterPenalite(){
+  const matricule=docEleveCourant();
+  if(!matricule){showAl('al-penalites','Sélectionnez un élève.','aERR');return;}
+  const motif=q('pe-motif').value.trim();
+  if(!motif){showAl('al-penalites','Le motif est requis.','aERR');return;}
+  DB.penalites.push({
+    id:nextPenId(), matricule, date:new Date().toLocaleDateString('fr-FR'),
+    motif, type:q('pe-type').value, quantite:q('pe-montant').value.trim(),
+    reglee:q('pe-reglee').checked
+  });
+  q('pe-motif').value='';q('pe-montant').value='';q('pe-reglee').checked=false;
+  renderPenalites();
+  showAl('al-penalites','✔ Pénalité enregistrée.','aOK');
+}
+function togglePenalite(id){
+  const p=DB.penalites.find(x=>x.id===id); if(p)p.reglee=!p.reglee;
+  renderPenalites();
+}
+function supprimerPenalite(id){
+  if(!confirm('Supprimer cette pénalité ?'))return;
+  DB.penalites=DB.penalites.filter(p=>p.id!==id);
+  renderPenalites();
+}
+function renderPenalites(){
+  const matricule=docEleveCourant();
+  const liste=DB.penalites.filter(p=>p.matricule===matricule);
+  const tb=q('tb-penalites');
+  if(!matricule){tb.innerHTML='<tr><td colspan="6" class="empty">Sélectionnez un élève.</td></tr>';return;}
+  if(!liste.length){tb.innerHTML='<tr><td colspan="6" class="empty">Aucune pénalité enregistrée pour cet élève.</td></tr>';return;}
+  tb.innerHTML=liste.map(p=>`<tr>
+    <td style="font-size:0.78rem;color:var(--muted)">${p.date}</td>
+    <td>${p.motif}</td>
+    <td><span class="tag">${p.type}</span></td>
+    <td class="tc">${p.quantite||'—'}</td>
+    <td class="tc"><span class="b ${p.reglee?'bA':'bE'}" style="cursor:pointer" onclick="togglePenalite('${p.id}')">${p.reglee?'✔ Traitée':'✕ En cours'}</span></td>
+    <td><button class="btn btn-red btn-sm" onclick="supprimerPenalite('${p.id}')">✕</button></td>
+  </tr>`).join('');
+}
+
+function afficherCertificat(){
+  const matricule=docEleveCourant();
+  const e=DB.eleves.find(x=>x.matricule===matricule);
+  if(!e){ q('zone-documents').innerHTML='<div class="empty">Sélectionnez un élève.</div>'; return; }
+  const cl=DB.classes.find(c=>c.id===e.classeId)||{};
+  const today=new Date().toLocaleDateString('fr-FR');
+  q('zone-documents').innerHTML=`<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">Unité — Progrès — Justice</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">CERTIFICAT DE SCOLARITÉ</div>
+      <div class="bul-session">Année scolaire ${DB.config.annee}</div>
+    </div>
+    <p style="font-size:0.92rem;line-height:2;margin:20px 0;">
+      Je soussigné(e), <strong>${DB.config.directeur||'________________'}</strong>, Directeur(trice) du ${DB.config.etab},
+      certifie que l'élève <strong>${e.nom} ${e.prenom}</strong>, ${e.sexe==='M'?'né':'née'} le
+      <strong>${e.ddn||'________________'}</strong>, matricule <strong>${e.matricule}</strong>,
+      est régulièrement inscrit(e) dans notre établissement en classe de <strong>${cl.nom||'________________'}</strong>
+      au titre de l'année scolaire <strong>${DB.config.annee}</strong>.
+    </p>
+    <p style="font-size:0.88rem;color:#444;">En foi de quoi, le présent certificat lui est délivré pour servir et valoir ce que de droit.</p>
+    <div class="bul-sign" style="margin-top:40px;text-align:right;">
+      Fait à ${DB.config.ville}, le ${today}<br><br>
+      Le Directeur<br>${DB.config.directeur||'________________'}
+    </div>
+  </div>`;
+}
+
+function afficherQuitus(){
+  const matricule=docEleveCourant();
+  const e=DB.eleves.find(x=>x.matricule===matricule);
+  if(!e){ q('zone-documents').innerHTML='<div class="empty">Sélectionnez un élève.</div>'; return; }
+  const cl=DB.classes.find(c=>c.id===e.classeId)||{};
+  const today=new Date().toLocaleDateString('fr-FR');
+  const liste=DB.penalites.filter(p=>p.matricule===matricule);
+  const nonReglees=liste.filter(p=>!p.reglee);
+  const lignesPen=liste.length? liste.map(p=>`<tr>
+      <td>${p.date}</td><td>${p.motif}</td><td>${p.type}</td>
+      <td class="tc">${p.quantite||'—'}</td>
+      <td class="tc mention ${p.reglee?'mEX':'mEc'}">${p.reglee?'Traitée':'En cours'}</td>
+    </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:#888">Aucune sanction enregistrée.</td></tr>';
+  q('zone-documents').innerHTML=`<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">Unité — Progrès — Justice</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">QUITUS DE SORTIE</div>
+      <div class="bul-session">Année scolaire ${DB.config.annee}</div>
+    </div>
+    <div class="bul-infos">
+      <div class="bul-info-item"><strong>Nom & Prénoms :</strong> ${e.nom} ${e.prenom}</div>
+      <div class="bul-info-item"><strong>Matricule :</strong> ${e.matricule}</div>
+      <div class="bul-info-item"><strong>Classe :</strong> ${cl.nom||'—'}</div>
+      <div class="bul-info-item"><strong>Sexe :</strong> ${e.sexe==='M'?'Masculin':'Féminin'}</div>
+    </div>
+    <p style="font-size:0.85rem;font-weight:700;color:#111;margin-bottom:8px;border-bottom:1px solid #e0d8c0;padding-bottom:6px;">Situation disciplinaire</p>
+    <table><thead><tr><th>Date</th><th>Motif</th><th>Type</th><th>Quantité</th><th>Statut</th></tr></thead>
+      <tbody>${lignesPen}</tbody></table>
+    <div class="bul-decision ${nonReglees.length?'dec-white-ECHOUE':'dec-white-ADMIS'}">
+      ${nonReglees.length? nonReglees.length+' sanction(s) non traitée(s) — quitus délivré sous réserve de régularisation' : 'Aucune sanction en cours — quitus accordé sans réserve'}
+    </div>
+    <div class="bul-sign" style="margin-top:24px;text-align:right;">
+      Fait à ${DB.config.ville}, le ${today}<br><br>
+      Le Directeur<br>${DB.config.directeur||'________________'}
+    </div>
+  </div>`;
+}
+
+function afficherConvocation(){
+  const matricule=docEleveCourant();
+  const e=DB.eleves.find(x=>x.matricule===matricule);
+  if(!e){ q('zone-documents').innerHTML='<div class="empty">Sélectionnez un élève.</div>'; return; }
+  const cl=DB.classes.find(c=>c.id===e.classeId)||{};
+  const today=new Date().toLocaleDateString('fr-FR');
+  const motif=q('cv-motif').value, msg=q('cv-message').value.trim();
+  q('zone-documents').innerHTML=`<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">Unité — Progrès — Justice</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">CONVOCATION DES PARENTS / TUTEURS</div>
+      <div class="bul-session">Année scolaire ${DB.config.annee}</div>
+    </div>
+    <p style="font-size:0.9rem;line-height:1.9;margin:18px 0;">
+      Les parents ou tuteurs de l'élève <strong>${e.nom} ${e.prenom}</strong>, matricule <strong>${e.matricule}</strong>,
+      inscrit(e) en classe de <strong>${cl.nom||'—'}</strong>, sont priés de se présenter à la direction du
+      ${DB.config.etab} pour un entretien concernant :
+    </p>
+    <p style="font-size:0.95rem;font-weight:700;color:#b8942a;text-align:center;margin:14px 0;">${motif}</p>
+    ${msg?`<p style="font-size:0.85rem;color:#444;margin-bottom:14px;">${msg}</p>`:''}
+    <p style="font-size:0.85rem;color:#444;">Nous comptons sur votre disponibilité et vous prions d'agréer nos salutations distinguées.</p>
+    <div class="bul-sign" style="margin-top:40px;text-align:right;">
+      Fait à ${DB.config.ville}, le ${today}<br><br>
+      Le Directeur<br>${DB.config.directeur||'________________'}
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   RÔLES (Directeur / Professeur)
+════════════════════════════════ */
+function determinerRole(email){
+  const e=(email||'').toLowerCase();
+  if(DB.config.emailDirecteur && e===DB.config.emailDirecteur.toLowerCase()) return {role:'directeur', profId:null};
+  const prof=DB.professeurs.find(p=>(p.email||'').toLowerCase()===e);
+  if(prof) return {role:'professeur', profId:prof.id};
+  return {role:null, profId:null};
+}
+function appliquerRestrictionsRole(){
+  const estAdmin = (monRole!=='professeur');
+  document.querySelectorAll('[data-role-admin]').forEach(el=>{
+    if(el.dataset.dispOrig===undefined) el.dataset.dispOrig=el.style.display||'';
+    el.style.display = estAdmin ? el.dataset.dispOrig : 'none';
+  });
+  const rechWrap=q('rech-input'); if(rechWrap) rechWrap.style.display = estAdmin ? '' : 'none';
+  if(!estAdmin){
+    const btnNotes=document.querySelector('.nav-btn:not([data-role-admin])');
+    if(btnNotes) nav('notes', btnNotes);
+  }
+}
+function labelAuteur(profId){
+  if(profId==='directeur') return DB.config.directeur||'Le Directeur';
+  const p=DB.professeurs.find(x=>x.id===profId);
+  return p?p.nom:'(professeur supprimé)';
+}
+function formatDateHeure(iso){
+  try{ return new Date(iso).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }catch(e){ return iso; }
+}
+function afficherNotifProf(){
+  const zone=q('notif-prof'); if(!zone) return;
+  if(monRole!=='professeur'){ zone.innerHTML=''; return; }
+  const mesCombos=combosDuProf(monProfId);
+  const alertes=[];
+  mesCombos.forEach(c=>{
+    ['T1','T2','T3'].forEach(tri=>{
+      const cle=c.classeId+'|'+tri+'|'+c.matiere;
+      const s=DB.suivi[cle];
+      if(s && s.parDirecteur && !s.notifProfVue){
+        const cl=DB.classes.find(x=>x.id===c.classeId);
+        alertes.push({cle, txt:`🛠️ Le Directeur a modifié vos notes de <strong>${c.matiere}</strong> (${cl?cl.nom:c.classeId}, ${labelTri(tri)}) le ${formatDateHeure(s.derniereModif)}.`});
+      }
+    });
+  });
+  if(!alertes.length){ zone.innerHTML=''; return; }
+  zone.innerHTML=alertes.map(a=>`<div class="alert aINF">${a.txt} <button class="btn btn-ghost btn-sm" onclick="marquerNotifProfVue('${a.cle}')">Compris</button></div>`).join('');
+}
+function marquerNotifProfVue(cle){
+  if(DB.suivi[cle]){ DB.suivi[cle].notifProfVue=true; }
+  afficherNotifProf();
+}
+function afficherNotifDirecteur(){
+  const zone=q('notif-directeur'); if(!zone) return;
+  if(monRole==='professeur'){ zone.innerHTML=''; return; }
+  const alertes=[];
+  Object.entries(DB.suivi).forEach(([cle,s])=>{
+    if(!s.parDirecteur && !s.notifDirVue && s.premiereFois!==s.derniereModif){
+      const [classeId,tri,mat]=cle.split('|');
+      const cl=DB.classes.find(x=>x.id===classeId);
+      alertes.push({cle, txt:`✏️ <strong>${labelAuteur(s.profId)}</strong> a modifié ses notes de <strong>${mat}</strong> (${cl?cl.nom:classeId}, ${labelTri(tri)}) après sa première saisie — le ${formatDateHeure(s.derniereModif)}.`});
+    }
+  });
+  if(!alertes.length){ zone.innerHTML=''; return; }
+  zone.innerHTML=alertes.map(a=>`<div class="alert aINF">${a.txt} <button class="btn btn-ghost btn-sm" onclick="marquerNotifDirVue('${a.cle}')">Vu</button></div>`).join('');
+}
+function marquerNotifDirVue(cle){
+  if(DB.suivi[cle]){ DB.suivi[cle].notifDirVue=true; }
+  afficherNotifDirecteur();
+}
+function genDashboard(){
+  afficherNotifDirecteur();
+  const classeId=q('db-classe').value, tri=q('db-tri').value;
+  const zone=q('zone-dashboard');
+  if(!classeId){ zone.innerHTML='<div class="empty">Sélectionnez une classe.</div>'; return; }
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const affect=DB.affectations[classeId]||{};
+  const matieresClasse=DB.matieres.filter(m=>affect[m.nom]!==undefined || true); // toutes les matières de la classe
+  let fait=0;
+  const lignes=matieresClasse.map(m=>{
+    const profId=affect[m.nom];
+    const cle=classeId+'|'+tri+'|'+m.nom;
+    const s=DB.suivi[cle];
+    let statut, cls;
+    if(!s){ statut='⏳ Pas encore enregistré'; cls='mIN'; }
+    else if(s.parDirecteur){ statut='🛠️ Dernière modif. par le Directeur — '+formatDateHeure(s.derniereModif); cls='mPA'; fait++; }
+    else if(s.premiereFois!==s.derniereModif){ statut='✏️ Modifié le '+formatDateHeure(s.derniereModif)+' (saisi le '+formatDateHeure(s.premiereFois)+')'; cls='mBI'; fait++; }
+    else { statut='✅ Enregistré le '+formatDateHeure(s.derniereModif); cls='mEX'; fait++; }
+    return `<tr><td><strong>${m.nom}</strong></td><td>${profId?labelAuteur(profId):'<span style="color:var(--muted)">Non affecté</span>'}</td><td class="mention ${cls}">${statut}</td></tr>`;
+  }).join('');
+  zone.innerHTML=`
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val">${fait}/${matieresClasse.length}</div><div class="stat-lbl">Matières enregistrées</div></div>
+      <div class="stat-box"><div class="stat-val">${matieresClasse.length-fait}</div><div class="stat-lbl">En attente</div></div>
+    </div>
+    <div class="card"><div class="card-head">${cl.nom||''} — ${labelTri(tri)}</div>
+    <div class="tw"><table><thead><tr><th>Matière</th><th>Professeur</th><th>Statut</th></tr></thead>
+    <tbody>${lignes}</tbody></table></div></div>`;
+}
+async function synchroniserMaintenant(){
+  showFlash('🔄 Synchronisation en cours…');
+  if(typeof cycleSynchro==='function') await cycleSynchro();
+  showFlash('✔ Synchronisation terminée.');
+  genDashboard();
+}
+
+/* ════════════════════════════════
+   STATISTIQUES
+════════════════════════════════ */
+function genComparatif(){
+  const tri=q('st-tri').value;
+  q('cmp-tri-lbl').textContent=labelTri(tri);
+  const tb=q('tb-comparatif');
+  if(!DB.classes.length){tb.innerHTML='<tr><td colspan="5" class="empty">Aucune classe.</td></tr>';return;}
+  tb.innerHTML=DB.classes.map(c=>{
+    const {classement,effectif}=classementClasse(c.id,tri);
+    if(!classement.length) return `<tr><td><strong>${c.nom}</strong></td><td class="tc">${effectif}</td><td colspan="3" style="color:var(--muted);font-size:0.78rem">Aucune note saisie</td></tr>`;
+    const admis=classement.filter(x=>x.r.moy>=DB.config.passage).length;
+    const taux=Math.round(admis/classement.length*100);
+    const moyC=(classement.reduce((s,x)=>s+x.r.moy,0)/classement.length).toFixed(2);
+    return `<tr><td><strong>${c.nom}</strong></td><td class="tc">${effectif}</td>
+      <td class="tc"><span class="b ${badge(classement.reduce((s,x)=>s+x.r.moy,0)/classement.length,20)}">${moyC}</span></td>
+      <td class="tc">${taux}%</td><td class="tc">${classement[0].r.moy.toFixed(2)} (${classement[0].e.nom})</td></tr>`;
+  }).join('');
+}
+function genStats(){
+  const classeId=q('st-classe').value, tri=q('st-tri').value;
+  if(!classeId){ q('zone-stats').innerHTML='<div class="empty"><span class="eico">📊</span>Sélectionnez une classe.</div>'; return; }
+  const {classement,effectif}=classementClasse(classeId,tri);
+  if(!classement.length){ q('zone-stats').innerHTML='<div class="empty"><span class="eico">📊</span>Aucune note saisie pour cette classe et ce trimestre.</div>'; return; }
+  const admis=classement.filter(x=>x.r.moy>=DB.config.passage).length;
+  const taux=Math.round(admis/classement.length*100);
+  const moyClasse=(classement.reduce((s,x)=>s+x.r.moy,0)/classement.length).toFixed(2);
+  const meilleur=classement[0];
+  const lignes=classement.map(x=>`<tr>
+    <td class="rang ${x.rang<=3?'rang-'+x.rang:''}">${x.rang}</td>
+    <td>${x.e.nom} ${x.e.prenom}</td>
+    <td class="tc"><span class="b ${badge(x.r.moy,20)}">${x.r.moy.toFixed(2)}</span></td>
+    <td class="tc mention ${getMention(x.r.moy).c}">${getMention(x.r.moy).t}</td>
+  </tr>`).join('');
+  q('zone-stats').innerHTML=`
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val">${effectif}</div><div class="stat-lbl">Effectif</div></div>
+      <div class="stat-box"><div class="stat-val">${moyClasse}</div><div class="stat-lbl">Moyenne de classe</div></div>
+      <div class="stat-box"><div class="stat-val">${taux}%</div><div class="stat-lbl">Taux de réussite</div></div>
+      <div class="stat-box"><div class="stat-val">${meilleur.r.moy.toFixed(2)}</div><div class="stat-lbl">Meilleure moyenne</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head">Classement — ${labelTri(tri)}</div>
+      <div class="tw"><table><thead><tr><th>Rang</th><th>Élève</th><th>Moyenne</th><th>Mention</th></tr></thead>
+      <tbody>${lignes}</tbody></table></div>
+    </div>`;
+}
+
+/* ════════════════════════════════
+   ABSENCES (registre journalier)
+════════════════════════════════ */
+function initAbsences(){
+  if(!q('ap-date').value) q('ap-date').value=new Date().toLocaleDateString('fr-FR');
+  renderAppel();
+  updateAbEleveOptions();
+  renderHistoriqueAbsences();
+}
+function renderAppel(){
+  const classeId=q('ap-classe').value;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  const tb=q('tb-appel');
+  if(!eleves.length){tb.innerHTML='<tr><td colspan="3" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
+  tb.innerHTML=eleves.map((e,i)=>`<tr>
+    <td><strong>${e.nom}</strong> ${e.prenom}</td>
+    <td class="tc"><input type="checkbox" class="abs-cb" id="apc-${i}" onchange="q('aps-'+${i}).disabled=!this.checked;"></td>
+    <td class="tc"><select id="aps-${i}" disabled><option value="1">Justifiée</option><option value="0">Non justifiée</option></select></td>
+  </tr>`).join('');
+}
+function nextAbsId(){
+  if(!DB.absences.length)return'ABS1';
+  const nums=DB.absences.map(a=>parseInt(a.id.replace(/\D/g,''))||0);
+  return 'ABS'+(Math.max(...nums)+1);
+}
+function enregistrerAppel(){
+  const classeId=q('ap-classe').value, date=q('ap-date').value.trim()||new Date().toLocaleDateString('fr-FR'), tri=q('ap-tri').value;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  let nb=0;
+  eleves.forEach((e,i)=>{
+    if(q('apc-'+i)?.checked){
+      DB.absences.push({id:nextAbsId(),matricule:e.matricule,classeId,tri,date,justifiee:q('aps-'+i).value==='1'});
+      nb++;
+    }
+  });
+  showAl('al-appel',`✔ ${nb} absence(s) enregistrée(s) pour le ${date}.`,'aOK');
+  renderAppel();
+  if(q('ab-eleve').value) renderHistoriqueAbsences();
+}
+function updateAbEleveOptions(){
+  const classeId=q('ab-classe').value;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  q('ab-eleve').innerHTML=eleves.map(e=>`<option value="${e.matricule}">${e.nom} ${e.prenom}</option>`).join('')||'<option value="">Aucun élève</option>';
+}
+function supprimerAbsence(id){
+  if(!confirm('Supprimer cette absence ?'))return;
+  DB.absences=DB.absences.filter(a=>a.id!==id);
+  renderHistoriqueAbsences();
+}
+function renderHistoriqueAbsences(){
+  const matricule=q('ab-eleve').value;
+  const liste=DB.absences.filter(a=>a.matricule===matricule);
+  q('ab-total').textContent=matricule?`— ${liste.length} absence(s) au total`:'';
+  const tb=q('tb-absences');
+  if(!matricule){tb.innerHTML='<tr><td colspan="3" class="empty">Sélectionnez un élève.</td></tr>';return;}
+  if(!liste.length){tb.innerHTML='<tr><td colspan="3" class="empty">Aucune absence enregistrée.</td></tr>';return;}
+  tb.innerHTML=liste.map(a=>`<tr>
+    <td>${a.date}</td>
+    <td class="mention ${a.justifiee?'mEX':'mEc'}">${a.justifiee?'Justifiée':'Non justifiée'}</td>
+    <td><button class="btn btn-red btn-sm" onclick="supprimerAbsence('${a.id}')">✕</button></td>
+  </tr>`).join('');
+}
+
+/* ════════════════════════════════
+   SCOLARITÉ (paiements)
+════════════════════════════════ */
+function initScolarite(){
+  updateScEleveOptions();
+  renderScolarite();
+  renderScolariteClasses();
+}
+function updateScEleveOptions(){
+  const classeId=q('sc-classe').value;
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  q('sc-eleve').innerHTML=eleves.map(e=>`<option value="${e.matricule}">${e.nom} ${e.prenom}</option>`).join('')||'<option value="">Aucun élève</option>';
+}
+function nextPaId(){
+  if(!DB.paiements.length)return'PAY1';
+  const nums=DB.paiements.map(p=>parseInt(p.id.replace(/\D/g,''))||0);
+  return 'PAY'+(Math.max(...nums)+1);
+}
+function ajouterVersement(){
+  const matricule=q('sc-eleve').value;
+  if(!matricule){showAl('al-scolarite','Sélectionnez un élève.','aERR');return;}
+  const montant=parseFloat(q('pa-montant').value);
+  if(!montant||montant<=0){showAl('al-scolarite','Montant invalide.','aERR');return;}
+  DB.paiements.push({id:nextPaId(),matricule,date:new Date().toLocaleDateString('fr-FR'),montant,note:q('pa-note').value.trim()});
+  q('pa-montant').value='';q('pa-note').value='';
+  renderScolarite();
+  renderScolariteClasses();
+  showAl('al-scolarite','✔ Versement enregistré.','aOK');
+}
+function supprimerVersement(id){
+  if(!confirm('Supprimer ce versement ?'))return;
+  DB.paiements=DB.paiements.filter(p=>p.id!==id);
+  renderScolarite();
+  renderScolariteClasses();
+}
+function renderScolarite(){
+  const classeId=q('sc-classe').value, matricule=q('sc-eleve').value;
+  const cl=DB.classes.find(c=>c.id===classeId)||{};
+  const liste=DB.paiements.filter(p=>p.matricule===matricule);
+  const verse=liste.reduce((s,p)=>s+p.montant,0);
+  const du=cl.fraisAnnuel||0;
+  const reliquat=du-verse;
+  q('sc-resume').innerHTML=`
+    <div class="stat-box"><div class="stat-val">${du.toLocaleString('fr-FR')}</div><div class="stat-lbl">Frais annuel dû (F)</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#5fe09a">${verse.toLocaleString('fr-FR')}</div><div class="stat-lbl">Total versé (F)</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:${reliquat>0?'#f07080':'#5fe09a'}">${reliquat.toLocaleString('fr-FR')}</div><div class="stat-lbl">Reliquat (F)</div></div>`;
+  const tb=q('tb-versements');
+  if(!matricule){tb.innerHTML='<tr><td colspan="4" class="empty">Sélectionnez un élève.</td></tr>';return;}
+  if(!liste.length){tb.innerHTML='<tr><td colspan="4" class="empty">Aucun versement enregistré.</td></tr>';return;}
+  tb.innerHTML=liste.map(p=>`<tr>
+    <td style="font-size:0.78rem;color:var(--muted)">${p.date}</td>
+    <td class="tc">${p.montant.toLocaleString('fr-FR')} F</td>
+    <td>${p.note||'—'}</td>
+    <td><button class="btn btn-red btn-sm" onclick="supprimerVersement('${p.id}')">✕</button></td>
+  </tr>`).join('');
+}
+function renderScolariteClasses(){
+  const tb=q('tb-scolarite-classes');
+  if(!DB.classes.length){tb.innerHTML='<tr><td colspan="6" class="empty">Aucune classe.</td></tr>';return;}
+  tb.innerHTML=DB.classes.map(c=>{
+    const eleves=DB.eleves.filter(e=>e.classeId===c.id);
+    const attendu=(c.fraisAnnuel||0)*eleves.length;
+    const percu=eleves.reduce((s,e)=>s+DB.paiements.filter(p=>p.matricule===e.matricule).reduce((a,p)=>a+p.montant,0),0);
+    return `<tr><td><strong>${c.nom}</strong></td><td class="tc">${(c.fraisAnnuel||0).toLocaleString('fr-FR')} F</td>
+      <td class="tc">${eleves.length}</td><td class="tc">${attendu.toLocaleString('fr-FR')} F</td>
+      <td class="tc" style="color:#5fe09a">${percu.toLocaleString('fr-FR')} F</td>
+      <td class="tc" style="color:${attendu-percu>0?'#f07080':'#5fe09a'}">${(attendu-percu).toLocaleString('fr-FR')} F</td></tr>`;
+  }).join('');
+}
+
+/* ════════════════════════════════
+   RECHERCHE RAPIDE D'UN ÉLÈVE
+════════════════════════════════ */
+function rechercherEleve(txt){
+  const wrap=q('rech-results'); const box=q('rech-liste');
+  txt=txt.trim().toLowerCase();
+  if(!txt){ wrap.classList.remove('on'); box.innerHTML=''; return; }
+  const res=DB.eleves.filter(e=>(e.nom+' '+e.prenom+' '+e.matricule).toLowerCase().includes(txt)).slice(0,15);
+  wrap.classList.add('on');
+  box.innerHTML=res.length? res.map(e=>{
+    const cl=DB.classes.find(c=>c.id===e.classeId)||{};
+    return `<div style="padding:8px 4px;border-bottom:1px solid #333;cursor:pointer;" onclick="ouvrirFicheEleve('${e.matricule}')">
+      <strong>${e.nom} ${e.prenom}</strong><br><span style="font-size:0.75rem;color:var(--muted)">${cl.nom||'—'} · ${e.matricule}</span>
+    </div>`;
+  }).join('') : '<div style="color:var(--muted);font-size:0.82rem;padding:8px 4px;">Aucun résultat.</div>';
+}
+function ouvrirFicheEleve(matricule){
+  const e=DB.eleves.find(x=>x.matricule===matricule); if(!e)return;
+  const cl=DB.classes.find(c=>c.id===e.classeId)||{};
+  const moyennes=['T1','T2','T3'].map(t=>{const r=moyEleve(e.classeId,t,matricule);return t+' : '+(r?r.moy.toFixed(2)+'/20':'—');}).join(' &nbsp;|&nbsp; ');
+  const nbAbs=DB.absences.filter(a=>a.matricule===matricule).length;
+  const sanctionsEnCours=DB.penalites.filter(p=>p.matricule===matricule&&!p.reglee).length;
+  const verse=DB.paiements.filter(p=>p.matricule===matricule).reduce((s,p)=>s+p.montant,0);
+  const reliquat=(cl.fraisAnnuel||0)-verse;
+  q('rech-liste').innerHTML=`
+    <div style="font-size:0.9rem;line-height:1.9;">
+      <strong>${e.nom} ${e.prenom}</strong> — ${cl.nom||'—'} (${e.matricule})<br>
+      <span style="color:var(--muted);font-size:0.8rem">Moyennes : ${moyennes}</span><br>
+      <span style="color:var(--muted);font-size:0.8rem">Absences : ${nbAbs} · Sanctions en cours : ${sanctionsEnCours}</span><br>
+      <span style="color:var(--muted);font-size:0.8rem">Scolarité — reliquat : ${reliquat.toLocaleString('fr-FR')} F</span>
+    </div>
+    <button class="btn btn-ghost btn-sm mt8" onclick="q('rech-results').classList.remove('on')">Fermer</button>`;
+}
+
+/* ════════════════════════════════
+   SAUVEGARDE / CHARGEMENT
+════════════════════════════════ */
+function getNomFichier(){
+  const s=(DB.config.annee||'').replace(/[^a-zA-Z0-9]/g,'_');
+  const d=new Date();
+  const dd=String(d.getDate()).padStart(2,'0'), mm=String(d.getMonth()+1).padStart(2,'0'), yy=d.getFullYear();
+  return `GestionScolaire_CEGKou_${s}_${dd}${mm}${yy}.json`;
+}
+async function sauvegarderFichier(){
+  try{
+    const data=JSON.stringify(DB,null,2);
+    const blob=new Blob([data],{type:'application/json'});
+    const nom=getNomFichier();
+    await offrirTelechargement(nom,blob);
+    setSaveStatus('✔ Fichier sauvegardé : '+nom,'ok');
+  }catch(e){ setSaveStatus('✗ Erreur de sauvegarde.','err'); }
+}
+function chargerFichier(inp){
+  const file=inp.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.config||!data.matieres||!data.classes||!data.eleves||!data.notes) throw new Error('Format invalide');
+      Object.assign(DB,data);
+      resyncUI();
+      setSaveStatus('✔ Fichier chargé : '+file.name,'ok');
+      showFlash('✔ Données chargées avec succès.');
+    }catch(err){
+      setSaveStatus('✗ Fichier invalide ou corrompu.','err');
+      alert('Erreur : le fichier sélectionné n\'est pas un fichier de sauvegarde valide.\n'+err.message);
+    }
+  };
+  reader.readAsText(file);
+  inp.value='';
+}
+function sauvegarderLocal(){
+  try{
+    localStorage.setItem('gestion_scolaire_kou_backup',JSON.stringify(DB));
+    const now=new Date().toLocaleString('fr-FR');
+    localStorage.setItem('gestion_scolaire_kou_backup_date',now);
+    setSaveStatus('📌 Sauvegarde rapide : '+now,'ok');
+    showFlash('📌 Sauvegarde rapide effectuée.');
+  }catch(e){ setSaveStatus('✗ Impossible (stockage plein?).','err'); }
+}
+function chargerLocal(){
+  try{
+    const raw=localStorage.getItem('gestion_scolaire_kou_backup');
+    if(!raw){ alert('Aucune sauvegarde rapide trouvée.'); return; }
+    const date=localStorage.getItem('gestion_scolaire_kou_backup_date')||'date inconnue';
+    if(!confirm('Charger la sauvegarde du '+date+' ?\n\nLes données actuelles seront remplacées.'))return;
+    Object.assign(DB,JSON.parse(raw));
+    resyncUI();
+    setSaveStatus('🔄 Restauré depuis : '+date,'ok');
+    showFlash('🔄 Sauvegarde rapide restaurée.');
+  }catch(e){ setSaveStatus('✗ Erreur lors de la restauration.','err'); }
+}
+function resyncUI(){
+  if(!DB.blocs) DB.blocs=['Sciences','Littérature','E.C.M.','E.P.S.'];
+  if(!DB.penalites) DB.penalites=[];
+  if(!DB.professeurs) DB.professeurs=[];
+  if(!DB.affectations) DB.affectations={};
+  if(!DB.absences) DB.absences=[];
+  if(!DB.paiements) DB.paiements=[];
+  if(!DB.config.province) DB.config.province='Ziro';
+  if(!DB.config.tableauHonneur) DB.config.tableauHonneur=5;
+  DB.classes.forEach(c=>{ if(!DB.affectations[c.id]) DB.affectations[c.id]={}; if(c.fraisAnnuel===undefined) c.fraisAnnuel=0; });
+  DB.eleves.forEach(e=>{ if(e.lieuNaissance===undefined) e.lieuNaissance=''; if(e.redoublant===undefined) e.redoublant=false; });
+  appliquerConfig();
+  appliquerConfigHeader();
+  renderMatieres();
+  remplirSelectsClasses();
+  renderClasses();
+  renderProfesseurs();
+  if(q('aff-classe').value) renderAffectations();
+  if(DB.classes.length){ q('sel-classe-eleves').value=DB.classes[0].id; }
+  renderEleves();
+}
+function appliquerConfig(){
+  const cfg=DB.config;
+  const set=(id,val)=>{const el=q(id);if(el)el.value=val||'';};
+  set('c-etab',cfg.etab); set('c-province',cfg.province); set('c-ville',cfg.ville); set('c-annee',cfg.annee);
+  set('c-directeur',cfg.directeur); set('c-email-directeur',cfg.emailDirecteur); set('c-passage',cfg.passage); set('c-tableau',cfg.tableauHonneur||5);
+}
+function setSaveStatus(msg,type){
+  const el=q('save-status'); if(!el)return;
+  el.textContent=msg; el.className=type||'';
+}
+
+/* ════════════════════════════════
+   SYNCHRONISATION CLOUD (capacité "db")
+   — plusieurs appareils partagent les mêmes données en quasi temps réel.
+   — repli automatique en local uniquement si la capacité n'est pas disponible.
+════════════════════════════════ */
+let dbCap=null;
+const shardCache={};      // dernière valeur poussée/reçue par clé, pour éviter les boucles et écritures inutiles
+const subscribedClasses=new Set();
+const classeUnsubs={};    // { classeId: {eleves:fn, notes:fn} }
+let metaUnsub=null;
+
+function metaPayload(){
+  return { config:DB.config, blocs:DB.blocs, matieres:DB.matieres, professeurs:DB.professeurs, affectations:DB.affectations, classes:DB.classes };
+}
+function appliquerMeta(d){
+  if(!d) return;
+  const anciennesClasses=DB.classes.map(c=>c.id);
+  if(d.config) DB.config=d.config;
+  if(d.blocs) DB.blocs=d.blocs;
+  if(d.matieres) DB.matieres=d.matieres;
+  if(d.professeurs) DB.professeurs=d.professeurs;
+  if(d.affectations) DB.affectations=d.affectations;
+  if(d.classes) DB.classes=d.classes;
+  const nouvellesClasses=DB.classes.map(c=>c.id);
+  anciennesClasses.filter(id=>!nouvellesClasses.includes(id)).forEach(id=>{
+    delete DB.notes[id];
+    DB.eleves=DB.eleves.filter(e=>e.classeId!==id);
+    desabonnerClasseCloud(id, /*sansSuppr*/true);
+  });
+}
+async function pushShard(key,payload){
+  if(!dbCap) return;
+  const str=JSON.stringify(payload);
+  if(shardCache[key]===str) return;
+  try{ await dbCap.doc(key).set(payload); shardCache[key]=str; }catch(e){ /* on retentera au prochain cycle */ }
+}
+function refreshAllViews(){
+  remplirSelectsClasses();
+  if(q('p-classes').classList.contains('on')) renderClasses();
+  if(q('p-profs').classList.contains('on')){ renderProfesseurs(); if(q('aff-classe').value) renderAffectations(); }
+  if(q('p-eleves').classList.contains('on')) renderEleves();
+  if(q('p-notes').classList.contains('on')) refreshGrilleNotes();
+  if(q('p-documents').classList.contains('on')) renderPenalites();
+  if(q('p-absences').classList.contains('on')){ renderAppel(); renderHistoriqueAbsences(); }
+  if(q('p-scolarite').classList.contains('on')){ renderScolarite(); renderScolariteClasses(); }
+  if(q('p-stats').classList.contains('on')){ genComparatif(); genStats(); }
+  if(q('p-dashboard') && q('p-dashboard').classList.contains('on')) genDashboard();
+  afficherNotifProf();
+  afficherNotifDirecteur();
+  renderClasses();
+}
+function desabonnerClasseCloud(classeId, sansSuppr){
+  if(classeUnsubs[classeId]){
+    try{classeUnsubs[classeId].eleves&&classeUnsubs[classeId].eleves();}catch(e){}
+    try{classeUnsubs[classeId].notes&&classeUnsubs[classeId].notes();}catch(e){}
+    delete classeUnsubs[classeId];
+  }
+  subscribedClasses.delete(classeId);
+  delete shardCache['school_eleves/'+classeId];
+  delete shardCache['school_notes/'+classeId];
+  if(!sansSuppr && dbCap){
+    dbCap.doc('school_eleves/'+classeId).delete().catch(()=>{});
+    dbCap.doc('school_notes/'+classeId).delete().catch(()=>{});
+  }
+}
+async function ensureClasseSync(classeId){
+  if(!dbCap || subscribedClasses.has(classeId)) return;
+  subscribedClasses.add(classeId);
+  const refE=dbCap.doc('school_eleves/'+classeId);
+  const refN=dbCap.doc('school_notes/'+classeId);
+  try{
+    const snapE=await refE.get();
+    if(snapE.exists && snapE.data()){
+      const liste=snapE.data().liste||[];
+      DB.eleves=DB.eleves.filter(e=>e.classeId!==classeId).concat(liste);
+      shardCache['school_eleves/'+classeId]=JSON.stringify(snapE.data());
+    } else {
+      await pushShard('school_eleves/'+classeId, {liste:DB.eleves.filter(e=>e.classeId===classeId)});
+    }
+    const snapN=await refN.get();
+    if(snapN.exists && snapN.data()){
+      DB.notes[classeId]=snapN.data().tri||{T1:{},T2:{},T3:{}};
+      shardCache['school_notes/'+classeId]=JSON.stringify(snapN.data());
+    } else {
+      await pushShard('school_notes/'+classeId, {tri:DB.notes[classeId]||{T1:{},T2:{},T3:{}}});
+    }
+  }catch(e){}
+  classeUnsubs[classeId]={
+    eleves: refE.onSnapshot(snap=>{
+      if(!snap.exists) return;
+      const str=JSON.stringify(snap.data());
+      if(shardCache['school_eleves/'+classeId]===str) return;
+      shardCache['school_eleves/'+classeId]=str;
+      DB.eleves=DB.eleves.filter(e=>e.classeId!==classeId).concat(snap.data().liste||[]);
+      refreshAllViews();
+      setSaveStatus('☁ Élèves mis à jour depuis un autre appareil','ok');
+    }, ()=>{}),
+    notes: refN.onSnapshot(snap=>{
+      if(!snap.exists) return;
+      const str=JSON.stringify(snap.data());
+      if(shardCache['school_notes/'+classeId]===str) return;
+      shardCache['school_notes/'+classeId]=str;
+      DB.notes[classeId]=snap.data().tri||{T1:{},T2:{},T3:{}};
+      refreshAllViews();
+      setSaveStatus('☁ Notes mises à jour depuis un autre appareil','ok');
+    }, ()=>{})
+  };
+  refreshAllViews();
+}
+function traduireErreurAuth(code){
+  const map={
+    'auth/invalid-email':'Adresse e-mail invalide.',
+    'auth/user-not-found':'Aucun compte avec cet e-mail.',
+    'auth/wrong-password':'Mot de passe incorrect.',
+    'auth/invalid-credential':'E-mail ou mot de passe incorrect.',
+    'auth/too-many-requests':'Trop de tentatives. Réessayez plus tard.',
+    'auth/network-request-failed':'Pas de connexion internet.',
+    'auth/user-disabled':'Ce compte a été désactivé.',
+    'auth/email-already-in-use':'Un mot de passe existe déjà pour cet e-mail — utilisez plutôt "Se connecter".',
+    'auth/weak-password':'Mot de passe trop court (6 caractères minimum).'
+  };
+  return map[code] || 'Opération impossible. Vérifiez les informations saisies.';
+}
+let modeInscription=false;
+function basculerModeLogin(){
+  modeInscription=!modeInscription;
+  q('login-erreur').textContent='';
+  if(modeInscription){
+    q('login-titre').textContent='🆕 Créer mon mot de passe';
+    q('login-btn-principal').textContent='Créer mon compte';
+    q('login-btn-principal').setAttribute('onclick','creerCompteProf()');
+    q('login-bascule-txt').textContent='Vous avez déjà un mot de passe ?';
+    q('login-bascule-btn').textContent='Se connecter';
+  }else{
+    q('login-titre').textContent='🔐 Connexion requise';
+    q('login-btn-principal').textContent='Se connecter';
+    q('login-btn-principal').setAttribute('onclick','connecterDirecteur()');
+    q('login-bascule-txt').textContent='Professeur, première connexion ?';
+    q('login-bascule-btn').textContent='Créer mon mot de passe';
+  }
+}
+function connecterDirecteur(){
+  const email=q('login-email').value.trim();
+  const pass=q('login-pass').value;
+  if(!email||!pass){ q('login-erreur').textContent='Renseignez l\'e-mail et le mot de passe.'; return; }
+  q('login-erreur').textContent='Connexion…';
+  firebase.auth().signInWithEmailAndPassword(email,pass)
+    .then(()=>{ q('login-pass').value=''; })
+    .catch(err=>{ q('login-erreur').textContent=traduireErreurAuth(err.code); });
+}
+async function creerCompteProf(){
+  const email=q('login-email').value.trim().toLowerCase();
+  const pass=q('login-pass').value;
+  if(!email||!pass){ q('login-erreur').textContent='Renseignez l\'e-mail et le mot de passe.'; return; }
+  if(pass.length<6){ q('login-erreur').textContent='Le mot de passe doit faire au moins 6 caractères.'; return; }
+  q('login-erreur').textContent='Vérification de l\'e-mail…';
+  try{
+    // On vérifie que cet e-mail correspond bien au Directeur ou à un professeur enregistré, en lisant directement le cloud
+    const adapt=creerAdaptateurFirestore();
+    let autorise = email===(DB.config.emailDirecteur||'').toLowerCase();
+    if(!autorise && adapt){
+      const metaSnap=await adapt.doc('school/meta').get();
+      const meta=metaSnap.exists?metaSnap.data():null;
+      const emailDir=(meta&&meta.config&&meta.config.emailDirecteur||'').toLowerCase();
+      const profs=(meta&&meta.professeurs)||DB.professeurs;
+      autorise = email===emailDir || !!profs.find(p=>(p.email||'').toLowerCase()===email);
+    } else if(!autorise){
+      autorise = !!DB.professeurs.find(p=>(p.email||'').toLowerCase()===email);
+    }
+    if(!autorise){
+      q('login-erreur').textContent='Cet e-mail n\'est enregistré ni comme Directeur, ni comme professeur. Demandez au Directeur de l\'ajouter dans l\'onglet Professeurs.';
+      return;
+    }
+    q('login-erreur').textContent='Création du compte…';
+    await firebase.auth().createUserWithEmailAndPassword(email,pass);
+    q('login-pass').value='';
+  }catch(err){ q('login-erreur').textContent=traduireErreurAuth(err.code); }
+}
+function deconnecter(){
+  if(confirm('Se déconnecter ?')) firebase.auth().signOut();
+}
+function creerAdaptateurFirestore(){
+  try{
+    if(typeof firebase==='undefined' || !firebaseConfig || !firebaseConfig.apiKey) return null;
+    if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const fdb=firebase.firestore();
+    return {
+      doc(path){
+        const ref=fdb.doc(path);
+        return {
+          get:()=>ref.get(),
+          set:(data)=>ref.set(data),
+          onSnapshot:(next,error)=>ref.onSnapshot(next,error),
+          delete:()=>ref.delete()
+        };
+      }
+    };
+  }catch(e){ return null; }
+}
+async function initCloud(){
+  dbCap=creerAdaptateurFirestore();
+  if(dbCap){ setSaveStatus('☁ Connexion à Firebase…','ok'); }
+  else {
+    try{
+      if(typeof claude!=='undefined' && claude.use){ dbCap=await claude.use('db'); }
+    }catch(e){ dbCap=null; }
+  }
+  if(!dbCap){ return false; }
+  setSaveStatus('☁ Connexion à la synchronisation…','ok');
+  try{
+    const metaRef=dbCap.doc('school/meta');
+    const metaSnap=await metaRef.get();
+    if(metaSnap.exists && metaSnap.data()){
+      appliquerMeta(metaSnap.data());
+      shardCache['school/meta']=JSON.stringify(metaSnap.data());
+    } else {
+      await pushShard('school/meta', metaPayload());
+    }
+    metaUnsub=metaRef.onSnapshot(snap=>{
+      if(!snap.exists) return;
+      const str=JSON.stringify(snap.data());
+      if(shardCache['school/meta']===str) return;
+      shardCache['school/meta']=str;
+      appliquerMeta(snap.data());
+      refreshAllViews();
+      setSaveStatus('☁ Configuration mise à jour depuis un autre appareil','ok');
+    }, ()=>{});
+
+    for(const c of DB.classes){ await ensureClasseSync(c.id); }
+
+    ['penalites','absences','paiements'].forEach(nom=>{
+      const ref=dbCap.doc('school/'+nom);
+      ref.get().then(snap=>{
+        if(snap.exists && snap.data()){
+          DB[nom]=snap.data().liste||[];
+          shardCache['school/'+nom]=JSON.stringify(snap.data());
+          refreshAllViews();
+        } else {
+          pushShard('school/'+nom, {liste:DB[nom]});
+        }
+        ref.onSnapshot(snap2=>{
+          if(!snap2.exists) return;
+          const str=JSON.stringify(snap2.data());
+          if(shardCache['school/'+nom]===str) return;
+          shardCache['school/'+nom]=str;
+          DB[nom]=snap2.data().liste||[];
+          refreshAllViews();
+          setSaveStatus('☁ '+nom+' mis à jour depuis un autre appareil','ok');
+        }, ()=>{});
+      }).catch(()=>{});
+    });
+
+    const refSuivi=dbCap.doc('school/suivi');
+    try{
+      const snapS=await refSuivi.get();
+      if(snapS.exists && snapS.data()){
+        DB.suivi=snapS.data().data||{};
+        shardCache['school/suivi']=JSON.stringify(snapS.data());
+      } else {
+        await pushShard('school/suivi', {data:DB.suivi});
+      }
+    }catch(e){}
+    refSuivi.onSnapshot(snap=>{
+      if(!snap.exists) return;
+      const str=JSON.stringify(snap.data());
+      if(shardCache['school/suivi']===str) return;
+      shardCache['school/suivi']=str;
+      DB.suivi=snap.data().data||{};
+      refreshAllViews();
+    }, ()=>{});
+
+    setSaveStatus('☁ Synchronisation active — plusieurs appareils partagent ces données','ok');
+    resyncUI();
+    // boucle de poussée : détecte les changements locaux et les pousse vers le cloud
+    setInterval(cycleSynchro,3500);
+    return true;
+  }catch(e){ setSaveStatus('✗ Erreur de synchronisation cloud','err'); return false; }
+}
+async function cycleSynchro(){
+  if(!dbCap) return;
+  await pushShard('school/meta', metaPayload());
+  for(const c of DB.classes){
+    await ensureClasseSync(c.id);
+    await pushShard('school_eleves/'+c.id, {liste:DB.eleves.filter(e=>e.classeId===c.id)});
+    await pushShard('school_notes/'+c.id, {tri:DB.notes[c.id]||{T1:{},T2:{},T3:{}}});
+  }
+  await pushShard('school/penalites', {liste:DB.penalites});
+  await pushShard('school/absences', {liste:DB.absences});
+  await pushShard('school/paiements', {liste:DB.paiements});
+  await pushShard('school/suivi', {data:DB.suivi});
+}
+
+setInterval(()=>{
+  if(DB.eleves.length>0){
+    try{
+      localStorage.setItem('gestion_scolaire_kou_backup',JSON.stringify(DB));
+      const now=new Date().toLocaleString('fr-FR');
+      localStorage.setItem('gestion_scolaire_kou_backup_date',now);
+      setSaveStatus('💾 Auto-sauvegarde : '+now,'ok');
+    }catch(e){}
+  }
+},120000);
+
+/* ── INIT ── */
+DB.classes=[
+  {id:'6eme',nom:'6ème',profPrincipal:'',fraisAnnuel:0},
+  {id:'5eme',nom:'5ème',profPrincipal:'',fraisAnnuel:0},
+  {id:'4eme',nom:'4ème',profPrincipal:'',fraisAnnuel:0},
+  {id:'3eme',nom:'3ème',profPrincipal:'',fraisAnnuel:0}
+];
+DB.classes.forEach(c=>{ DB.notes[c.id]={T1:{},T2:{},T3:{}}; DB.affectations[c.id]={}; });
+loadPresetMatieres();
+appliquerConfigHeader();
+appliquerConfig();
+remplirSelectsClasses();
+renderClasses();
+q('sel-classe-eleves').value='6eme';
+renderEleves();
+
+const firebaseDisponible = (typeof firebase!=='undefined' && firebaseConfig && firebaseConfig.apiKey);
+async function repliLocalSiNecessaire(){
+  const raw=localStorage.getItem('gestion_scolaire_kou_backup');
+  const date=localStorage.getItem('gestion_scolaire_kou_backup_date');
+  if(raw&&date){
+    setSaveStatus('💾 Sauvegarde rapide disponible : '+date);
+    try{
+      const saved=JSON.parse(raw);
+      if(saved.eleves&&saved.eleves.length>0){
+        setTimeout(()=>{
+          if(confirm('Une sauvegarde du '+date+' a été trouvée ('+saved.eleves.length+' élève(s)).\n\nVoulez-vous la restaurer ?')){
+            Object.assign(DB,saved);
+            resyncUI();
+            setSaveStatus('🔄 Restauré depuis : '+date,'ok');
+            showFlash('🔄 Données restaurées automatiquement.');
+          }
+        },600);
+      }
+    }catch(e){}
+  }
+}
+(async function(){
+  if(firebaseDisponible){
+    try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); }catch(e){}
+    q('ov-login').classList.add('on');
+    firebase.auth().onAuthStateChanged(async(user)=>{
+      if(user){
+        q('ov-login').classList.remove('on');
+        q('login-erreur').textContent='';
+        q('utilisateur-connecte').textContent=user.email;
+        q('bloc-utilisateur').style.display='inline-flex';
+        monEmail=(user.email||'').toLowerCase();
+        const cloudOK=await initCloud();
+        if(!cloudOK) await repliLocalSiNecessaire();
+        const det=determinerRole(monEmail);
+        if(!det.role){
+          alert('Ce compte ('+user.email+') n\'est enregistré ni comme Directeur ni comme professeur du CEG de Kou.\n\nDemandez au Directeur de vous ajouter (avec cet e-mail exact) dans l\'onglet Professeurs, ou de renseigner l\'e-mail du Directeur en Configuration.');
+          monRole=null; monProfId=null;
+          firebase.auth().signOut();
+          return;
+        }
+        monRole=det.role; monProfId=det.profId;
+        appliquerRestrictionsRole();
+        refreshAllViews();
+      }else{
+        q('ov-login').classList.add('on');
+        q('bloc-utilisateur').style.display='none';
+        monRole=null; monProfId=null; monEmail=null;
+      }
+    });
+  } else {
+    monRole='directeur'; monProfId=null; monEmail=null;
+    const cloudOK = await initCloud();
+    if(!cloudOK) await repliLocalSiNecessaire();
+  }
+})();
+</script>
+</body>
+</html>
