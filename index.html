@@ -198,9 +198,9 @@ tr:hover td{background:#1c2030;}
 .bul3-champ{font-size:0.85rem;margin-bottom:6px;}
 .bul3 table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:0.76rem;margin-bottom:12px;}
 .bul3 th,.bul3 td{border:1px solid #000;padding:5px 6px;text-align:left;word-wrap:break-word;overflow-wrap:break-word;vertical-align:top;}
-.bul3 th{background:#eee;color:#000;font-size:0.68rem;text-align:center;}
+.bul3 th{background:#eee;color:#000;font-size:0.68rem;text-align:center;white-space:normal;word-wrap:break-word;padding:4px 5px;letter-spacing:normal;text-transform:none;}
 .bul3 td.tc{text-align:center;}
-.bul3 .groupe-vert{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-weight:800;font-size:0.72rem;white-space:nowrap;}
+.bul3 .groupe-vert{text-align:center;font-weight:800;font-size:0.62rem;line-height:1.15;letter-spacing:0;padding:4px 1px!important;}
 .bul3 .tot-row td{font-weight:800;background:#eee;}
 .bul3 td.sign-cell{padding-bottom:20px;}
 .bul3-footer-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:12px;font-size:0.82rem;line-height:1.9;}
@@ -220,7 +220,7 @@ tr:hover td{background:#1c2030;}
 .bul3-bas>div:last-child{flex:1;}
 @media print{
   @page{ size: A4; margin: 0; }
-  #app-header,#app-nav,.no-print,.btn,.card.no-print{display:none!important;}
+  #app-header,#app-nav,#save-bar,.no-print,.btn,.card.no-print{display:none!important;}
   .page{display:block!important;padding:0!important;}
   body{background:#fff!important;color:#111!important;}
   .bul{box-shadow:none!important;border:none!important;page-break-after:always;}
@@ -1557,7 +1557,7 @@ function genBulletinHTML(classeId,tri,matricule){
         const l=ligneMatiereBulletin(sm,classeId,tri,matricule);
         totCoef+=l.coefCompte; totPts+=l.ptsCompte;
         lignes+='<tr>';
-        if(k===0) lignes+=`<td rowspan="${sousListe.length}" class="groupe-vert">${groupe}</td>`;
+        if(k===0) lignes+=`<td rowspan="${sousListe.length}" class="groupe-vert">${groupe.split('').join('<br>')}</td>`;
         lignes+=`<td>${sm.nom}</td><td class="tc">${sm.coef}</td><td class="tc">${l.moyStr}</td><td class="tc">${l.ptsStr}</td><td style="font-size:0.7rem">${l.prof}</td><td class="sign-cell">${l.appr}</td></tr>`;
       });
       idx=j;
@@ -2571,7 +2571,11 @@ function traduireErreurAuth(code){
     'auth/network-request-failed':'Pas de connexion internet.',
     'auth/user-disabled':'Ce compte a été désactivé.',
     'auth/email-already-in-use':'Un mot de passe existe déjà pour cet e-mail — utilisez plutôt "Se connecter".',
-    'auth/weak-password':'Mot de passe trop court (6 caractères minimum).'
+    'auth/weak-password':'Mot de passe trop court (6 caractères minimum).',
+    'auth/operation-not-allowed':'⚠ La connexion par e-mail/mot de passe n\'est pas activée sur ce projet Firebase. Dans la Console Firebase → Authentication → Sign-in method, activez "E-mail/Mot de passe".',
+    'auth/configuration-not-found':'⚠ Authentification non configurée sur ce projet Firebase. Activez "E-mail/Mot de passe" dans Authentication → Sign-in method.',
+    'auth/api-key-not-valid.-please-pass-a-valid-api-key.':'⚠ Clé Firebase invalide pour ce projet. Vérifiez la configuration Firebase du logiciel.',
+    'auth/invalid-api-key':'⚠ Clé Firebase invalide pour ce projet. Vérifiez la configuration Firebase du logiciel.'
   };
   return map[code] || 'Opération impossible. Vérifiez les informations saisies.';
 }
