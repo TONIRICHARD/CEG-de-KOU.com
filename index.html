@@ -313,6 +313,7 @@ tr:hover td{background:#1c2030;}
     <div class="fg" style="margin-bottom:14px;text-align:left;"><label>Mot de passe</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
     <button class="btn btn-gold" style="width:100%;" id="login-btn-principal" onclick="connecterDirecteur()">Se connecter</button>
     <div id="login-erreur" style="color:#f07080;font-size:0.8rem;margin-top:10px;min-height:1.2em;"></div>
+    <p style="margin-top:6px;"><a href="#" id="login-oublie-lien" onclick="reinitialiserMotDePasse();return false;" style="font-size:0.78rem;color:var(--muted);text-decoration:underline;">Mot de passe oublié ?</a></p>
     <hr class="sep">
     <p id="login-bascule-txt" style="font-size:0.8rem;color:var(--muted);">Professeur, première connexion ?</p>
     <button class="btn btn-ghost btn-sm" id="login-bascule-btn" onclick="basculerModeLogin()">Créer mon mot de passe</button>
@@ -2600,6 +2601,21 @@ function connecterDirecteur(){
   firebase.auth().signInWithEmailAndPassword(email,pass)
     .then(()=>{ q('login-pass').value=''; })
     .catch(err=>{ q('login-erreur').textContent=traduireErreurAuth(err.code); });
+}
+function reinitialiserMotDePasse(){
+  const email=q('login-email').value.trim();
+  if(!email){ q('login-erreur').textContent='Entrez d\'abord votre e-mail ci-dessus, puis cliquez sur "Mot de passe oublié ?".'; return; }
+  q('login-erreur').style.color='var(--muted)';
+  q('login-erreur').textContent='Envoi de l\'e-mail de réinitialisation…';
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(()=>{
+      q('login-erreur').style.color='#5fe09a';
+      q('login-erreur').textContent='✓ E-mail envoyé à '+email+'. Suivez le lien reçu pour choisir un nouveau mot de passe (vérifiez aussi les spams).';
+    })
+    .catch(err=>{
+      q('login-erreur').style.color='#f07080';
+      q('login-erreur').textContent=traduireErreurAuth(err.code);
+    });
 }
 async function creerCompteProf(){
   const email=q('login-email').value.trim().toLowerCase();
