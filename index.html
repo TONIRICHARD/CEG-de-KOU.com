@@ -185,6 +185,39 @@ tr:hover td{background:#1c2030;}
 .bul2-stamp{border:3px solid #1a5c34;color:#1a5c34;font-weight:900;font-size:1.35rem;text-align:center;padding:10px;margin-top:10px;letter-spacing:1px;}
 .bul2-sign{text-align:right;font-size:0.86rem;margin-top:20px;line-height:1.7;}
 .bul2-footer{text-align:center;font-size:0.68rem;color:#777;border-top:1px solid #ccc;margin-top:18px;padding-top:8px;}
+/* Bulletin officiel — modèle exact M.E.S.F.P.T. / CEG de Kou */
+.bul3{background:#fff;color:#000;border:1.5px solid #000;border-radius:4px;padding:12mm 14mm;width:210mm;min-height:297mm;box-sizing:border-box;margin:0 auto 28px;font-family:'DM Sans',Arial,sans-serif;box-shadow:0 0 40px rgba(0,0,0,0.35);}
+.bul3-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;}
+.bul3-left{font-size:0.76rem;line-height:1.35;font-weight:700;min-width:150px;}
+.bul3-left .ceg{font-size:1.05rem;margin-top:6px;}
+.bul3-seal{width:76px;height:76px;border:1.5px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:0.62rem;color:#999;flex-shrink:0;margin-top:4px;}
+.bul3-seal img{width:100%;height:100%;object-fit:cover;}
+.bul3-right{text-align:right;font-size:0.78rem;line-height:1.5;min-width:150px;}
+.bul3-right .bf{font-weight:800;font-size:0.85rem;}
+.bul3-titlebox{border:1.5px solid #000;text-align:center;font-weight:800;padding:7px;margin:12px 0 14px;font-size:1.02rem;}
+.bul3-champ{font-size:0.85rem;margin-bottom:6px;}
+.bul3 table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:0.76rem;margin-bottom:12px;}
+.bul3 th,.bul3 td{border:1px solid #000;padding:5px 6px;text-align:left;word-wrap:break-word;overflow-wrap:break-word;vertical-align:top;}
+.bul3 th{background:#eee;color:#000;font-size:0.68rem;text-align:center;}
+.bul3 td.tc{text-align:center;}
+.bul3 .groupe-vert{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-weight:800;font-size:0.72rem;white-space:nowrap;}
+.bul3 .tot-row td{font-weight:800;background:#eee;}
+.bul3 td.sign-cell{padding-bottom:20px;}
+.bul3-footer-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:12px;font-size:0.82rem;line-height:1.9;}
+.bul3-box2{border:1.5px solid #000;display:grid;grid-template-columns:1.1fr 1fr;margin-bottom:14px;}
+.bul3-box2>div{padding:8px 12px;}
+.bul3-box2>div:first-child{border-right:1.5px solid #000;}
+.bul3-box2 .titre{font-weight:800;text-decoration:underline;font-size:0.82rem;margin-bottom:8px;}
+.bul3-box2 .dots{border-bottom:1px solid #000;height:16px;margin-bottom:4px;}
+.bul3-checks{border:1.5px solid #000;padding:10px 14px;display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;margin-bottom:6px;}
+.bul3-checks.un-seul{grid-template-columns:1fr;}
+.bul3-check{display:flex;align-items:center;gap:8px;font-size:0.85rem;margin:3px 0;}
+.bul3-check .cb{width:15px;height:15px;border:1.3px solid #000;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:900;flex-shrink:0;}
+.bul3-decision-profs{border:1.5px solid #000;padding:10px 14px;}
+.bul3-decision-profs .titre{font-weight:800;text-align:center;margin-bottom:8px;font-size:0.8rem;}
+.bul3-bas{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.bul3-bas>div:first-child{flex:1.4;}
+.bul3-bas>div:last-child{flex:1;}
 @media print{
   @page{ size: A4; margin: 0; }
   #app-header,#app-nav,.no-print,.btn,.card.no-print{display:none!important;}
@@ -192,6 +225,7 @@ tr:hover td{background:#1c2030;}
   body{background:#fff!important;color:#111!important;}
   .bul{box-shadow:none!important;border:none!important;page-break-after:always;}
   .bul2{box-shadow:none!important;border-radius:0!important;width:210mm!important;min-height:297mm!important;margin:0!important;page-break-after:always;}
+  .bul3{box-shadow:none!important;border-radius:0!important;width:210mm!important;min-height:297mm!important;margin:0!important;page-break-after:always;}
   .carte{box-shadow:none!important;page-break-inside:avoid;}
 }
 ::-webkit-scrollbar{width:5px;height:5px;}
@@ -292,7 +326,8 @@ tr:hover td{background:#1c2030;}
     <div class="card-head">Informations générales</div>
     <div class="row">
       <div class="fg"><label>Établissement</label><input id="c-etab" value="CEG de Kou"/></div>
-      <div class="fg"><label>Province</label><input id="c-province" value="Ziro"/></div>
+      <div class="fg"><label>Région (DRESFPT)</label><input id="c-region" value="Nando"/></div>
+      <div class="fg"><label>Province (DPESFPT)</label><input id="c-province" value="Ziro"/></div>
       <div class="fg"><label>Ville</label><input id="c-ville" value="Kou"/></div>
       <div class="fg"><label>Année scolaire</label><input id="c-annee" value="2025–2026"/></div>
     </div>
@@ -307,38 +342,43 @@ tr:hover td{background:#1c2030;}
       <div class="fg" style="max-width:150px"><label>Places au Tableau d'Honneur</label><input type="number" id="c-tableau" value="5" min="1"/></div>
       <div class="fg"><label>Logo de l'établissement</label><input type="file" id="c-logo" accept="image/*" onchange="importerLogo(this)"/></div>
     </div>
+    <div class="row">
+      <div class="fg" style="max-width:220px"><label>Pénalité Assiduité (points / heure d'absence)</label><input type="number" id="c-penal-heure" value="0.25" step="0.05" min="0"/></div>
+      <div class="fg" style="max-width:180px"><label>Plafond de la pénalité (points)</label><input type="number" id="c-penal-max" value="2" step="0.5" min="0"/></div>
+    </div>
     <div class="alert aINF" style="font-size:0.78rem;">🔐 L'e-mail du Directeur détermine qui a accès complet au logiciel. Toute autre personne connectée doit être enregistrée comme professeur (avec son e-mail) dans l'onglet Professeurs pour n'avoir accès qu'à la saisie de ses propres notes.</div>
     <button class="btn btn-gold" onclick="sauverConfig()">✔ Enregistrer la configuration</button>
     <div id="al-config" class="mt8"></div>
   </div>
 
   <div class="card">
-    <div class="card-head">Blocs de matières (regroupement affiché sur le bulletin)</div>
-    <p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">Dès que la liste officielle des matières et blocs sera transmise, ajustez ici les blocs et l'affectation de chaque matière — le bulletin se regroupera automatiquement.</p>
+    <div class="card-head">Groupes de matières (ex: FRANÇAIS → Langue / Expression)</div>
+    <p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">Un groupe régroupe plusieurs lignes sous une même matière sur le bulletin (comme "FRANÇAIS" avec Langue et Expression, chacune avec son propre coefficient). Laissez le groupe vide pour une matière normale à une seule ligne.</p>
     <div id="tags-blocs" class="mt8" style="margin-bottom:10px;"></div>
     <div class="row">
-      <div class="fg"><label>Nouveau bloc</label><input id="bl-nom" placeholder="Ex: Sciences"/></div>
-      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-blue btn-sm" onclick="ajouterBloc()">+ Ajouter un bloc</button></div>
+      <div class="fg"><label>Nouveau groupe</label><input id="bl-nom" placeholder="Ex: FRANÇAIS"/></div>
+      <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-blue btn-sm" onclick="ajouterBloc()">+ Ajouter un groupe</button></div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-head">Matières (communes à toutes les classes)</div>
+    <p style="font-size:0.78rem;color:var(--muted);">L'ordre du tableau ci-dessous est celui utilisé sur le bulletin. Dès que la liste officielle définitive sera importée, ajustez librement.</p>
     <div class="tw">
       <table id="tab-matieres">
-        <thead><tr><th>#</th><th>Matière</th><th>Bloc</th><th>Coeff.</th><th>Note / …</th><th>Suppr.</th></tr></thead>
+        <thead><tr><th>#</th><th>Matière</th><th>Groupe</th><th>Coeff.</th><th>Note / …</th><th>Suppr.</th></tr></thead>
         <tbody id="tb-matieres"></tbody>
       </table>
     </div>
     <hr class="sep">
     <div class="row">
       <div class="fg"><label>Intitulé</label><input id="m-nom" placeholder="Ex: Mathématiques"/></div>
-      <div class="fg"><label>Bloc</label><select id="m-bloc"></select></div>
+      <div class="fg"><label>Groupe (optionnel)</label><select id="m-bloc"></select></div>
       <div class="fg" style="max-width:90px"><label>Coeff.</label><input type="number" id="m-coef" value="2" min="1" max="10"/></div>
       <div class="fg" style="max-width:90px"><label>Note sur</label><select id="m-sur"><option value="20">20</option><option value="10">10</option></select></div>
       <div class="fg" style="display:flex;align-items:flex-end;"><button class="btn btn-gold" onclick="ajouterMatiere()">+ Ajouter</button></div>
     </div>
-    <div class="mt8"><button class="btn btn-blue btn-sm" onclick="loadPresetMatieres()">📚 Charger matières collège (FR, ANG, HG, SVT, PC, MATH, EPS, EC)</button></div>
+    <div class="mt8"><button class="btn btn-blue btn-sm" onclick="loadPresetMatieres()">📚 Charger la liste du modèle CEG de Kou (M.E.S.F.P.T.)</button></div>
   </div>
 </div>
 
@@ -433,7 +473,7 @@ tr:hover td{background:#1c2030;}
   <div class="card">
     <div class="card-head">Liste des élèves de la classe</div>
     <div class="tw"><table>
-      <thead><tr><th>Matricule</th><th>Nom & Prénom(s)</th><th>Sexe</th><th>Date Naiss.</th><th>Notes saisies</th><th>Suppr.</th></tr></thead>
+      <thead><tr><th>Matricule</th><th>Nom & Prénom(s)</th><th>Sexe</th><th>Date Naiss.</th><th>Notes saisies</th><th>Statut</th><th>Suppr.</th></tr></thead>
       <tbody id="tb-eleves"></tbody>
     </table></div>
   </div>
@@ -572,9 +612,11 @@ tr:hover td{background:#1c2030;}
       <div class="fg" style="max-width:220px"><label>Classe</label><select id="ap-classe" onchange="renderAppel()"></select></div>
       <div class="fg" style="max-width:160px"><label>Date</label><input type="text" id="ap-date" placeholder="jj/mm/aaaa"></div>
       <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="ap-tri"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
+      <div class="fg" style="max-width:150px"><label>Durée par défaut (h)</label><input type="number" id="ap-duree" value="1" step="0.5" min="0.5"></div>
     </div>
+    <div class="alert aINF" style="font-size:0.76rem;">Pénalité d'assiduité : le taux par heure et le plafond se règlent dans Configuration. Seules les absences non justifiées sont pénalisées.</div>
     <div class="tw"><table>
-      <thead><tr><th>Élève</th><th>Absent(e)</th><th>Justifiée ?</th></tr></thead>
+      <thead><tr><th>Élève</th><th>Absent(e)</th><th>Durée (h)</th><th>Justifiée ?</th></tr></thead>
       <tbody id="tb-appel"></tbody>
     </table></div>
     <button class="btn btn-gold mt8" onclick="enregistrerAppel()">💾 Enregistrer l'appel du jour</button>
@@ -587,7 +629,7 @@ tr:hover td{background:#1c2030;}
   <div class="card">
     <div class="card-head">Historique de l'élève <small id="ab-total"></small></div>
     <div class="tw"><table>
-      <thead><tr><th>Date</th><th>Statut</th><th>Suppr.</th></tr></thead>
+      <thead><tr><th>Date</th><th>Durée</th><th>Statut</th><th>Suppr.</th></tr></thead>
       <tbody id="tb-absences"></tbody>
     </table></div>
   </div>
@@ -631,6 +673,7 @@ tr:hover td{background:#1c2030;}
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="st-classe" onchange="genStats()"></select></div>
     <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="st-tri" onchange="genComparatif();genStats();"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
     <button class="btn btn-gold" onclick="genComparatif();genStats();">🔄 Actualiser</button>
+    <button class="btn btn-blue btn-sm" onclick="genererFicheClasseSexe()">🖨 Fiche de classe (effectifs G/F, PP)</button>
   </div>
   <div class="card">
     <div class="card-head">Comparatif entre toutes les classes — <span id="cmp-tri-lbl"></span></div>
@@ -640,6 +683,7 @@ tr:hover td{background:#1c2030;}
     </table></div>
   </div>
   <div id="zone-stats"><div class="empty"><span class="eico">📊</span>Sélectionnez une classe pour voir les statistiques.</div></div>
+  <div id="zone-fiche-sexe"></div>
 </div>
 
 <!-- IMPORT MODAL -->
@@ -701,10 +745,10 @@ const firebaseConfig = {
    ÉTAT GLOBAL
 ════════════════════════════════ */
 const DB = {
-  config:{ etab:'CEG de Kou', province:'Ziro', ville:'Kou', annee:'2025–2026', directeur:'', emailDirecteur:'', passage:10, tableauHonneur:5, logo:'' },
+  config:{ etab:'CEG de Kou', region:'Nando', province:'Ziro', ville:'Kou', annee:'2025–2026', directeur:'', emailDirecteur:'', passage:10, tableauHonneur:5, penalHeure:0.25, penalMax:2, logo:'' },
   classes:[],   // {id, nom, profPrincipal}
   matieres:[],  // {nom, coef, sur, bloc}
-  blocs:['Sciences','Littérature','E.C.M.','E.P.S.'], // regroupements de matières, modifiables
+  blocs:['FRANÇAIS'], // regroupements optionnels de matières (ex: Français → Langue/Expression)
   professeurs:[], // {id, nom, email}
   affectations:{}, // affectations[classeId][matiereNom] = professeurId
   eleves:[],    // {matricule, nom, prenom, sexe, ddn, classeId}
@@ -760,9 +804,10 @@ function showFlash(msg){
 ════════════════════════════════ */
 function sauverConfig(){
   DB.config={
-    etab:q('c-etab').value||'CEG de Kou', province:q('c-province').value, ville:q('c-ville').value,
+    etab:q('c-etab').value||'CEG de Kou', region:q('c-region').value, province:q('c-province').value, ville:q('c-ville').value,
     annee:q('c-annee').value, directeur:q('c-directeur').value, emailDirecteur:q('c-email-directeur').value.trim().toLowerCase(),
-    passage:parseFloat(q('c-passage').value)||10, tableauHonneur:parseInt(q('c-tableau').value)||5, logo:DB.config.logo
+    passage:parseFloat(q('c-passage').value)||10, tableauHonneur:parseInt(q('c-tableau').value)||5,
+    penalHeure:parseFloat(q('c-penal-heure').value)||0.25, penalMax:parseFloat(q('c-penal-max').value)||2, logo:DB.config.logo
   };
   appliquerConfigHeader();
   showAl('al-config','✔ Configuration enregistrée.','aOK');
@@ -782,18 +827,24 @@ function appliquerConfigHeader(){
 }
 function loadPresetMatieres(){
   DB.matieres=[
-    {nom:'Mathématiques',coef:4,sur:20,bloc:'Sciences'},
-    {nom:'Physique-Chimie',coef:3,sur:20,bloc:'Sciences'},
-    {nom:'Sciences de la Vie et de la Terre',coef:2,sur:20,bloc:'Sciences'},
-    {nom:'Français',coef:4,sur:20,bloc:'Littérature'},
-    {nom:'Anglais',coef:2,sur:20,bloc:'Littérature'},
-    {nom:'Histoire-Géographie',coef:2,sur:20,bloc:'Littérature'},
-    {nom:'Éducation Civique et Morale',coef:1,sur:20,bloc:'E.C.M.'},
-    {nom:'Éducation Physique et Sportive',coef:1,sur:20,bloc:'E.P.S.'}
+    {nom:'Langue',coef:2,sur:20,bloc:'FRANÇAIS'},
+    {nom:'Expression',coef:2,sur:20,bloc:'FRANÇAIS'},
+    {nom:'Philosophie',coef:2,sur:20,bloc:''},
+    {nom:'Anglais',coef:2,sur:20,bloc:''},
+    {nom:'Allemand',coef:2,sur:20,bloc:''},
+    {nom:'Histoire-Géographie',coef:2,sur:20,bloc:''},
+    {nom:'Education Civique',coef:1,sur:20,bloc:''},
+    {nom:'Mathématiques',coef:4,sur:20,bloc:''},
+    {nom:'Sciences Physiques',coef:3,sur:20,bloc:''},
+    {nom:'Sciences de la Vie et de la Terre',coef:2,sur:20,bloc:''},
+    {nom:'Education Physique et Sportive',coef:1,sur:20,bloc:''},
+    {nom:'Assiduité',coef:1,sur:20,bloc:''},
+    {nom:'Composition',coef:1,sur:20,bloc:''}
   ];
+  if(!DB.blocs.includes('FRANÇAIS')) DB.blocs.push('FRANÇAIS');
   renderMatieres();
   renderBlocs();
-  showAl('al-config','✔ Matières collège chargées ('+DB.matieres.length+').','aOK');
+  showAl('al-config','✔ Liste du modèle CEG de Kou chargée ('+DB.matieres.length+' lignes). Ajustez les coefficients selon vos besoins.','aOK');
 }
 function ajouterBloc(){
   const n=q('bl-nom').value.trim();
@@ -823,7 +874,12 @@ function ajouterMatiere(){
   q('m-nom').value='';
   renderMatieres();
 }
-function supprimerMatiere(i){ DB.matieres.splice(i,1); renderMatieres(); }
+function supprimerMatiere(i){
+  const nom=DB.matieres[i]&&DB.matieres[i].nom;
+  DB.matieres.splice(i,1);
+  if(nom) DB.classes.forEach(c=>desabonnerMatiereCloud(c.id,nom,false));
+  renderMatieres();
+}
 function renderMatieres(){
   renderBlocs();
   const tb=q('tb-matieres');
@@ -1024,7 +1080,7 @@ function ajouterEleve(){
   if(!nom||!prenom){showAl('al-eleves','Nom et prénom requis.','aERR');return;}
   const matricule=q('e-matricule').value.trim()||nextMatricule();
   if(DB.eleves.find(e=>e.matricule===matricule)){showAl('al-eleves','Matricule déjà existant.','aERR');return;}
-  DB.eleves.push({matricule,nom,prenom,sexe:q('e-sexe').value,ddn:q('e-ddn').value,lieuNaissance:q('e-lieu').value.trim(),redoublant:q('e-redoublant').checked,classeId});
+  DB.eleves.push({matricule,nom,prenom,sexe:q('e-sexe').value,ddn:q('e-ddn').value,lieuNaissance:q('e-lieu').value.trim(),redoublant:q('e-redoublant').checked,abandon:false,classeId});
   q('e-nom').value='';q('e-prenom').value='';q('e-ddn').value='';q('e-lieu').value='';q('e-redoublant').checked=false;q('e-matricule').value='';
   renderEleves();
 }
@@ -1058,7 +1114,7 @@ function importerEleves(){
     l=l.trim();if(!l)return;
     const p=parseLigneEleve(l);
     if(!p)return;
-    DB.eleves.push({matricule:nextMatricule(),nom:p.nom,prenom:p.prenom,sexe:p.sexe,ddn:p.ddn,lieuNaissance:'',redoublant:false,classeId});
+    DB.eleves.push({matricule:nextMatricule(),nom:p.nom,prenom:p.prenom,sexe:p.sexe,ddn:p.ddn,lieuNaissance:'',redoublant:false,abandon:false,classeId});
     nb++;
   });
   showAl('al-import',`✔ ${nb} élève(s) importé(s).`,'aOK');
@@ -1079,30 +1135,37 @@ function viderEleves(){
   ['T1','T2','T3'].forEach(t=>{ if(DB.notes[classeId]) DB.notes[classeId][t]={}; });
   renderEleves();
 }
+function toggleAbandon(matricule){
+  const e=DB.eleves.find(x=>x.matricule===matricule);
+  if(!e)return;
+  e.abandon=!e.abandon;
+  renderEleves();
+}
 function renderEleves(){
   const classeId=classeCourante();
   const liste=DB.eleves.filter(e=>e.classeId===classeId);
   q('nb-el').textContent=liste.length+' élève(s)';
   const tb=q('tb-eleves');
-  if(!liste.length){tb.innerHTML='<tr><td colspan="6" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
+  if(!liste.length){tb.innerHTML='<tr><td colspan="7" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
   tb.innerHTML=liste.map(e=>{
     let nb=0;
     ['T1','T2','T3'].forEach(t=>{
-      const notesE=DB.notes[classeId]?.[t]?.[e.matricule];
+      const notesE=((DB.notes[classeId]||{})[t]||{})[e.matricule];
       if(notesE) nb+=Object.keys(notesE).length;
     });
     const tot=DB.matieres.length*3;
     const pct=tot?Math.round(nb/tot*100):0;
     const barCol=pct===100?'#5fe09a':pct>40?'#e8c75a':'#f07080';
-    return `<tr>
+    return `<tr style="${e.abandon?'opacity:0.5':''}">
       <td class="rang">${e.matricule}</td>
-      <td><strong>${e.nom}</strong> ${e.prenom}</td>
+      <td><strong>${e.nom}</strong> ${e.prenom}${e.abandon?' <span class="tag" style="color:#f07080">ABANDON</span>':''}</td>
       <td>${e.sexe==='M'?'♂ M':'♀ F'}</td>
       <td style="font-size:0.78rem;color:var(--muted)">${e.ddn||'—'}</td>
       <td style="min-width:120px">
         <div style="font-size:0.72rem;color:var(--muted);margin-bottom:2px;">${nb}/${tot} notes (3 trim.)</div>
         <div class="pbar-wrap"><div class="pbar" style="width:${pct}%;background:${barCol}"></div></div>
       </td>
+      <td><button class="btn btn-ghost btn-sm" onclick="toggleAbandon('${e.matricule}')">${e.abandon?'↩ Réintégrer':'🚪 Abandon'}</button></td>
       <td><button class="btn btn-red btn-sm" onclick="supprimerEleve('${e.matricule}')">✕</button></td>
     </tr>`;
   }).join('');
@@ -1391,12 +1454,13 @@ function appreciationMatiere(note){
   return'Très Faible';
 }
 function decisionConseil(moy,rang,effectif){
+  if(moy===null) return {felicitations:false, encouragements:false, tableauHonneur:false, avertissement:false, blame:false};
   return {
-    felicitations: moy!==null && moy>=14,
-    encouragements: moy!==null && moy>=12,
-    tableauHonneur: rang!==null && rang<=(DB.config.tableauHonneur||5),
-    avertissement: moy!==null && moy<10,
-    blame: moy!==null && moy<8
+    blame: moy<7,
+    avertissement: moy>=7 && moy<10,
+    tableauHonneur: moy>=12,
+    felicitations: moy>=14,
+    encouragements: (moy>=14 && moy<14.5) || moy>=15
   };
 }
 function badge(val,sur=20){
@@ -1433,6 +1497,41 @@ function tousLesBulletins(){
 function nbAbsencesTri(matricule,tri){
   return DB.absences.filter(a=>a.matricule===matricule&&a.tri===tri).length;
 }
+function heuresAbsenceNonJustifieeTri(matricule,tri){
+  return DB.absences.filter(a=>a.matricule===matricule&&a.tri===tri&&!a.justifiee).reduce((s,a)=>s+(a.duree||1),0);
+}
+function noteAssiduite(matricule,tri){
+  const heures=heuresAbsenceNonJustifieeTri(matricule,tri);
+  const taux=DB.config.penalHeure!==undefined?DB.config.penalHeure:0.25;
+  const plafond=DB.config.penalMax!==undefined?DB.config.penalMax:2;
+  const penalite=Math.min(plafond, heures*taux);
+  return {note:20-penalite, heures, penalite};
+}
+function sansAccents(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function ligneMatiereBulletin(m,classeId,tri,matricule){
+  let moy=null, absent=false;
+  if(sansAccents(m.nom)==='assiduite'){
+    const n=((((DB.notes[classeId]||{})[tri])||{})[matricule]||{})[m.nom];
+    const manuel = n?valNote(n):null;
+    if(manuel!==null && n && !n.absent){ moy=manuel; }
+    else { moy=noteAssiduite(matricule,tri).note; }
+  } else {
+    const n=((((DB.notes[classeId]||{})[tri])||{})[matricule]||{})[m.nom];
+    absent = !!(n&&n.absent);
+    moy = n?valNote(n):null;
+  }
+  const pts = (moy!==null && !absent) ? moy*m.coef : null;
+  const prof = nomProfPour(classeId,m.nom)||'—';
+  const appr = absent ? 'Absent(e)' : (moy!==null ? appreciationMatiere(moy) : '—');
+  return {
+    moyStr: absent?'ABS':(moy!==null?moy.toFixed(2):'—'),
+    ptsStr: pts!==null?pts.toFixed(2):'—',
+    coefCompte: pts!==null?m.coef:0,
+    ptsCompte: pts!==null?pts:0,
+    prof, appr
+  };
+}
+function labelTriOfficiel(tri){ return tri==='T1'?'1er TRIMESTRE':tri==='T2'?'2ème TRIMESTRE':'3ème TRIMESTRE'; }
 function genBulletinHTML(classeId,tri,matricule){
   const cl=DB.classes.find(c=>c.id===classeId)||{};
   const e=DB.eleves.find(x=>x.matricule===matricule);
@@ -1444,108 +1543,126 @@ function genBulletinHTML(classeId,tri,matricule){
   const effectif=classement.length;
   const moyClasse=classement.length?(classement.reduce((s,x)=>s+x.r.moy,0)/classement.length):null;
   const moyForte=classement.length?classement[0].r.moy:null;
-  const blocsOrdre=[...DB.blocs, ''];
-  let lignes='', totCoef=0, totPts=0;
-  blocsOrdre.forEach(bloc=>{
-    const matsBloc=DB.matieres.filter(m=>(m.bloc||'')===bloc);
-    if(!matsBloc.length)return;
-    lignes+=`<tr class="bloc-row"><td colspan="8">${bloc||'Non classé'}</td></tr>`;
-    matsBloc.forEach(m=>{
-      const n=DB.notes[classeId]?.[tri]?.[matricule]?.[m.nom];
-      const v=n?valNote(n):null;
-      const dev=n&&!n.absent&&n.devoirs!==null&&n.devoirs!==undefined?n.devoirs.toFixed(2):'—';
-      const comp=n&&!n.absent&&n.compo!==null&&n.compo!==undefined?n.compo.toFixed(2):'—';
-      const moyStr=n?(n.absent?'ABS':(v!==null?v.toFixed(2):'—')):'—';
-      const pts=v!==null&&n&&!n.absent?v*m.coef:null;
-      if(pts!==null){totPts+=pts;totCoef+=m.coef;}
-      const prof=nomProfPour(classeId,m.nom)||'—';
-      const appr=v!==null&&n&&!n.absent?appreciationMatiere(v):(n&&n.absent?'Absent(e)':'—');
-      lignes+=`<tr><td>${m.nom}</td><td class="tc">${m.coef}</td><td class="tc">${dev}</td><td class="tc">${comp}</td><td class="tc">${moyStr}</td><td class="tc">${pts!==null?pts.toFixed(2):'—'}</td><td>${appr}</td><td style="font-size:0.75rem;">${prof}</td></tr>`;
-    });
-  });
+  const moyFaible=classement.length?classement[classement.length-1].r.moy:null;
+
+  let lignes='', totCoef=0, totPts=0, idx=0;
+  while(idx<DB.matieres.length){
+    const m=DB.matieres[idx];
+    const groupe=m.bloc;
+    if(groupe){
+      let j=idx; const sousListe=[];
+      while(j<DB.matieres.length && DB.matieres[j].bloc===groupe){ sousListe.push(DB.matieres[j]); j++; }
+      sousListe.forEach((sm,k)=>{
+        const l=ligneMatiereBulletin(sm,classeId,tri,matricule);
+        totCoef+=l.coefCompte; totPts+=l.ptsCompte;
+        lignes+='<tr>';
+        if(k===0) lignes+=`<td rowspan="${sousListe.length}" class="groupe-vert">${groupe}</td>`;
+        lignes+=`<td>${sm.nom}</td><td class="tc">${sm.coef}</td><td class="tc">${l.moyStr}</td><td class="tc">${l.ptsStr}</td><td style="font-size:0.7rem">${l.prof}</td><td class="sign-cell">${l.appr}</td></tr>`;
+      });
+      idx=j;
+    }else{
+      const l=ligneMatiereBulletin(m,classeId,tri,matricule);
+      totCoef+=l.coefCompte; totPts+=l.ptsCompte;
+      lignes+=`<tr><td colspan="2">${m.nom}</td><td class="tc">${m.coef}</td><td class="tc">${l.moyStr}</td><td class="tc">${l.ptsStr}</td><td style="font-size:0.7rem">${l.prof}</td><td class="sign-cell">${l.appr}</td></tr>`;
+      idx++;
+    }
+  }
+
   const moy=r?r.moy:null;
-  const mention=moy!==null?getMention(moy):null;
   const dec=decisionConseil(moy,rang,effectif);
-  const nbAbs=nbAbsencesTri(matricule,tri);
   const logoHTML=DB.config.logo?`<img src="${DB.config.logo}">`:'LOGO';
   const cb=(on)=>`<span class="cb">${on?'✕':''}</span>`;
-  let annuelHTML='';
+  const annee=(DB.config.annee||'').replace(/[–—]/g,' / ');
+  const auj=new Date().toLocaleDateString('fr-FR');
+
+  // Statistiques des trimestres précédents (pour T2 et T3)
+  const {classement:cT1}=classementClasse(classeId,'T1');
+  const {classement:cT2}=classementClasse(classeId,'T2');
+  const posT1=cT1.find(x=>x.e.matricule===matricule), posT2=cT2.find(x=>x.e.matricule===matricule);
+  const moyAnnuelle=moyAnnuelleEleve(classeId,matricule);
+  const rangAnnuel=(()=>{ 
+    const tous=DB.eleves.filter(x=>x.classeId===classeId).map(x=>({e:x,m:moyAnnuelleEleve(classeId,x.matricule)})).filter(x=>x.m!==null).sort((a,b)=>b.m-a.m);
+    tous.forEach((x,i)=>x.rang=i+1);
+    const p=tous.find(x=>x.e.matricule===matricule);
+    return p?p.rang:null;
+  })();
+  const admis=moyAnnuelle!==null&&moyAnnuelle>=DB.config.passage;
+
+  let colGauche='';
+  if(tri==='T1'){
+    colGauche=`Moyenne du 1er Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong><br>Rang : <strong>${rang?rang+'e':'—'}</strong>`;
+  }else if(tri==='T2'){
+    colGauche=`Moyenne du 1er Trimestre : <strong>${posT1?posT1.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT1?posT1.rang+'e':'—'}</strong><br>
+      Moyenne du 2è Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong><br>Rang : <strong>${rang?rang+'e':'—'}</strong>`;
+  }else{
+    colGauche=`Moyenne du 1er Trimestre : <strong>${posT1?posT1.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT1?posT1.rang+'e':'—'}</strong><br>
+      Moyenne du 2è Trimestre : <strong>${posT2?posT2.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT2?posT2.rang+'e':'—'}</strong><br>
+      Moyenne du 3è Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${rang?rang+'e':'—'}</strong><br>
+      Moyenne Annuelle : <strong>${moyAnnuelle!==null?moyAnnuelle.toFixed(2):'—'}/20</strong><br>
+      Rang Annuel : <strong>${rangAnnuel?rangAnnuel+'e':'—'}</strong>`;
+  }
+  const colDroite=`Moy. de la classe : <strong>${moyClasse!==null?moyClasse.toFixed(2):'—'}/20</strong><br>
+    Moy. la plus forte : <strong>${moyForte!==null?moyForte.toFixed(2):'—'}/20</strong><br>
+    Moy. la plus faible : <strong>${moyFaible!==null?moyFaible.toFixed(2):'—'}/20</strong>`;
+
+  const checksStandard=`
+    <div class="bul3-check">${cb(dec.tableauHonneur)} Tableau d'Honneur</div>
+    <div class="bul3-check">${cb(dec.felicitations)} Félicitations</div>
+    <div class="bul3-check">${cb(dec.encouragements)} Encouragements</div>
+    ${tri!=='T3'?`<div class="bul3-check">${cb(dec.avertissement)} Avertissement</div><div class="bul3-check">${cb(dec.blame)} Blâme</div>`:''}`;
+
+  let blocBas;
   if(tri==='T3'){
-    const m1=moyEleve(classeId,'T1',matricule), m2=moyEleve(classeId,'T2',matricule), m3=moyEleve(classeId,'T3',matricule);
-    const moyAnnuelle=moyAnnuelleEleve(classeId,matricule);
-    const admis=moyAnnuelle!==null&&moyAnnuelle>=DB.config.passage;
-    annuelHTML=`
-    <div class="bul2-annual-row">
-      <div>Moyenne 1er trim.<div class="val">${m1?m1.moy.toFixed(2):'—'}/20</div></div>
-      <div>Moyenne 2e trim.<div class="val">${m2?m2.moy.toFixed(2):'—'}/20</div></div>
-      <div>Moyenne 3e trim.<div class="val">${m3?m3.moy.toFixed(2):'—'}/20</div></div>
-      <div>Moyenne annuelle<div class="val" style="color:${admis?'#1a5c34':'#9b2335'}">${moyAnnuelle!==null?moyAnnuelle.toFixed(2):'—'}/20</div></div>
-    </div>
-    <div class="bul2-decision">
-      <div>
-        <div class="bul2-decision-title">Résultat annuel</div>
-        <div class="bul2-check">${cb(admis)} Admis(e)</div>
-        <div class="bul2-check">${cb(moyAnnuelle!==null&&!admis)} Redouble</div>
-        <div class="bul2-check">${cb(false)} Exclu(e)</div>
+    blocBas=`<div class="bul3-bas">
+      <div class="bul3-checks un-seul">
+        ${checksStandard}
+        <div class="bul3-check">${cb(dec.avertissement)} Avertissement</div>
+        <div class="bul3-check">${cb(dec.blame)} Blâme</div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:center;">
-        ${moyAnnuelle!==null?`<div class="bul2-stamp">${admis?'ADMIS(E)':'REDOUBLE'}</div>`:''}
+      <div class="bul3-decision-profs">
+        <div class="titre">DÉCISION DU CONSEIL<br>DES PROFESSEURS</div>
+        <div class="bul3-check">${cb(admis)} Admis(e) en classe supérieure</div>
+        <div class="bul3-check">${cb(moyAnnuelle!==null&&!admis)} Redouble</div>
+        <div class="bul3-check">${cb(false)} Exclu(e)</div>
       </div>
     </div>`;
+  }else{
+    blocBas=`<div class="bul3-checks">${checksStandard}</div>`;
   }
-  return `<div class="bul2">
-    <div class="bul2-pays">BURKINA FASO</div>
-    <div class="bul2-devise">La Patrie ou la Mort, Nous Vaincrons</div>
-    <div class="bul2-ministere">MINISTÈRE DE L'ÉDUCATION NATIONALE, DE L'ALPHABÉTISATION<br>ET DE LA PROMOTION DES LANGUES NATIONALES</div>
-    <div class="bul2-etab-row">
-      <div class="bul2-seal">${logoHTML}</div>
-      <div class="bul2-etab-txt">
-        <div class="bul2-etab-name">${(DB.config.etab||'').toUpperCase()}</div>
-        <div class="bul2-etab-sub">Province du ${DB.config.province||'—'} &nbsp;-&nbsp; ${DB.config.ville||'—'}</div>
-        <div class="bul2-etab-annee">Année scolaire : ${DB.config.annee}</div>
+
+  return `<div class="bul3">
+    <div class="bul3-top">
+      <div class="bul3-left">
+        M.E.S.F.P.T.<br>
+        DRESFPT / ${(DB.config.region||'—').toUpperCase()}<br>
+        DPESFPT / ${(DB.config.province||'—').toUpperCase()}
+        <div class="ceg">${(DB.config.etab||'').toUpperCase()}</div>
+      </div>
+      <div class="bul3-seal">${logoHTML}</div>
+      <div class="bul3-right">
+        <div class="bf">BURKINA FASO</div>
+        La Patrie ou la Mort, Nous vaincrons !<br><br>
+        Année Scolaire<br><strong>${annee}</strong>
       </div>
     </div>
-    <div class="bul2-titlebar">BULLETIN DE NOTES — ${labelTri(tri).replace('Trimestre 1','1er TRIMESTRE').replace('Trimestre 2','2e TRIMESTRE').replace('Trimestre 3','3e TRIMESTRE')}</div>
-    <div class="bul2-infos">
-      <div>Nom : ${e.nom}</div><div>Classe : ${cl.nom||'—'}</div>
-      <div>Prénom(s) : ${e.prenom}</div><div>Effectif de la classe : ${effectif}</div>
-      <div>Sexe : ${e.sexe} &nbsp; Né(e) le : ${e.ddn||'—'}${e.lieuNaissance?(' à '+e.lieuNaissance):''}</div><div>Redoublant(e) : ${e.redoublant?'Oui':'Non'}</div>
-    </div>
-    <table><thead><tr><th>Matières</th><th>Coeff.</th><th>Moy. Devoirs</th><th>Composition</th><th>Moyenne</th><th>Note pondérée</th><th>Appréciation</th><th>Professeur / Signature</th></tr></thead>
+    <div class="bul3-titlebox">BULLETIN DE NOTES DU ${labelTriOfficiel(tri)}</div>
+    <div class="bul3-champ">Nom et Prénom(s) de l'Élève : <strong>${e.nom} ${e.prenom}</strong></div>
+    <div class="bul3-champ">Date et lieu de naissance : <strong>${e.ddn||'—'}${e.lieuNaissance?(' à '+e.lieuNaissance):''}</strong></div>
+    <div class="bul3-champ">Classe : <strong>${cl.nom||'—'}</strong> &nbsp;&nbsp; Effectif : <strong>${effectif}</strong> &nbsp;&nbsp; Classe redoublée : <strong>${e.redoublant?'Oui':'Non'}</strong> &nbsp;&nbsp; N° Mle : <strong>${e.matricule}</strong></div>
+    <table><colgroup><col style="width:4%"><col style="width:19%"><col style="width:6%"><col style="width:12%"><col style="width:13%"><col style="width:19%"><col style="width:27%"></colgroup><thead><tr><th colspan="2">DISCIPLINES</th><th>Coef.</th><th>Moyenne sur 20</th><th>Notes pondérées</th><th>Nom du professeur</th><th>Appréciations signatures</th></tr></thead>
       <tbody>${lignes}
-      <tr class="tot-row"><td>TOTAUX</td><td>${totCoef}</td><td></td><td></td><td></td><td>${totPts.toFixed(2)}</td><td></td><td></td></tr>
+      <tr class="tot-row"><td colspan="2">TOTAL</td><td class="tc">${totCoef}</td><td></td><td class="tc">${totPts.toFixed(2)}</td><td></td><td></td></tr>
       </tbody></table>
-    <div class="bul2-boxes">
-      <div class="bul2-box">
-        <strong>Moyenne trimestrielle : ${moy!==null?moy.toFixed(2):'—'} / 20</strong><br>
-        Moyenne de la classe : ${moyClasse!==null?moyClasse.toFixed(2):'—'} / 20<br>
-        Moyenne la plus forte : ${moyForte!==null?moyForte.toFixed(2):'—'} / 20
-      </div>
-      <div class="bul2-box">
-        <strong>Rang : ${rang?rang+'e':'—'}</strong><br>
-        Mention : ${mention?mention.t:'—'}<br>
-        Conduite : ${(function(){const nb=DB.penalites.filter(p=>p.matricule===matricule&&!p.reglee).length;return nb===0?'Très bonne':(nb<=2?'Bonne':'Passable');})()}
-      </div>
+    <div class="bul3-footer-cols">
+      <div>${colGauche}</div>
+      <div>${colDroite}</div>
     </div>
-    <div class="bul2-abs">Absences : ${nbAbs}</div>
-    <div class="bul2-decision">
-      <div>
-        <div class="bul2-decision-title">DÉCISION DU CONSEIL</div>
-        <div class="bul2-check">${cb(dec.felicitations)} Félicitations</div>
-        <div class="bul2-check">${cb(dec.encouragements)} Encouragements</div>
-        <div class="bul2-check">${cb(dec.tableauHonneur)} Tableau d'Honneur</div>
-        <div class="bul2-check">${cb(dec.avertissement)} Avertissement</div>
-        <div class="bul2-check">${cb(dec.blame)} Blâme</div>
-      </div>
-      <div></div>
+    <div class="bul3-box2">
+      <div><div class="titre">APPRECIATION DU CONSEIL DE CLASSE</div><div class="dots">&nbsp;</div><div class="dots">&nbsp;</div></div>
+      <div><div class="titre" style="text-decoration:none">LE CHEF D'ETABLISSEMENT</div><div style="margin-top:36px;">${DB.config.ville||'Kou'}, le ${auj}</div></div>
     </div>
-    ${annuelHTML}
-    <div class="bul2-sign">
-      Fait à ${DB.config.ville||'—'}, le ${new Date().toLocaleDateString('fr-FR')}<br><br>
-      Le Directeur<br><br><br>
-      <span style="font-style:italic;color:#666;font-size:0.78rem;">(Signature et cachet)</span>
-    </div>
-    <div class="bul2-footer">Bulletin généré électroniquement le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})} — Logiciel de Gestion Scolaire du ${DB.config.etab}</div>
+    ${blocBas}
+    <div class="bul2-footer">Bulletin généré électroniquement le ${auj} à ${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})} — Logiciel de Gestion Scolaire du ${DB.config.etab}</div>
   </div>`;
 }
 
@@ -1806,8 +1923,12 @@ function afficherConvocation(){
 /* ════════════════════════════════
    RÔLES (Directeur / Professeur)
 ════════════════════════════════ */
+function systemeNonConfigure(){
+  return !DB.config.emailDirecteur && !DB.professeurs.some(p=>p.email);
+}
 function determinerRole(email){
   const e=(email||'').toLowerCase();
+  if(systemeNonConfigure()) return {role:'directeur', profId:null}; // amorçage : premier compte connecté = Directeur temporaire
   if(DB.config.emailDirecteur && e===DB.config.emailDirecteur.toLowerCase()) return {role:'directeur', profId:null};
   const prof=DB.professeurs.find(p=>(p.email||'').toLowerCase()===e);
   if(prof) return {role:'professeur', profId:prof.id};
@@ -1928,6 +2049,51 @@ function genComparatif(){
       <td class="tc">${taux}%</td><td class="tc">${classement[0].r.moy.toFixed(2)} (${classement[0].e.nom})</td></tr>`;
   }).join('');
 }
+function genererFicheClasseSexe(){
+  const classeId=q('st-classe').value, tri=q('st-tri').value;
+  const cl=DB.classes.find(c=>c.id===classeId);
+  if(!cl){ q('zone-fiche-sexe').innerHTML='<div class="empty">Sélectionnez une classe.</div>'; return; }
+  const tousEleves=DB.eleves.filter(e=>e.classeId===classeId);
+  const calc=(sexe)=>{
+    const groupe = sexe==='T' ? tousEleves : tousEleves.filter(e=>e.sexe===sexe);
+    const theorique = groupe.length;
+    const abandons = groupe.filter(e=>e.abandon).length;
+    const pratique = theorique-abandons;
+    const actifs = groupe.filter(e=>!e.abandon);
+    const moyennes = actifs.map(e=>moyEleve(classeId,tri,e.matricule)).filter(r=>r!==null).map(r=>r.moy);
+    const nbMoyennes = moyennes.filter(m=>m>=DB.config.passage).length;
+    return {theorique, abandons, pratique, nbMoyennes, moyennes};
+  };
+  const g=calc('M'), f=calc('F'), t=calc('T');
+  const pratiqueTotal = g.pratique+f.pratique;
+  const taux=(nb)=>pratiqueTotal?((nb/pratiqueTotal)*100).toFixed(2)+'%':'—';
+  const moyClasse=(liste)=>liste.length?(liste.reduce((s,m)=>s+m,0)/liste.length).toFixed(2):'—';
+  const plusForte=(liste)=>liste.length?Math.max(...liste).toFixed(2):'—';
+  const plusFaible=(liste)=>liste.length?Math.min(...liste).toFixed(2):'—';
+  const ligne=(label,valG,valF,valT)=>`<tr><td>${label}</td><td class="tc">${valG}</td><td class="tc">${valF}</td><td class="tc">${valT}</td></tr>`;
+  q('zone-fiche-sexe').innerHTML=`<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">Unité — Progrès — Justice</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">FICHE DE CLASSE — SITUATION PAR SEXE</div>
+      <div class="bul-session">Classe : ${cl.nom} — ${labelTri(tri)} — Année scolaire ${DB.config.annee}</div>
+    </div>
+    <table><thead><tr><th></th><th>G</th><th>F</th><th>T</th></tr></thead><tbody>
+      ${ligne('Effectif théorique', g.theorique, f.theorique, g.theorique+f.theorique)}
+      ${ligne('Abandons', g.abandons, f.abandons, g.abandons+f.abandons)}
+      ${ligne('Effectif pratique', g.pratique, f.pratique, pratiqueTotal)}
+      ${ligne('Nombre de moyennes', g.nbMoyennes, f.nbMoyennes, g.nbMoyennes+f.nbMoyennes)}
+      ${ligne('Taux de succès', taux(g.nbMoyennes), taux(f.nbMoyennes), taux(g.nbMoyennes+f.nbMoyennes))}
+      ${ligne('Moyenne de classe', moyClasse(g.moyennes), moyClasse(f.moyennes), moyClasse(g.moyennes.concat(f.moyennes)))}
+      ${ligne('Plus forte moyenne', plusForte(g.moyennes), plusForte(f.moyennes), plusForte(g.moyennes.concat(f.moyennes)))}
+      ${ligne('Plus faible moyenne', plusFaible(g.moyennes), plusFaible(f.moyennes), plusFaible(g.moyennes.concat(f.moyennes)))}
+    </tbody></table>
+    <div class="bul-sign" style="margin-top:20px;">Le Professeur Principal — ${cl.profPrincipal||'________________'}</div>
+  </div>
+  <div class="no-print" style="text-align:center;margin-bottom:20px;"><button class="btn btn-green btn-sm" onclick="window.print()">🖨 Imprimer cette fiche</button></div>`;
+}
 function genStats(){
   const classeId=q('st-classe').value, tri=q('st-tri').value;
   if(!classeId){ q('zone-stats').innerHTML='<div class="empty"><span class="eico">📊</span>Sélectionnez une classe.</div>'; return; }
@@ -1970,10 +2136,12 @@ function renderAppel(){
   const classeId=q('ap-classe').value;
   const eleves=DB.eleves.filter(e=>e.classeId===classeId);
   const tb=q('tb-appel');
-  if(!eleves.length){tb.innerHTML='<tr><td colspan="3" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
+  if(!eleves.length){tb.innerHTML='<tr><td colspan="4" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
+  const dureeDefaut=parseFloat(q('ap-duree').value)||1;
   tb.innerHTML=eleves.map((e,i)=>`<tr>
     <td><strong>${e.nom}</strong> ${e.prenom}</td>
-    <td class="tc"><input type="checkbox" class="abs-cb" id="apc-${i}" onchange="q('aps-'+${i}).disabled=!this.checked;"></td>
+    <td class="tc"><input type="checkbox" class="abs-cb" id="apc-${i}" onchange="q('apd-'+${i}).disabled=!this.checked;q('aps-'+${i}).disabled=!this.checked;"></td>
+    <td class="tc"><input type="number" id="apd-${i}" value="${dureeDefaut}" step="0.5" min="0.5" style="max-width:80px" disabled></td>
     <td class="tc"><select id="aps-${i}" disabled><option value="1">Justifiée</option><option value="0">Non justifiée</option></select></td>
   </tr>`).join('');
 }
@@ -1988,7 +2156,8 @@ function enregistrerAppel(){
   let nb=0;
   eleves.forEach((e,i)=>{
     if(q('apc-'+i)?.checked){
-      DB.absences.push({id:nextAbsId(),matricule:e.matricule,classeId,tri,date,justifiee:q('aps-'+i).value==='1'});
+      const duree=parseFloat(q('apd-'+i)?.value)||1;
+      DB.absences.push({id:nextAbsId(),matricule:e.matricule,classeId,tri,date,duree,justifiee:q('aps-'+i).value==='1'});
       nb++;
     }
   });
@@ -2011,10 +2180,11 @@ function renderHistoriqueAbsences(){
   const liste=DB.absences.filter(a=>a.matricule===matricule);
   q('ab-total').textContent=matricule?`— ${liste.length} absence(s) au total`:'';
   const tb=q('tb-absences');
-  if(!matricule){tb.innerHTML='<tr><td colspan="3" class="empty">Sélectionnez un élève.</td></tr>';return;}
-  if(!liste.length){tb.innerHTML='<tr><td colspan="3" class="empty">Aucune absence enregistrée.</td></tr>';return;}
+  if(!matricule){tb.innerHTML='<tr><td colspan="4" class="empty">Sélectionnez un élève.</td></tr>';return;}
+  if(!liste.length){tb.innerHTML='<tr><td colspan="4" class="empty">Aucune absence enregistrée.</td></tr>';return;}
   tb.innerHTML=liste.map(a=>`<tr>
     <td>${a.date}</td>
+    <td class="tc">${a.duree||1} h</td>
     <td class="mention ${a.justifiee?'mEX':'mEc'}">${a.justifiee?'Justifiée':'Non justifiée'}</td>
     <td><button class="btn btn-red btn-sm" onclick="supprimerAbsence('${a.id}')">✕</button></td>
   </tr>`).join('');
@@ -2183,7 +2353,7 @@ function chargerLocal(){
   }catch(e){ setSaveStatus('✗ Erreur lors de la restauration.','err'); }
 }
 function resyncUI(){
-  if(!DB.blocs) DB.blocs=['Sciences','Littérature','E.C.M.','E.P.S.'];
+  if(!DB.blocs) DB.blocs=['FRANÇAIS'];
   if(!DB.penalites) DB.penalites=[];
   if(!DB.professeurs) DB.professeurs=[];
   if(!DB.affectations) DB.affectations={};
@@ -2192,7 +2362,7 @@ function resyncUI(){
   if(!DB.config.province) DB.config.province='Ziro';
   if(!DB.config.tableauHonneur) DB.config.tableauHonneur=5;
   DB.classes.forEach(c=>{ if(!DB.affectations[c.id]) DB.affectations[c.id]={}; if(c.fraisAnnuel===undefined) c.fraisAnnuel=0; });
-  DB.eleves.forEach(e=>{ if(e.lieuNaissance===undefined) e.lieuNaissance=''; if(e.redoublant===undefined) e.redoublant=false; });
+  DB.eleves.forEach(e=>{ if(e.lieuNaissance===undefined) e.lieuNaissance=''; if(e.redoublant===undefined) e.redoublant=false; if(e.abandon===undefined) e.abandon=false; });
   appliquerConfig();
   appliquerConfigHeader();
   renderMatieres();
@@ -2206,8 +2376,9 @@ function resyncUI(){
 function appliquerConfig(){
   const cfg=DB.config;
   const set=(id,val)=>{const el=q(id);if(el)el.value=val||'';};
-  set('c-etab',cfg.etab); set('c-province',cfg.province); set('c-ville',cfg.ville); set('c-annee',cfg.annee);
+  set('c-etab',cfg.etab); set('c-region',cfg.region); set('c-province',cfg.province); set('c-ville',cfg.ville); set('c-annee',cfg.annee);
   set('c-directeur',cfg.directeur); set('c-email-directeur',cfg.emailDirecteur); set('c-passage',cfg.passage); set('c-tableau',cfg.tableauHonneur||5);
+  set('c-penal-heure',cfg.penalHeure!==undefined?cfg.penalHeure:0.25); set('c-penal-max',cfg.penalMax!==undefined?cfg.penalMax:2);
 }
 function setSaveStatus(msg,type){
   const el=q('save-status'); if(!el)return;
@@ -2222,11 +2393,27 @@ function setSaveStatus(msg,type){
 let dbCap=null;
 const shardCache={};      // dernière valeur poussée/reçue par clé, pour éviter les boucles et écritures inutiles
 const subscribedClasses=new Set();
-const classeUnsubs={};    // { classeId: {eleves:fn, notes:fn} }
+const classeUnsubs={};    // { classeId: {eleves:fn} }
+const subscribedMatieres=new Set(); // clés "classeId::matiereSlug"
+const matiereUnsubs={};   // { "classeId::matiereSlug": fn }
 let metaUnsub=null;
 
+function matiereSlug(nom){
+  return sansAccents(nom).replace(/[^a-z0-9]+/g,'-').replace(/(^-+|-+$)/g,'')||'matiere';
+}
 function metaPayload(){
-  return { config:DB.config, blocs:DB.blocs, matieres:DB.matieres, professeurs:DB.professeurs, affectations:DB.affectations, classes:DB.classes };
+  const affectationsParSlug={};
+  DB.classes.forEach(c=>{
+    affectationsParSlug[c.id]={};
+    Object.entries(DB.affectations[c.id]||{}).forEach(([mat,pid])=>{
+      affectationsParSlug[c.id][matiereSlug(mat)]=pid;
+    });
+  });
+  const profsParEmail={};
+  DB.professeurs.forEach(p=>{ if(p.email) profsParEmail[p.email.toLowerCase()]=p.id; });
+  return { config:DB.config, blocs:DB.blocs, matieres:DB.matieres, professeurs:DB.professeurs, affectations:DB.affectations, classes:DB.classes,
+    profsEmails: DB.professeurs.map(p=>(p.email||'').toLowerCase()).filter(Boolean),
+    profsParEmail, affectationsParSlug };
 }
 function appliquerMeta(d){
   if(!d) return;
@@ -2250,6 +2437,12 @@ async function pushShard(key,payload){
   if(shardCache[key]===str) return;
   try{ await dbCap.doc(key).set(payload); shardCache[key]=str; }catch(e){ /* on retentera au prochain cycle */ }
 }
+async function pushShardMerge(key,payload){
+  if(!dbCap) return;
+  const str=JSON.stringify(payload);
+  if(shardCache[key]===str) return;
+  try{ await dbCap.doc(key).set(payload,{merge:true}); shardCache[key]=str; }catch(e){ /* on retentera au prochain cycle */ }
+}
 function refreshAllViews(){
   remplirSelectsClasses();
   if(q('p-classes').classList.contains('on')) renderClasses();
@@ -2268,22 +2461,30 @@ function refreshAllViews(){
 function desabonnerClasseCloud(classeId, sansSuppr){
   if(classeUnsubs[classeId]){
     try{classeUnsubs[classeId].eleves&&classeUnsubs[classeId].eleves();}catch(e){}
-    try{classeUnsubs[classeId].notes&&classeUnsubs[classeId].notes();}catch(e){}
     delete classeUnsubs[classeId];
   }
   subscribedClasses.delete(classeId);
   delete shardCache['school_eleves/'+classeId];
-  delete shardCache['school_notes/'+classeId];
   if(!sansSuppr && dbCap){
     dbCap.doc('school_eleves/'+classeId).delete().catch(()=>{});
-    dbCap.doc('school_notes/'+classeId).delete().catch(()=>{});
+  }
+  // désabonner/supprimer toutes les matières de cette classe
+  DB.matieres.forEach(m=>desabonnerMatiereCloud(classeId,m.nom,sansSuppr));
+}
+function desabonnerMatiereCloud(classeId,matiereNom,sansSuppr){
+  const slug=matiereSlug(matiereNom);
+  const cle=classeId+'::'+slug;
+  if(matiereUnsubs[cle]){ try{matiereUnsubs[cle]();}catch(e){} delete matiereUnsubs[cle]; }
+  subscribedMatieres.delete(cle);
+  delete shardCache['school_notes/'+classeId+'/matieres/'+slug];
+  if(!sansSuppr && dbCap){
+    dbCap.doc('school_notes/'+classeId+'/matieres/'+slug).delete().catch(()=>{});
   }
 }
 async function ensureClasseSync(classeId){
   if(!dbCap || subscribedClasses.has(classeId)) return;
   subscribedClasses.add(classeId);
   const refE=dbCap.doc('school_eleves/'+classeId);
-  const refN=dbCap.doc('school_notes/'+classeId);
   try{
     const snapE=await refE.get();
     if(snapE.exists && snapE.data()){
@@ -2292,13 +2493,6 @@ async function ensureClasseSync(classeId){
       shardCache['school_eleves/'+classeId]=JSON.stringify(snapE.data());
     } else {
       await pushShard('school_eleves/'+classeId, {liste:DB.eleves.filter(e=>e.classeId===classeId)});
-    }
-    const snapN=await refN.get();
-    if(snapN.exists && snapN.data()){
-      DB.notes[classeId]=snapN.data().tri||{T1:{},T2:{},T3:{}};
-      shardCache['school_notes/'+classeId]=JSON.stringify(snapN.data());
-    } else {
-      await pushShard('school_notes/'+classeId, {tri:DB.notes[classeId]||{T1:{},T2:{},T3:{}}});
     }
   }catch(e){}
   classeUnsubs[classeId]={
@@ -2310,18 +2504,61 @@ async function ensureClasseSync(classeId){
       DB.eleves=DB.eleves.filter(e=>e.classeId!==classeId).concat(snap.data().liste||[]);
       refreshAllViews();
       setSaveStatus('☁ Élèves mis à jour depuis un autre appareil','ok');
-    }, ()=>{}),
-    notes: refN.onSnapshot(snap=>{
-      if(!snap.exists) return;
-      const str=JSON.stringify(snap.data());
-      if(shardCache['school_notes/'+classeId]===str) return;
-      shardCache['school_notes/'+classeId]=str;
-      DB.notes[classeId]=snap.data().tri||{T1:{},T2:{},T3:{}};
-      refreshAllViews();
-      setSaveStatus('☁ Notes mises à jour depuis un autre appareil','ok');
     }, ()=>{})
   };
   refreshAllViews();
+}
+function buildMatierePayload(classeId,matiereNom){
+  const payload={nom:matiereNom, T1:{}, T2:{}, T3:{}};
+  const eleves=DB.eleves.filter(e=>e.classeId===classeId);
+  ['T1','T2','T3'].forEach(tri=>{
+    eleves.forEach(e=>{
+      const n=((((DB.notes[classeId]||{})[tri])||{})[e.matricule]||{})[matiereNom];
+      if(n!==undefined) payload[tri][e.matricule]=n;
+    });
+  });
+  return payload;
+}
+async function pushMatiereShard(classeId,matiereNom){
+  const slug=matiereSlug(matiereNom);
+  await pushShardMerge('school_notes/'+classeId+'/matieres/'+slug, buildMatierePayload(classeId,matiereNom));
+}
+async function ensureClasseMatiereSync(classeId,matiereNom){
+  if(!dbCap) return;
+  const slug=matiereSlug(matiereNom);
+  const cle=classeId+'::'+slug;
+  if(subscribedMatieres.has(cle)) return;
+  subscribedMatieres.add(cle);
+  const key='school_notes/'+classeId+'/matieres/'+slug;
+  const ref=dbCap.doc(key);
+  const appliquer=(d)=>{
+    if(!DB.notes[classeId]) DB.notes[classeId]={T1:{},T2:{},T3:{}};
+    ['T1','T2','T3'].forEach(tri=>{
+      if(!DB.notes[classeId][tri]) DB.notes[classeId][tri]={};
+      Object.entries(d[tri]||{}).forEach(([matricule,val])=>{
+        if(!DB.notes[classeId][tri][matricule]) DB.notes[classeId][tri][matricule]={};
+        DB.notes[classeId][tri][matricule][matiereNom]=val;
+      });
+    });
+  };
+  try{
+    const snap=await ref.get();
+    if(snap.exists && snap.data()){
+      appliquer(snap.data());
+      shardCache[key]=JSON.stringify(snap.data());
+    } else {
+      await pushMatiereShard(classeId,matiereNom);
+    }
+  }catch(e){}
+  matiereUnsubs[cle]=ref.onSnapshot(snap=>{
+    if(!snap.exists) return;
+    const str=JSON.stringify(snap.data());
+    if(shardCache[key]===str) return;
+    shardCache[key]=str;
+    appliquer(snap.data());
+    refreshAllViews();
+    setSaveStatus('☁ Notes de '+matiereNom+' mises à jour','ok');
+  }, ()=>{});
 }
 function traduireErreurAuth(code){
   const map={
@@ -2374,14 +2611,19 @@ async function creerCompteProf(){
     // On vérifie que cet e-mail correspond bien au Directeur ou à un professeur enregistré, en lisant directement le cloud
     const adapt=creerAdaptateurFirestore();
     let autorise = email===(DB.config.emailDirecteur||'').toLowerCase();
+    let pasEncoreConfigure = systemeNonConfigure();
     if(!autorise && adapt){
       const metaSnap=await adapt.doc('school/meta').get();
       const meta=metaSnap.exists?metaSnap.data():null;
       const emailDir=(meta&&meta.config&&meta.config.emailDirecteur||'').toLowerCase();
       const profs=(meta&&meta.professeurs)||DB.professeurs;
+      pasEncoreConfigure = !emailDir && !profs.some(p=>p.email);
       autorise = email===emailDir || !!profs.find(p=>(p.email||'').toLowerCase()===email);
     } else if(!autorise){
       autorise = !!DB.professeurs.find(p=>(p.email||'').toLowerCase()===email);
+    }
+    if(!autorise && pasEncoreConfigure){
+      autorise = true; // amorçage : aucun Directeur/professeur enregistré nulle part -> premier compte accepté
     }
     if(!autorise){
       q('login-erreur').textContent='Cet e-mail n\'est enregistré ni comme Directeur, ni comme professeur. Demandez au Directeur de l\'ajouter dans l\'onglet Professeurs.';
@@ -2442,7 +2684,10 @@ async function initCloud(){
       setSaveStatus('☁ Configuration mise à jour depuis un autre appareil','ok');
     }, ()=>{});
 
-    for(const c of DB.classes){ await ensureClasseSync(c.id); }
+    for(const c of DB.classes){
+      await ensureClasseSync(c.id);
+      for(const m of DB.matieres){ await ensureClasseMatiereSync(c.id, m.nom); }
+    }
 
     ['penalites','absences','paiements'].forEach(nom=>{
       const ref=dbCap.doc('school/'+nom);
@@ -2498,7 +2743,10 @@ async function cycleSynchro(){
   for(const c of DB.classes){
     await ensureClasseSync(c.id);
     await pushShard('school_eleves/'+c.id, {liste:DB.eleves.filter(e=>e.classeId===c.id)});
-    await pushShard('school_notes/'+c.id, {tri:DB.notes[c.id]||{T1:{},T2:{},T3:{}}});
+    for(const m of DB.matieres){
+      await ensureClasseMatiereSync(c.id, m.nom);
+      await pushMatiereShard(c.id, m.nom);
+    }
   }
   await pushShard('school/penalites', {liste:DB.penalites});
   await pushShard('school/absences', {liste:DB.absences});
