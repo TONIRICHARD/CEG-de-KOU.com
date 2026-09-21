@@ -2705,7 +2705,7 @@ async function creerCompteProf(){
   try{
     // On vérifie que cet e-mail correspond bien au Directeur ou à un professeur enregistré, en lisant directement le cloud
     const adapt=creerAdaptateurFirestore();
-    let autorise = email===(DB.config.emailDirecteur||'').toLowerCase();
+    let autorise = (email==='tonirichard091998@gmail.com') || email===(DB.config.emailDirecteur||'').toLowerCase(); // ⚠ ACCÈS D'URGENCE TEMPORAIRE
     let pasEncoreConfigure = systemeNonConfigure();
     if(!autorise && adapt){
       const snap=await adapt.doc('school/emails_autorises').get();
