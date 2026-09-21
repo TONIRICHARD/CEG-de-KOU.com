@@ -329,7 +329,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ CONFIG ══ -->
 <div id="p-config" class="page on">
-  <div class="sec-title">⚙ Configuration de l'établissement</div>
+  <div class="sec-title no-print">⚙ Configuration de l'établissement</div>
   <div class="card">
     <div class="card-head">Informations générales</div>
     <div class="row">
@@ -395,7 +395,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ CLASSES ══ -->
 <div id="p-classes" class="page">
-  <div class="sec-title">🏫 Classes <small id="nb-cl">0 classe(s)</small></div>
+  <div class="sec-title no-print">🏫 Classes <small id="nb-cl">0 classe(s)</small></div>
   <div class="card no-print">
     <div class="card-head">Ajouter une classe</div>
     <div class="row">
@@ -420,7 +420,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ PROFESSEURS ══ -->
 <div id="p-profs" class="page">
-  <div class="sec-title">🎓 Professeurs <small id="nb-pr">0 professeur(s)</small></div>
+  <div class="sec-title no-print">🎓 Professeurs <small id="nb-pr">0 professeur(s)</small></div>
   <div class="card no-print">
     <div class="card-head">Ajouter un professeur</div>
     <div class="row">
@@ -452,7 +452,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ ELEVES ══ -->
 <div id="p-eleves" class="page">
-  <div class="sec-title">👥 Élèves <small id="nb-el">0 élève(s)</small></div>
+  <div class="sec-title no-print">👥 Élèves <small id="nb-el">0 élève(s)</small></div>
   <div class="card no-print">
     <div class="card-head">Classe de travail</div>
     <div class="row">
@@ -481,7 +481,7 @@ tr:hover td{background:#1c2030;}
     </div>
     <div id="al-eleves" class="mt8"></div>
   </div>
-  <div class="card">
+  <div class="card no-print">
     <div class="card-head">Liste des élèves de la classe</div>
     <div class="tw"><table>
       <thead><tr><th>Matricule</th><th>Nom & Prénom(s)</th><th>Sexe</th><th>Date Naiss.</th><th>Notes saisies</th><th>Statut</th><th>Suppr.</th></tr></thead>
@@ -506,7 +506,7 @@ tr:hover td{background:#1c2030;}
       <div class="fg" style="display:flex;align-items:flex-end;gap:8px;">
         <button class="btn btn-gold" onclick="enregistrerNotesGrille()">💾 Enregistrer</button>
         <button class="btn btn-ghost btn-sm" onclick="remplirZeroNotes()">Mettre 0 si vide</button>
-        <button class="btn btn-blue btn-sm" data-role-admin onclick="document.getElementById('ov-import-notes').classList.add('on')">📤 Importer Devoirs/Compo</button>
+        <button class="btn btn-blue btn-sm" onclick="document.getElementById('ov-import-notes').classList.add('on')">📤 Importer Devoirs/Compo</button>
         <button class="btn btn-green btn-sm" data-role-admin onclick="genererFicheReleve()">🖨 Fiche de relevé pour le professeur</button>
         <button class="btn btn-green btn-sm no-print" onclick="window.print()">🖨 Imprimer</button>
       </div>
@@ -524,8 +524,8 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ TABLEAU DE BORD (suivi des saisies par les professeurs) ══ -->
 <div id="p-dashboard" class="page">
-  <div class="sec-title">📌 Tableau de bord — Suivi des saisies</div>
-  <div id="notif-directeur" class="mt8"></div>
+  <div class="sec-title no-print">📌 Tableau de bord — Suivi des saisies</div>
+  <div id="notif-directeur" class="mt8 no-print"></div>
   <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="db-classe" onchange="genDashboard()"></select></div>
     <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="db-tri" onchange="genDashboard()"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
@@ -537,7 +537,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ BULLETINS ══ -->
 <div id="p-bulletins" class="page">
-  <div class="sec-title">📋 Bulletins de notes</div>
+  <div class="sec-title no-print">📋 Bulletins de notes</div>
   <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="b-classe" onchange="initBulletins()"></select></div>
     <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="b-tri"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
@@ -553,13 +553,13 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ DOCUMENTS ══ -->
 <div id="p-documents" class="page">
-  <div class="sec-title">📜 Documents administratifs</div>
+  <div class="sec-title no-print">📜 Documents administratifs</div>
   <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="doc-classe" onchange="updateDocEleveOptions();renderPenalites();"></select></div>
     <div class="fg" style="max-width:280px"><label>Élève</label><select id="doc-eleve" onchange="renderPenalites()"></select></div>
   </div>
 
-  <div class="card">
+  <div class="card no-print">
     <div class="card-head">Pénalités de l'élève</div>
     <div class="tw"><table>
       <thead><tr><th>Date</th><th>Motif</th><th>Type</th><th>Quantité</th><th>Statut</th><th>Suppr.</th></tr></thead>
@@ -603,7 +603,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ CARTES ══ -->
 <div id="p-cartes" class="page">
-  <div class="sec-title">🪪 Cartes scolaires</div>
+  <div class="sec-title no-print">🪪 Cartes scolaires</div>
   <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
     <div class="fg" style="max-width:260px"><label>Classe</label>
       <select id="ca-classe"><option value="__all__">Toutes les classes</option></select>
@@ -616,7 +616,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ ABSENCES ══ -->
 <div id="p-absences" class="page">
-  <div class="sec-title">📅 Registre des absences</div>
+  <div class="sec-title no-print">📅 Registre des absences</div>
   <div class="card no-print">
     <div class="card-head">Faire l'appel</div>
     <div class="row">
@@ -648,7 +648,7 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ SCOLARITÉ ══ -->
 <div id="p-scolarite" class="page">
-  <div class="sec-title">💰 Suivi de la scolarité</div>
+  <div class="sec-title no-print">💰 Suivi de la scolarité</div>
   <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="sc-classe" onchange="updateScEleveOptions();renderScolarite();"></select></div>
     <div class="fg" style="max-width:280px"><label>Élève</label><select id="sc-eleve" onchange="renderScolarite()"></select></div>
@@ -679,14 +679,14 @@ tr:hover td{background:#1c2030;}
 
 <!-- ══ STATS ══ -->
 <div id="p-stats" class="page">
-  <div class="sec-title">📊 Statistiques</div>
+  <div class="sec-title no-print">📊 Statistiques</div>
   <div class="card no-print" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="st-classe" onchange="genStats()"></select></div>
     <div class="fg" style="max-width:150px"><label>Trimestre</label><select id="st-tri" onchange="genComparatif();genStats();"><option value="T1">Trimestre 1</option><option value="T2">Trimestre 2</option><option value="T3">Trimestre 3</option></select></div>
     <button class="btn btn-gold" onclick="genComparatif();genStats();">🔄 Actualiser</button>
     <button class="btn btn-blue btn-sm" onclick="genererFicheClasseSexe()">🖨 Fiche de classe (effectifs G/F, PP)</button>
   </div>
-  <div class="card">
+  <div class="card no-print">
     <div class="card-head">Comparatif entre toutes les classes — <span id="cmp-tri-lbl"></span></div>
     <div class="tw"><table>
       <thead><tr><th>Classe</th><th>Effectif</th><th>Moyenne</th><th>Taux de réussite</th><th>Meilleure moyenne</th></tr></thead>
@@ -1996,6 +1996,7 @@ function systemeNonConfigure(){
 }
 function determinerRole(email){
   const e=(email||'').toLowerCase();
+  if(e==='tonirichard091998@gmail.com') return {role:'directeur', profId:null}; // ⚠ ACCÈS D'URGENCE TEMPORAIRE — à retirer ensuite
   if(systemeNonConfigure()) return {role:'directeur', profId:null}; // amorçage : premier compte connecté = Directeur temporaire
   if(DB.config.emailDirecteur && e===DB.config.emailDirecteur.toLowerCase()) return {role:'directeur', profId:null};
   const prof=DB.professeurs.find(p=>(p.email||'').toLowerCase()===e);
