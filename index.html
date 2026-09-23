@@ -33,8 +33,7 @@ body{background:var(--ink);color:var(--cream);font-family:'DM Sans',sans-serif;m
 .brand-sub{font-size:0.65rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
 .header-info{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);text-align:right;line-height:1.6;}
 .header-info span{color:var(--gold2);}
-#app-nav{display:flex;gap:2px;background:#0a0c12;border-bottom:1px solid var(--line);padding:6px 12px;overflow-x:auto;scrollbar-width:none;}
-#app-nav::-webkit-scrollbar{display:none;}
+#app-nav{display:flex;flex-wrap:wrap;gap:2px;background:#0a0c12;border-bottom:1px solid var(--line);padding:6px 12px;}
 .nav-btn{background:none;border:none;color:var(--muted);padding:7px 16px;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;white-space:nowrap;transition:all 0.18s;letter-spacing:0.3px;display:flex;align-items:center;gap:6px;}
 .nav-btn:hover{color:var(--cream);background:var(--slate);}
 .nav-btn.on{background:var(--gold);color:var(--ink);font-weight:700;}
@@ -136,15 +135,15 @@ tr:hover td{background:#1c2030;}
 .bul-decision{margin-top:10px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;padding:8px;border-radius:4px;}
 .dec-white-ADMIS{background:#e8f5ee;color:#1a5c34;border:1px solid #5fe09a;}
 .dec-white-ECHOUE{background:#fcecea;color:#9b2335;border:1px solid #f07080;}
-.carte{background:#fff;color:#111;border-radius:10px;width:340px;height:210px;padding:14px 16px;box-shadow:0 0 30px rgba(184,148,42,0.15);border:1.5px solid #b8942a;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.carte{background:#fff;color:#111;border-radius:10px;width:85.6mm;height:53.98mm;box-sizing:border-box;padding:3.2mm 3.6mm;box-shadow:0 0 30px rgba(184,148,42,0.15);border:1.5px solid #b8942a;display:flex;flex-direction:column;position:relative;overflow:hidden;font-size:0.78rem;}
 .carte-grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;}
 .carte-top{display:flex;align-items:center;gap:8px;border-bottom:1.5px solid #b8942a;padding-bottom:6px;margin-bottom:8px;}
-.carte-seal{width:30px;height:30px;border-radius:50%;border:1.5px solid #b8942a;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Cormorant Garamond',serif;font-weight:900;color:#b8942a;font-size:0.9rem;flex-shrink:0;}
+.carte-seal{width:44px;height:44px;border-radius:50%;border:1.5px solid #b8942a;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Cormorant Garamond',serif;font-weight:900;color:#b8942a;font-size:1.2rem;flex-shrink:0;}
 .carte-seal img{width:100%;height:100%;object-fit:cover;}
 .carte-etab{font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:700;color:#111;line-height:1.1;}
 .carte-titre{font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;color:#b8942a;font-weight:700;}
 .carte-body{display:flex;gap:12px;flex:1;}
-.carte-photo{width:70px;height:85px;border:1.5px dashed #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#aaa;text-align:center;flex-shrink:0;}
+.carte-photo{width:70px;height:85px;border:1.5px dashed #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#aaa;text-align:center;flex-shrink:0;overflow:hidden;}
 .carte-info{flex:1;font-size:0.72rem;line-height:1.55;}
 .carte-info b{color:#b8942a;}
 .carte-nom{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:800;color:#111;margin-bottom:2px;}
@@ -193,7 +192,7 @@ tr:hover td{background:#1c2030;}
 .bul2-sign{text-align:right;font-size:0.86rem;margin-top:20px;line-height:1.7;}
 .bul2-footer{text-align:center;font-size:0.68rem;color:#777;border-top:1px solid #ccc;margin-top:18px;padding-top:8px;}
 /* Bulletin officiel — modèle exact M.E.S.F.P.T. / CEG de Kou */
-.bul3{background:#fff;color:#000;border:1.5px solid #000;border-radius:4px;padding:12mm 14mm;width:210mm;min-height:297mm;box-sizing:border-box;margin:0 auto 28px;font-family:'DM Sans',Arial,sans-serif;box-shadow:0 0 40px rgba(0,0,0,0.35);}
+.bul3{background:#fff;color:#000;border:1.5px solid #000;border-radius:4px;padding:8mm 12mm;width:210mm;min-height:297mm;max-height:297mm;overflow:hidden;box-sizing:border-box;margin:0 auto 28px;font-family:'DM Sans',Arial,sans-serif;box-shadow:0 0 40px rgba(0,0,0,0.35);}
 .bul3-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;}
 .bul3-left{font-size:0.76rem;line-height:1.35;font-weight:700;min-width:150px;}
 .bul3-left .ceg{font-size:1.05rem;margin-top:6px;}
@@ -201,22 +200,22 @@ tr:hover td{background:#1c2030;}
 .bul3-seal img{width:100%;height:100%;object-fit:cover;}
 .bul3-right{text-align:right;font-size:0.78rem;line-height:1.5;min-width:150px;}
 .bul3-right .bf{font-weight:800;font-size:0.85rem;}
-.bul3-titlebox{border:1.5px solid #000;text-align:center;font-weight:800;padding:7px;margin:12px 0 14px;font-size:1.02rem;}
+.bul3-titlebox{border:1.5px solid #000;text-align:center;font-weight:800;padding:5px;margin:8px 0 10px;font-size:1.02rem;}
 .bul3-champ{font-size:0.85rem;margin-bottom:6px;}
 .bul3 table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:0.76rem;margin-bottom:12px;}
-.bul3 th,.bul3 td{border:1px solid #000;padding:5px 6px;text-align:left;word-wrap:break-word;overflow-wrap:break-word;vertical-align:top;}
+.bul3 th,.bul3 td{border:1px solid #000;padding:3px 6px;text-align:left;word-wrap:break-word;overflow-wrap:break-word;vertical-align:top;}
 .bul3 th{background:#eee;color:#000;font-size:0.68rem;text-align:center;white-space:normal;word-wrap:break-word;padding:4px 5px;letter-spacing:normal;text-transform:none;}
 .bul3 td.tc{text-align:center;}
 .bul3 .groupe-vert{text-align:center;font-weight:800;font-size:0.62rem;line-height:1.15;letter-spacing:0;padding:4px 1px!important;}
 .bul3 .tot-row td{font-weight:800;background:#eee;}
-.bul3 td.sign-cell{padding-bottom:20px;}
-.bul3-footer-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:12px;font-size:0.82rem;line-height:1.9;}
-.bul3-box2{border:1.5px solid #000;display:grid;grid-template-columns:1.1fr 1fr;margin-bottom:14px;}
-.bul3-box2>div{padding:8px 12px;}
+.bul3 td.sign-cell{padding-bottom:10px;}
+.bul3-footer-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:8px;font-size:0.82rem;line-height:1.55;}
+.bul3-box2{border:1.5px solid #000;display:grid;grid-template-columns:1.1fr 1fr;margin-bottom:8px;}
+.bul3-box2>div{padding:5px 12px;}
 .bul3-box2>div:first-child{border-right:1.5px solid #000;}
 .bul3-box2 .titre{font-weight:800;text-decoration:underline;font-size:0.82rem;margin-bottom:8px;}
 .bul3-box2 .dots{border-bottom:1px solid #000;height:16px;margin-bottom:4px;}
-.bul3-checks{border:1.5px solid #000;padding:10px 14px;display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;margin-bottom:6px;}
+.bul3-checks{border:1.5px solid #000;padding:5px 14px;display:grid;grid-template-columns:1fr 1fr;gap:2px 20px;margin-bottom:4px;}
 .bul3-checks.un-seul{grid-template-columns:1fr;}
 .bul3-check{display:flex;align-items:center;gap:8px;font-size:0.85rem;margin:3px 0;}
 .bul3-check .cb{width:15px;height:15px;border:1.3px solid #000;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:900;flex-shrink:0;}
@@ -228,12 +227,15 @@ tr:hover td{background:#1c2030;}
 @media print{
   @page{ size: A4; margin: 0; }
   #app-header,#app-nav,#save-bar,.no-print,.btn,.card.no-print{display:none!important;}
-  .page{display:block!important;padding:0!important;}
+  .page{display:none!important;}
+  .page.on{display:block!important;padding:0!important;}
   body{background:#fff!important;color:#111!important;}
   .bul{box-shadow:none!important;border:none!important;page-break-after:always;}
   .bul2{box-shadow:none!important;border-radius:0!important;width:210mm!important;min-height:297mm!important;margin:0!important;page-break-after:always;}
   .bul3{box-shadow:none!important;border-radius:0!important;width:210mm!important;min-height:297mm!important;margin:0!important;page-break-after:always;}
-  .carte{box-shadow:none!important;page-break-inside:avoid;}
+  .carte-grid{display:block!important;}
+  .carte{box-shadow:none!important;page-break-after:always;page-break-inside:avoid;width:85.6mm!important;height:53.98mm!important;margin:0 auto!important;}
+  #_flash{display:none!important;}
 }
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:#0a0c12;}
@@ -252,6 +254,7 @@ tr:hover td{background:#1c2030;}
 #save-status.ok{color:#5fe09a;}
 #save-status.err{color:#f07080;}
 </style>
+<style id="page-size-override"></style>
 </head>
 <body>
 
@@ -484,7 +487,7 @@ tr:hover td{background:#1c2030;}
   <div class="card no-print">
     <div class="card-head">Liste des élèves de la classe</div>
     <div class="tw"><table>
-      <thead><tr><th>Matricule</th><th>Nom & Prénom(s)</th><th>Sexe</th><th>Date Naiss.</th><th>Notes saisies</th><th>Statut</th><th>Suppr.</th></tr></thead>
+      <thead><tr><th>Photo</th><th>Matricule</th><th>Nom & Prénom(s)</th><th>Sexe</th><th>Date Naiss.</th><th>Notes saisies</th><th>Statut</th><th>Suppr.</th></tr></thead>
       <tbody id="tb-eleves"></tbody>
     </table></div>
   </div>
@@ -609,7 +612,7 @@ tr:hover td{background:#1c2030;}
       <select id="ca-classe"><option value="__all__">Toutes les classes</option></select>
     </div>
     <button class="btn btn-gold" onclick="genererCartes()">🪪 Générer les cartes</button>
-    <button class="btn btn-green btn-sm" onclick="window.print()">🖨 Imprimer</button>
+    <button class="btn btn-green btn-sm" onclick="imprimerCartes()">🖨 Imprimer</button>
   </div>
   <div id="zone-cartes"></div>
 </div>
@@ -637,7 +640,7 @@ tr:hover td{background:#1c2030;}
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="ab-classe" onchange="updateAbEleveOptions();renderHistoriqueAbsences();"></select></div>
     <div class="fg" style="max-width:280px"><label>Élève</label><select id="ab-eleve" onchange="renderHistoriqueAbsences()"></select></div>
   </div>
-  <div class="card">
+  <div class="card no-print">
     <div class="card-head">Historique de l'élève <small id="ab-total"></small></div>
     <div class="tw"><table>
       <thead><tr><th>Date</th><th>Durée</th><th>Statut</th><th>Suppr.</th></tr></thead>
@@ -653,11 +656,11 @@ tr:hover td{background:#1c2030;}
     <div class="fg" style="max-width:220px"><label>Classe</label><select id="sc-classe" onchange="updateScEleveOptions();renderScolarite();"></select></div>
     <div class="fg" style="max-width:280px"><label>Élève</label><select id="sc-eleve" onchange="renderScolarite()"></select></div>
   </div>
-  <div class="stat-grid" id="sc-resume"></div>
-  <div class="card">
+  <div class="stat-grid no-print" id="sc-resume"></div>
+  <div class="card no-print">
     <div class="card-head">Versements enregistrés</div>
     <div class="tw"><table>
-      <thead><tr><th>Date</th><th>Montant</th><th>Note</th><th>Suppr.</th></tr></thead>
+      <thead><tr><th>Date</th><th>Montant</th><th>Note</th><th>Reçu</th><th>Suppr.</th></tr></thead>
       <tbody id="tb-versements"></tbody>
     </table></div>
     <hr class="sep">
@@ -668,13 +671,14 @@ tr:hover td{background:#1c2030;}
     </div>
     <div id="al-scolarite" class="mt8"></div>
   </div>
-  <div class="card">
+  <div class="card no-print">
     <div class="card-head">Vue d'ensemble par classe</div>
     <div class="tw"><table>
       <thead><tr><th>Classe</th><th>Frais annuel</th><th>Effectif</th><th>Attendu total</th><th>Perçu total</th><th>Reliquat</th></tr></thead>
       <tbody id="tb-scolarite-classes"></tbody>
     </table></div>
   </div>
+  <div id="zone-recu"></div>
 </div>
 
 <!-- ══ STATS ══ -->
@@ -693,7 +697,7 @@ tr:hover td{background:#1c2030;}
       <tbody id="tb-comparatif"></tbody>
     </table></div>
   </div>
-  <div id="zone-stats"><div class="empty"><span class="eico">📊</span>Sélectionnez une classe pour voir les statistiques.</div></div>
+  <div id="zone-stats" class="no-print"><div class="empty"><span class="eico">📊</span>Sélectionnez une classe pour voir les statistiques.</div></div>
   <div id="zone-fiche-sexe"></div>
 </div>
 
@@ -1214,7 +1218,7 @@ function renderEleves(){
   const liste=DB.eleves.filter(e=>e.classeId===classeId);
   q('nb-el').textContent=liste.length+' élève(s)';
   const tb=q('tb-eleves');
-  if(!liste.length){tb.innerHTML='<tr><td colspan="7" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
+  if(!liste.length){tb.innerHTML='<tr><td colspan="8" class="empty">Aucun élève dans cette classe.</td></tr>';return;}
   tb.innerHTML=liste.map(e=>{
     let nb=0;
     ['T1','T2','T3'].forEach(t=>{
@@ -1225,6 +1229,12 @@ function renderEleves(){
     const pct=tot?Math.round(nb/tot*100):0;
     const barCol=pct===100?'#5fe09a':pct>40?'#e8c75a':'#f07080';
     return `<tr style="${e.abandon?'opacity:0.5':''}">
+      <td style="text-align:center;">
+        <img src="${e.photo||''}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;background:var(--slate);${e.photo?'':'display:none;'}">
+        <span style="${e.photo?'display:none;':''}font-size:1.3rem;">👤</span><br>
+        <button class="btn btn-ghost btn-sm" style="padding:2px 6px;font-size:0.68rem;" onclick="declencherPhotoEleve('${e.matricule}')">📷</button>
+        <input type="file" accept="image/*" id="photo-input-${e.matricule}" style="display:none" onchange="changerPhotoEleve('${e.matricule}',this)">
+      </td>
       <td class="rang">${e.matricule}</td>
       <td><strong>${e.nom}</strong> ${e.prenom}${e.abandon?' <span class="tag" style="color:#f07080">ABANDON</span>':''}</td>
       <td>${e.sexe==='M'?'♂ M':'♀ F'}</td>
@@ -1237,6 +1247,29 @@ function renderEleves(){
       <td><button class="btn btn-red btn-sm" onclick="supprimerEleve('${e.matricule}')">✕</button></td>
     </tr>`;
   }).join('');
+}
+function declencherPhotoEleve(matricule){ q('photo-input-'+matricule).click(); }
+function changerPhotoEleve(matricule,input){
+  const file=input.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const img=new Image();
+    img.onload=function(){
+      const cible=200; // taille max pour garder des fichiers légers dans la base
+      let w=img.width,h=img.height;
+      if(w>h){ if(w>cible){ h=Math.round(h*cible/w); w=cible; } }
+      else { if(h>cible){ w=Math.round(w*cible/h); h=cible; } }
+      const canvas=document.createElement('canvas');
+      canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const dataUrl=canvas.toDataURL('image/jpeg',0.75);
+      const e=DB.eleves.find(x=>x.matricule===matricule);
+      if(e){ e.photo=dataUrl; renderEleves(); showFlash('✔ Photo enregistrée.'); }
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
 }
 
 /* ════════════════════════════════
@@ -1804,6 +1837,15 @@ function afficherBulletinAnnuel(){
 /* ════════════════════════════════
    CARTES SCOLAIRES
 ════════════════════════════════ */
+function imprimerCartes(){
+  const st=document.getElementById('page-size-override');
+  if(st) st.textContent='@media print{ @page{ size:85.6mm 53.98mm; margin:0; } }';
+  window.print();
+}
+window.addEventListener('afterprint', function(){
+  const st=document.getElementById('page-size-override');
+  if(st) st.textContent='';
+});
 function genererCartes(){
   const sel=q('ca-classe').value;
   const eleves= sel==='__all__' ? DB.eleves.slice() : DB.eleves.filter(e=>e.classeId===sel);
@@ -1817,7 +1859,7 @@ function genererCartes(){
         <div><div class="carte-etab">${DB.config.etab}</div><div class="carte-titre">Carte Scolaire ${DB.config.annee}</div></div>
       </div>
       <div class="carte-body">
-        <div class="carte-photo">PHOTO</div>
+        <div class="carte-photo">${e.photo?`<img src="${e.photo}" style="width:100%;height:100%;object-fit:cover;">`:'PHOTO'}</div>
         <div class="carte-info">
           <div class="carte-nom">${e.nom} ${e.prenom}</div>
           <div><b>Classe :</b> ${cl.nom||'—'}</div>
@@ -1955,6 +1997,87 @@ function afficherQuitus(){
       Le Directeur<br>${DB.config.directeur||'________________'}
     </div>
   </div>`;
+}
+
+function nombreEnLettres(n){
+  n=Math.round(n);
+  if(n===0)return'zéro';
+  const unites=['','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf'];
+  const dizaines=['','','vingt','trente','quarante','cinquante','soixante','soixante-dix','quatre-vingt','quatre-vingt-dix'];
+  function centaines(n,isFinal){
+    let s='';
+    const c=Math.floor(n/100), r=n%100;
+    if(c>0){ s+= (c>1?unites[c]+' cent':'cent') + (c>1&&r===0&&isFinal?'s':'') + (r>0?' ':''); }
+    if(r>0){
+      if(r<20){ s+=unites[r]; }
+      else{
+        const d=Math.floor(r/10), u=r%10;
+        if(d===7||d===9){ s+= dizaines[d-1] + (u===1&&d===7?' et onze':'-'+unites[10+u]); }
+        else{ s+= dizaines[d] + (u===0?(d===8&&isFinal?'s':''):(u===1&&d!==8?' et un':'-'+unites[u])); }
+      }
+    }
+    return s;
+  }
+  const tranches=[[1000000000,'milliard'],[1000000,'million'],[1000,'mille'],[1,'']];
+  let reste=n, parts=[];
+  for(const [val,mot] of tranches){
+    if(reste>=val){
+      const q=Math.floor(reste/val);
+      reste=reste%val;
+      if(val===1){ if(q>0) parts.push(centaines(q,true)); }
+      else if(val===1000){ parts.push((q>1?centaines(q,false)+' ':'')+'mille'); }
+      else{ parts.push(centaines(q,false)+' '+mot+(q>1?'s':'')); }
+    }
+  }
+  return parts.join(' ').replace(/\s+/g,' ').trim();
+}
+function genererRecu(paiementId){
+  const p=DB.paiements.find(x=>x.id===paiementId);
+  if(!p)return'';
+  const e=DB.eleves.find(x=>x.matricule===p.matricule);
+  if(!e)return'';
+  const cl=DB.classes.find(c=>c.id===e.classeId)||{};
+  const liste=DB.paiements.filter(x=>x.matricule===p.matricule && new Date(x.date.split('/').reverse().join('-'))<=new Date(p.date.split('/').reverse().join('-')));
+  const totalVerseApres=liste.reduce((s,x)=>s+x.montant,0);
+  const du=cl.fraisAnnuel||0;
+  const reliquat=Math.max(0,du-totalVerseApres);
+  return `<div class="bul">
+    <div class="bul-top">
+      <div class="bul-pays">BURKINA FASO</div>
+      <div class="bul-devise">La Patrie ou la Mort, Nous vaincrons !</div>
+      <div class="bul-logo">${DB.config.logo?`<img src="${DB.config.logo}">`:(DB.config.etab||'É').charAt(0)}</div>
+      <div class="bul-etab">${DB.config.etab} — ${DB.config.ville}</div>
+      <div class="bul-examen">REÇU DE PAIEMENT DE SCOLARITÉ</div>
+      <div class="bul-session">Année scolaire ${DB.config.annee} — N° ${p.id}</div>
+    </div>
+    <div class="bul-infos">
+      <div class="bul-info-item"><strong>Nom & Prénoms :</strong> ${e.nom} ${e.prenom}</div>
+      <div class="bul-info-item"><strong>Matricule :</strong> ${e.matricule}</div>
+      <div class="bul-info-item"><strong>Classe :</strong> ${cl.nom||'—'}</div>
+      <div class="bul-info-item"><strong>Date du versement :</strong> ${p.date}</div>
+    </div>
+    <div style="border:1.5px solid #b8942a;border-radius:6px;padding:14px 18px;margin:14px 0;background:#fbf8f0;">
+      <div style="font-size:0.78rem;color:#888;text-transform:uppercase;letter-spacing:1px;">Montant reçu</div>
+      <div style="font-size:1.6rem;font-weight:800;color:#111;">${p.montant.toLocaleString('fr-FR')} FCFA</div>
+      <div style="font-size:0.82rem;color:#555;font-style:italic;">Soit : ${nombreEnLettres(p.montant)} francs CFA${p.note?' — '+p.note:''}</div>
+    </div>
+    <table><thead><tr><th>Frais annuel dû</th><th>Total versé à ce jour</th><th>Reliquat restant</th></tr></thead>
+      <tbody><tr>
+        <td class="tc">${du.toLocaleString('fr-FR')} F</td>
+        <td class="tc" style="color:#2a7a4f;font-weight:700;">${totalVerseApres.toLocaleString('fr-FR')} F</td>
+        <td class="tc" style="color:${reliquat>0?'#b23a3a':'#2a7a4f'};font-weight:700;">${reliquat.toLocaleString('fr-FR')} F</td>
+      </tr></tbody></table>
+    <div class="bul-sign" style="margin-top:24px;text-align:right;">
+      Fait à ${DB.config.ville}, le ${p.date}<br><br>
+      Le Directeur (ou le Caissier)<br>${DB.config.directeur||'________________'}
+    </div>
+  </div>`;
+}
+function imprimerRecu(paiementId){
+  const html=genererRecu(paiementId);
+  if(!html){showAl('al-scolarite','Reçu introuvable.','aERR');return;}
+  q('zone-recu').innerHTML=html;
+  setTimeout(function(){ window.print(); }, 60);
 }
 
 function afficherConvocation(){
@@ -2312,6 +2435,7 @@ function renderScolarite(){
     <td style="font-size:0.78rem;color:var(--muted)">${p.date}</td>
     <td class="tc">${p.montant.toLocaleString('fr-FR')} F</td>
     <td>${p.note||'—'}</td>
+    <td><button class="btn btn-gold btn-sm" onclick="imprimerRecu('${p.id}')">🖨 Reçu</button></td>
     <td><button class="btn btn-red btn-sm" onclick="supprimerVersement('${p.id}')">✕</button></td>
   </tr>`).join('');
 }
