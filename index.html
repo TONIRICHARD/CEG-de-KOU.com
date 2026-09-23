@@ -175,7 +175,7 @@ tr:hover td{background:#1c2030;}
 .bul2 th:nth-child(7),.bul2 td:nth-child(7){width:14%;}
 .bul2 th:nth-child(8),.bul2 td:nth-child(8){width:22%;}
 .bul2 td:nth-child(8){padding-bottom:16px;vertical-align:top;}
-.bul2 .bloc-row td{background:#dde6ef;font-weight:800;text-transform:uppercase;font-size:0.76rem;letter-spacing:0.5px;}
+.bul2 .bloc-row td,.bul3 .bloc-row td{background:#dde6ef;font-weight:800;text-transform:uppercase;font-size:0.76rem;letter-spacing:0.5px;padding:3px 6px;}
 .bul2 .tot-row td{font-weight:800;background:#eef2f6;}
 .bul2-boxes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;}
 .bul2-box{border:1px solid #333;padding:10px 14px;font-size:0.85rem;line-height:1.7;}
@@ -1610,21 +1610,25 @@ function noteAssiduite(matricule,tri){
 }
 function sansAccents(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 function ligneMatiereBulletin(m,classeId,tri,matricule){
-  let moy=null, absent=false;
+  let moy=null, absent=false, dev=null, compo=null;
   if(sansAccents(m.nom)==='assiduite'){
     const n=((((DB.notes[classeId]||{})[tri])||{})[matricule]||{})[m.nom];
     const manuel = n?valNote(n):null;
-    if(manuel!==null && n && !n.absent){ moy=manuel; }
+    if(manuel!==null && n && !n.absent){ moy=manuel; dev=n.devoirs; compo=n.compo; }
     else { moy=noteAssiduite(matricule,tri).note; }
   } else {
     const n=((((DB.notes[classeId]||{})[tri])||{})[matricule]||{})[m.nom];
     absent = !!(n&&n.absent);
     moy = n?valNote(n):null;
+    dev = n?n.devoirs:null;
+    compo = n?n.compo:null;
   }
   const pts = (moy!==null && !absent) ? moy*m.coef : null;
   const prof = nomProfPour(classeId,m.nom)||'—';
   const appr = absent ? 'Absent(e)' : (moy!==null ? appreciationMatiere(moy) : '—');
   return {
+    devStr: absent?'—':(dev!==null&&dev!==undefined?dev.toFixed(2):'—'),
+    compoStr: absent?'—':(compo!==null&&compo!==undefined?compo.toFixed(2):'—'),
     moyStr: absent?'ABS':(moy!==null?moy.toFixed(2):'—'),
     ptsStr: pts!==null?pts.toFixed(2):'—',
     coefCompte: pts!==null?m.coef:0,
@@ -1658,13 +1662,13 @@ function genBulletinHTML(classeId,tri,matricule){
         totCoef+=l.coefCompte; totPts+=l.ptsCompte;
         lignes+='<tr>';
         if(k===0) lignes+=`<td rowspan="${sousListe.length}" class="groupe-vert">${groupe.split('').join('<br>')}</td>`;
-        lignes+=`<td>${sm.nom}</td><td class="tc">${sm.coef}</td><td class="tc">${l.moyStr}</td><td class="tc">${l.ptsStr}</td><td style="font-size:0.7rem">${l.prof}</td><td class="sign-cell">${l.appr}</td></tr>`;
+        lignes+=`<td>${sm.nom}</td><td class="tc">${sm.coef}</td><td class="tc">${l.devStr}</td><td class="tc">${l.compoStr}</td><td class="tc">${l.moyStr}</td><td class="tc">${l.ptsStr}</td><td class="sign-cell">${l.appr}</td><td style="font-size:0.7rem">${l.prof}</td></tr>`;
       });
       idx=j;
     }else{
       const l=ligneMatiereBulletin(m,classeId,tri,matricule);
       totCoef+=l.coefCompte; totPts+=l.ptsCompte;
-      lignes+=`<tr><td colspan="2">${m.nom}</td><td class="tc">${m.coef}</td><td class="tc">${l.moyStr}</td><td class="tc">${l.ptsStr}</td><td style="font-size:0.7rem">${l.prof}</td><td class="sign-cell">${l.appr}</td></tr>`;
+      lignes+=`<tr><td colspan="2">${m.nom}</td><td class="tc">${m.coef}</td><td class="tc">${l.devStr}</td><td class="tc">${l.compoStr}</td><td class="tc">${l.moyStr}</td><td class="tc">${l.ptsStr}</td><td class="sign-cell">${l.appr}</td><td style="font-size:0.7rem">${l.prof}</td></tr>`;
       idx++;
     }
   }
@@ -1750,9 +1754,9 @@ function genBulletinHTML(classeId,tri,matricule){
     <div class="bul3-champ">Nom et Prénom(s) de l'Élève : <strong>${e.nom} ${e.prenom}</strong></div>
     <div class="bul3-champ">Date et lieu de naissance : <strong>${e.ddn||'—'}${e.lieuNaissance?(' à '+e.lieuNaissance):''}</strong></div>
     <div class="bul3-champ">Classe : <strong>${cl.nom||'—'}</strong> &nbsp;&nbsp; Effectif : <strong>${effectif}</strong> &nbsp;&nbsp; Classe redoublée : <strong>${e.redoublant?'Oui':'Non'}</strong> &nbsp;&nbsp; N° Mle : <strong>${e.matricule}</strong></div>
-    <table><colgroup><col style="width:4%"><col style="width:19%"><col style="width:6%"><col style="width:12%"><col style="width:13%"><col style="width:19%"><col style="width:27%"></colgroup><thead><tr><th colspan="2">DISCIPLINES</th><th>Coef.</th><th>Moyenne sur 20</th><th>Notes pondérées</th><th>Nom du professeur</th><th>Appréciations signatures</th></tr></thead>
+    <table><colgroup><col style="width:3%"><col style="width:20%"><col style="width:5%"><col style="width:9%"><col style="width:14%"><col style="width:9%"><col style="width:10%"><col style="width:14%"><col style="width:16%"></colgroup><thead><tr><th colspan="2">DISCIPLINES</th><th>Coef.</th><th>Moy.<br>Devoirs</th><th>Composition</th><th>Moyenne</th><th>Notes<br>pondérées</th><th>Appréciation</th><th>Professeur /<br>Signature</th></tr></thead>
       <tbody>${lignes}
-      <tr class="tot-row"><td colspan="2">TOTAL</td><td class="tc">${totCoef}</td><td></td><td class="tc">${totPts.toFixed(2)}</td><td></td><td></td></tr>
+      <tr class="tot-row"><td colspan="2">TOTAL</td><td class="tc">${totCoef}</td><td></td><td></td><td></td><td class="tc">${totPts.toFixed(2)}</td><td></td><td></td></tr>
       </tbody></table>
     <div class="bul3-footer-cols">
       <div>${colGauche}</div>
@@ -1760,7 +1764,7 @@ function genBulletinHTML(classeId,tri,matricule){
     </div>
     <div class="bul3-box2">
       <div><div class="titre">APPRECIATION DU CONSEIL DE CLASSE</div><div class="dots">&nbsp;</div><div class="dots">&nbsp;</div></div>
-      <div><div class="titre" style="text-decoration:none">LE CHEF D'ETABLISSEMENT</div><div style="margin-top:36px;">${DB.config.ville||'Kou'}, le ${auj}</div></div>
+      <div><div class="titre" style="text-decoration:none">LE CHEF D'ETABLISSEMENT</div><div style="margin-top:36px;">${DB.config.ville||'Kou'}, le ${auj}</div>${DB.config.directeur?`<div style="margin-top:4px;font-weight:700;">${DB.config.directeur}</div>`:''}</div>
     </div>
     ${blocBas}
     <div class="bul2-footer">Bulletin généré électroniquement le ${auj} à ${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})} — Logiciel de Gestion Scolaire du ${DB.config.etab}</div>
