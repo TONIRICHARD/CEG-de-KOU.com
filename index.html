@@ -322,6 +322,10 @@ tr:hover td{background:#1c2030;}
     <div class="fg" style="margin-bottom:10px;text-align:left;"><label>E-mail</label><input type="text" id="login-email" placeholder="prof@cegdekou.bf"/></div>
     <div class="fg" style="margin-bottom:14px;text-align:left;"><label>Mot de passe</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
     <button class="btn btn-gold" style="width:100%;" id="login-btn-principal" onclick="connecterDirecteur()">Se connecter</button>
+    <div id="login-choix-role" style="display:none;gap:8px;">
+      <button class="btn btn-gold btn-sm" style="flex:1;" onclick="creerCompteProf('professeur')">🎓 Je suis Professeur</button>
+      <button class="btn btn-gold btn-sm" style="flex:1;" onclick="creerCompteProf('directeur')">🏫 Je suis Directeur</button>
+    </div>
     <div id="login-erreur" style="color:#f07080;font-size:0.8rem;margin-top:10px;min-height:1.2em;"></div>
     <p style="margin-top:6px;"><a href="#" id="login-oublie-lien" onclick="reinitialiserMotDePasse();return false;" style="font-size:0.78rem;color:var(--muted);text-decoration:underline;">Mot de passe oublié ?</a></p>
     <hr class="sep">
@@ -348,6 +352,7 @@ tr:hover td{background:#1c2030;}
     <div class="row">
       <div class="fg"><label>Directeur / Directrice</label><input id="c-directeur" value=""/></div>
       <div class="fg"><label>E-mail du Directeur (compte de connexion)</label><input type="text" id="c-email-directeur" placeholder="directeur@cegdekou.bf"/></div>
+      <div class="fg"><label>E-mail Directeur 2 (optionnel — 2 comptes Directeur max.)</label><input type="text" id="c-email-directeur2" placeholder="directeur2@cegdekou.bf"/></div>
     </div>
     <div class="row">
       <div class="fg" style="max-width:140px"><label>Note de passage</label>
@@ -807,7 +812,7 @@ const firebaseConfig = {
    ÉTAT GLOBAL
 ════════════════════════════════ */
 const DB = {
-  config:{ etab:'CEG de Kou', region:'Nando', province:'Ziro', ville:'Kou', annee:'2026–2027', directeur:'', emailDirecteur:'', passage:10, tableauHonneur:5, penalHeure:0.25, penalMax:2, logo:'' },
+  config:{ etab:'CEG de Kou', region:'Nando', province:'Ziro', ville:'Kou', annee:'2026–2027', directeur:'', emailDirecteur:'', emailDirecteur2:'', passage:10, tableauHonneur:5, penalHeure:0.25, penalMax:2, logo:'' },
   classes:[],   // {id, nom, profPrincipal}
   matieres:[],  // {nom, coef, sur, bloc}
   blocs:['FRANÇAIS'], // regroupements optionnels de matières (ex: Français → Langue/Expression)
@@ -874,7 +879,7 @@ function sauverConfig(){
   DB.config={
     etab:q('c-etab').value||'CEG de Kou', region:q('c-region').value, province:q('c-province').value, ville:q('c-ville').value,
     annee:anneeScolaireDetectee(), // toujours calculée automatiquement, jamais saisie manuellement
-    directeur:q('c-directeur').value, emailDirecteur:q('c-email-directeur').value.trim().toLowerCase(),
+    directeur:q('c-directeur').value, emailDirecteur:q('c-email-directeur').value.trim().toLowerCase(), emailDirecteur2:q('c-email-directeur2').value.trim().toLowerCase(),
     passage:parseFloat(q('c-passage').value)||10, tableauHonneur:parseInt(q('c-tableau').value)||5,
     penalHeure:parseFloat(q('c-penal-heure').value)||0.25, penalMax:parseFloat(q('c-penal-max').value)||2, logo:DB.config.logo
   };
@@ -1637,6 +1642,7 @@ function ligneMatiereBulletin(m,classeId,tri,matricule){
   };
 }
 function labelTriOfficiel(tri){ return tri==='T1'?'1er TRIMESTRE':tri==='T2'?'2ème TRIMESTRE':'3ème TRIMESTRE'; }
+function rangOrdinal(rang,sexe){ if(!rang) return '—'; if(rang===1) return sexe==='F'?'1ère':'1er'; return rang+'e'; }
 function genBulletinHTML(classeId,tri,matricule){
   const cl=DB.classes.find(c=>c.id===classeId)||{};
   const e=DB.eleves.find(x=>x.matricule===matricule);
@@ -1695,16 +1701,16 @@ function genBulletinHTML(classeId,tri,matricule){
 
   let colGauche='';
   if(tri==='T1'){
-    colGauche=`Moyenne du 1er Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong><br>Rang : <strong>${rang?rang+'e':'—'}</strong>`;
+    colGauche=`Moyenne du 1er Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong><br>Rang : <strong>${rangOrdinal(rang,e.sexe)}</strong>`;
   }else if(tri==='T2'){
-    colGauche=`Moyenne du 1er Trimestre : <strong>${posT1?posT1.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT1?posT1.rang+'e':'—'}</strong><br>
-      Moyenne du 2è Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong><br>Rang : <strong>${rang?rang+'e':'—'}</strong>`;
+    colGauche=`Moyenne du 1er Trimestre : <strong>${posT1?posT1.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT1?rangOrdinal(posT1.rang,e.sexe):'—'}</strong><br>
+      Moyenne du 2è Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong><br>Rang : <strong>${rangOrdinal(rang,e.sexe)}</strong>`;
   }else{
-    colGauche=`Moyenne du 1er Trimestre : <strong>${posT1?posT1.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT1?posT1.rang+'e':'—'}</strong><br>
-      Moyenne du 2è Trimestre : <strong>${posT2?posT2.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT2?posT2.rang+'e':'—'}</strong><br>
-      Moyenne du 3è Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${rang?rang+'e':'—'}</strong><br>
+    colGauche=`Moyenne du 1er Trimestre : <strong>${posT1?posT1.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT1?rangOrdinal(posT1.rang,e.sexe):'—'}</strong><br>
+      Moyenne du 2è Trimestre : <strong>${posT2?posT2.r.moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${posT2?rangOrdinal(posT2.rang,e.sexe):'—'}</strong><br>
+      Moyenne du 3è Trimestre : <strong>${moy!==null?moy.toFixed(2):'—'}/20</strong> &nbsp; Rang : <strong>${rangOrdinal(rang,e.sexe)}</strong><br>
       Moyenne Annuelle : <strong>${moyAnnuelle!==null?moyAnnuelle.toFixed(2):'—'}/20</strong><br>
-      Rang Annuel : <strong>${rangAnnuel?rangAnnuel+'e':'—'}</strong>`;
+      Rang Annuel : <strong>${rangOrdinal(rangAnnuel,e.sexe)}</strong>`;
   }
   const colDroite=`Moy. de la classe : <strong>${moyClasse!==null?moyClasse.toFixed(2):'—'}/20</strong><br>
     Moy. la plus forte : <strong>${moyForte!==null?moyForte.toFixed(2):'—'}/20</strong><br>
@@ -1818,7 +1824,7 @@ function afficherBulletinAnnuel(){
       <div class="bul-info-item"><strong>Nom & Prénoms :</strong> ${e?.nom||''} ${e?.prenom||''}</div>
       <div class="bul-info-item"><strong>Matricule :</strong> ${matricule}</div>
       <div class="bul-info-item"><strong>Effectif :</strong> ${eleves.length}</div>
-      <div class="bul-info-item"><strong>Rang annuel :</strong> ${pos?pos.rang:'—'}${rangAnnuel.length?('/'+rangAnnuel.length):''}</div>
+      <div class="bul-info-item"><strong>Rang annuel :</strong> ${rangOrdinal(pos?pos.rang:null,e?.sexe)}</div>
     </div>
     <table><thead><tr><th>Matière</th><th>Coeff.</th><th>T1</th><th>T2</th><th>T3</th><th>Moyenne</th></tr></thead>
       <tbody>${lignes}
@@ -1865,7 +1871,8 @@ function genererCartes(){
       <div class="carte-body">
         <div class="carte-photo">${e.photo?`<img src="${e.photo}" style="width:100%;height:100%;object-fit:cover;">`:'PHOTO'}</div>
         <div class="carte-info">
-          <div class="carte-nom">${e.nom} ${e.prenom}</div>
+          <div><b>Nom :</b> ${e.nom}</div>
+          <div><b>Prénom(s) :</b> ${e.prenom}</div>
           <div><b>Classe :</b> ${cl.nom||'—'}</div>
           <div><b>Matricule :</b> ${e.matricule}</div>
           <div><b>Sexe :</b> ${e.sexe}</div>
@@ -2119,13 +2126,16 @@ function afficherConvocation(){
    RÔLES (Directeur / Professeur)
 ════════════════════════════════ */
 function systemeNonConfigure(){
-  return !DB.config.emailDirecteur && !DB.professeurs.some(p=>p.email);
+  return !DB.config.emailDirecteur && !DB.config.emailDirecteur2 && !DB.professeurs.some(p=>p.email);
+}
+function estEmailDirecteur(e){
+  return (DB.config.emailDirecteur && e===DB.config.emailDirecteur.toLowerCase()) ||
+         (DB.config.emailDirecteur2 && e===DB.config.emailDirecteur2.toLowerCase());
 }
 function determinerRole(email){
   const e=(email||'').toLowerCase();
-  if(e==='tonirichard091998@gmail.com') return {role:'directeur', profId:null}; // ⚠ ACCÈS D'URGENCE TEMPORAIRE — à retirer ensuite
   if(systemeNonConfigure()) return {role:'directeur', profId:null}; // amorçage : premier compte connecté = Directeur temporaire
-  if(DB.config.emailDirecteur && e===DB.config.emailDirecteur.toLowerCase()) return {role:'directeur', profId:null};
+  if(estEmailDirecteur(e)) return {role:'directeur', profId:null};
   const prof=DB.professeurs.find(p=>(p.email||'').toLowerCase()===e);
   if(prof) return {role:'professeur', profId:prof.id};
   return {role:null, profId:null};
@@ -2574,7 +2584,7 @@ function appliquerConfig(){
   const cfg=DB.config;
   const set=(id,val)=>{const el=q(id);if(el)el.value=val||'';};
   set('c-etab',cfg.etab); set('c-region',cfg.region); set('c-province',cfg.province); set('c-ville',cfg.ville); set('c-annee',cfg.annee);
-  set('c-directeur',cfg.directeur); set('c-email-directeur',cfg.emailDirecteur); set('c-passage',cfg.passage); set('c-tableau',cfg.tableauHonneur||5);
+  set('c-directeur',cfg.directeur); set('c-email-directeur',cfg.emailDirecteur); set('c-email-directeur2',cfg.emailDirecteur2); set('c-passage',cfg.passage); set('c-tableau',cfg.tableauHonneur||5);
   set('c-penal-heure',cfg.penalHeure!==undefined?cfg.penalHeure:0.25); set('c-penal-max',cfg.penalMax!==undefined?cfg.penalMax:2);
 }
 function setSaveStatus(msg,type){
@@ -2616,6 +2626,7 @@ function metaPayload(){
 function emailsAutorisesPayload(){
   return {
     emailDirecteur:(DB.config.emailDirecteur||'').toLowerCase(),
+    emailDirecteur2:(DB.config.emailDirecteur2||'').toLowerCase(),
     profsEmails: DB.professeurs.map(p=>(p.email||'').toLowerCase()).filter(Boolean)
   };
 }
@@ -2788,15 +2799,15 @@ function basculerModeLogin(){
   q('login-erreur').textContent='';
   if(modeInscription){
     q('login-titre').textContent='🆕 Créer mon mot de passe';
-    q('login-btn-principal').textContent='Créer mon compte';
-    q('login-btn-principal').setAttribute('onclick','creerCompteProf()');
+    q('login-btn-principal').style.display='none';
+    q('login-choix-role').style.display='flex';
     q('login-bascule-txt').textContent='Vous avez déjà un mot de passe ?';
     q('login-bascule-btn').textContent='Se connecter';
   }else{
     q('login-titre').textContent='🔐 Connexion requise';
-    q('login-btn-principal').textContent='Se connecter';
-    q('login-btn-principal').setAttribute('onclick','connecterDirecteur()');
-    q('login-bascule-txt').textContent='Professeur, première connexion ?';
+    q('login-btn-principal').style.display='';
+    q('login-choix-role').style.display='none';
+    q('login-bascule-txt').textContent='Première connexion ?';
     q('login-bascule-btn').textContent='Créer mon mot de passe';
   }
 }
@@ -2824,33 +2835,48 @@ function reinitialiserMotDePasse(){
       q('login-erreur').textContent=traduireErreurAuth(err.code);
     });
 }
-async function creerCompteProf(){
+async function creerCompteProf(roleChoisi){
   const email=q('login-email').value.trim().toLowerCase();
   const pass=q('login-pass').value;
   if(!email||!pass){ q('login-erreur').textContent='Renseignez l\'e-mail et le mot de passe.'; return; }
   if(pass.length<6){ q('login-erreur').textContent='Le mot de passe doit faire au moins 6 caractères.'; return; }
   q('login-erreur').textContent='Vérification de l\'e-mail…';
   try{
-    // On vérifie que cet e-mail correspond bien au Directeur ou à un professeur enregistré, en lisant directement le cloud
+    // On vérifie que cet e-mail correspond bien au rôle choisi, en lisant directement le cloud
     const adapt=creerAdaptateurFirestore();
-    let autorise = (email==='tonirichard091998@gmail.com') || email===(DB.config.emailDirecteur||'').toLowerCase(); // ⚠ ACCÈS D'URGENCE TEMPORAIRE
-    let pasEncoreConfigure = systemeNonConfigure();
-    if(!autorise && adapt){
+    let emailDir='', emailDir2='', profsEmails=[], pasEncoreConfigure;
+    if(adapt){
       const snap=await adapt.doc('school/emails_autorises').get();
       const d=snap.exists?snap.data():null;
-      const emailDir=(d&&d.emailDirecteur||'').toLowerCase();
-      const profsEmails=(d&&d.profsEmails)||[];
-      pasEncoreConfigure = !emailDir && profsEmails.length===0;
-      autorise = email===emailDir || profsEmails.includes(email);
-    } else if(!autorise){
-      autorise = !!DB.professeurs.find(p=>(p.email||'').toLowerCase()===email);
+      emailDir=(d&&d.emailDirecteur||'').toLowerCase();
+      emailDir2=(d&&d.emailDirecteur2||'').toLowerCase();
+      profsEmails=(d&&d.profsEmails)||[];
+      pasEncoreConfigure = !emailDir && !emailDir2 && profsEmails.length===0;
+    }else{
+      emailDir=(DB.config.emailDirecteur||'').toLowerCase();
+      emailDir2=(DB.config.emailDirecteur2||'').toLowerCase();
+      profsEmails=DB.professeurs.map(p=>(p.email||'').toLowerCase()).filter(Boolean);
+      pasEncoreConfigure = systemeNonConfigure();
     }
-    if(!autorise && pasEncoreConfigure){
-      autorise = true; // amorçage : aucun Directeur/professeur enregistré nulle part -> premier compte accepté
-    }
-    if(!autorise){
-      q('login-erreur').textContent='Cet e-mail n\'est enregistré ni comme Directeur, ni comme professeur. Demandez au Directeur de l\'ajouter dans l\'onglet Professeurs.';
-      return;
+
+    if(roleChoisi==='directeur'){
+      if(pasEncoreConfigure){
+        // amorçage : personne n'est encore configuré -> ce premier compte devient le 1er Directeur
+      }else if(email===emailDir || email===emailDir2){
+        // e-mail déjà reconnu comme l'un des 2 Directeurs
+      }else{
+        q('login-erreur').textContent='Cet e-mail n\'est pas enregistré comme Directeur. Il y a déjà 2 comptes Directeur configurés au maximum, ou cet e-mail doit d\'abord être renseigné en Configuration par un Directeur existant.';
+        return;
+      }
+    }else{ // roleChoisi === 'professeur'
+      if(pasEncoreConfigure){
+        q('login-erreur').textContent='Aucun Directeur n\'est encore configuré pour cet établissement. Le Directeur doit créer son compte en premier (bouton « Je suis Directeur »).';
+        return;
+      }
+      if(!profsEmails.includes(email)){
+        q('login-erreur').textContent='Cet e-mail n\'est pas enregistré dans la liste des Professeurs. Demandez au Directeur de l\'ajouter dans l\'onglet Professeurs.';
+        return;
+      }
     }
     q('login-erreur').textContent='Création du compte…';
     await firebase.auth().createUserWithEmailAndPassword(email,pass);
