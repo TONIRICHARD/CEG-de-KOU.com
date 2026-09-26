@@ -1397,10 +1397,10 @@ function exporterNotesCSV(){
 function initSaisieNotes(){
   const sel=q('n-mat');
   const classeId=q('n-classe').value;
-  let matieres=DB.matieres;
+  let matieres=DB.matieres.filter(m=>sansAccents(m.nom)!=='assiduite');
   if(monRole==='professeur'){
     const mesMat=combosDuProf(monProfId).filter(c=>c.classeId===classeId).map(c=>c.matiere);
-    matieres=DB.matieres.filter(m=>mesMat.includes(m.nom));
+    matieres=matieres.filter(m=>mesMat.includes(m.nom));
   }
   sel.innerHTML=matieres.length?matieres.map(m=>`<option>${m.nom}</option>`).join(''):'<option value="">Aucune matière qui vous est assignée ici</option>';
   refreshGrilleNotes();
@@ -1530,6 +1530,7 @@ function importerNotesDevoirsCompo(){
 function moyEleve(classeId,tri,matricule){
   let pts=0,coefTot=0,nbMat=0;
   DB.matieres.forEach(m=>{
+    if(sansAccents(m.nom)==='assiduite')return; // Assiduité n'est pas une matière : traitée à part, en pénalité
     const n=DB.notes[classeId]?.[tri]?.[matricule]?.[m.nom];
     if(n!==undefined){
       const v=n.absent?0:valNote(n);
@@ -1537,7 +1538,10 @@ function moyEleve(classeId,tri,matricule){
     }
   });
   if(!nbMat)return null;
-  return {moy:pts/coefTot,pts,coef:coefTot,nb:nbMat,total:DB.matieres.length};
+  const assiduite=noteAssiduite(matricule,tri);
+  const ptsApresPenalite=Math.max(0,pts-assiduite.penalite);
+  return {moy:ptsApresPenalite/coefTot,pts:ptsApresPenalite,ptsBruts:pts,coef:coefTot,nb:nbMat,total:DB.matieres.length,
+    penaliteAssiduite:assiduite.penalite, heuresAssiduite:assiduite.heures};
 }
 function getMention(moy){
   if(moy>=18)return{t:'Excellent',c:'mEX'};
@@ -1615,19 +1619,11 @@ function noteAssiduite(matricule,tri){
 }
 function sansAccents(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 function ligneMatiereBulletin(m,classeId,tri,matricule){
-  let moy=null, absent=false, dev=null, compo=null;
-  if(sansAccents(m.nom)==='assiduite'){
-    const n=((((DB.notes[classeId]||{})[tri])||{})[matricule]||{})[m.nom];
-    const manuel = n?valNote(n):null;
-    if(manuel!==null && n && !n.absent){ moy=manuel; dev=n.devoirs; compo=n.compo; }
-    else { moy=noteAssiduite(matricule,tri).note; }
-  } else {
-    const n=((((DB.notes[classeId]||{})[tri])||{})[matricule]||{})[m.nom];
-    absent = !!(n&&n.absent);
-    moy = n?valNote(n):null;
-    dev = n?n.devoirs:null;
-    compo = n?n.compo:null;
-  }
+  const n=((((DB.notes[classeId]||{})[tri])||{})[matricule]||{})[m.nom];
+  const absent = !!(n&&n.absent);
+  const moy = n?valNote(n):null;
+  const dev = n?n.devoirs:null;
+  const compo = n?n.compo:null;
   const pts = (moy!==null && !absent) ? moy*m.coef : null;
   const prof = nomProfPour(classeId,m.nom)||'—';
   const appr = absent ? 'Absent(e)' : (moy!==null ? appreciationMatiere(moy) : '—');
@@ -1659,6 +1655,7 @@ function genBulletinHTML(classeId,tri,matricule){
   let lignes='', totCoef=0, totPts=0, idx=0;
   while(idx<DB.matieres.length){
     const m=DB.matieres[idx];
+    if(sansAccents(m.nom)==='assiduite'){ idx++; continue; } // Assiduité n'est pas une matière : ligne à part, en pénalité
     const groupe=m.bloc;
     if(groupe){
       let j=idx; const sousListe=[];
@@ -1763,6 +1760,11 @@ function genBulletinHTML(classeId,tri,matricule){
     <table><colgroup><col style="width:3%"><col style="width:20%"><col style="width:5%"><col style="width:9%"><col style="width:14%"><col style="width:9%"><col style="width:10%"><col style="width:14%"><col style="width:16%"></colgroup><thead><tr><th colspan="2">DISCIPLINES</th><th>Coef.</th><th>Moy.<br>Devoirs</th><th>Composition</th><th>Moyenne</th><th>Notes<br>pondérées</th><th>Appréciation</th><th>Professeur /<br>Signature</th></tr></thead>
       <tbody>${lignes}
       <tr class="tot-row"><td colspan="2">TOTAL</td><td class="tc">${totCoef}</td><td></td><td></td><td></td><td class="tc">${totPts.toFixed(2)}</td><td></td><td></td></tr>
+      ${(function(){
+        const heuresA=r?r.heuresAssiduite:heuresAbsenceNonJustifieeTri(matricule,tri);
+        const penA=r?r.penaliteAssiduite:noteAssiduite(matricule,tri).penalite;
+        return `<tr><td colspan="9" style="font-style:italic;font-size:0.72rem;padding:3px 6px;">Assiduité (${heuresA}h d'absence non justifiée${heuresA>1?'s':''}) : <strong style="color:#a52020;">-${penA.toFixed(2)} pt${penA>1?'s':''}</strong> déduit(s) du total ci-dessus</td></tr>`;
+      })()}
       </tbody></table>
     <div class="bul3-footer-cols">
       <div>${colGauche}</div>
@@ -1790,7 +1792,7 @@ function afficherBulletinAnnuel(){
   if(!classeId||!matricule){ q('zone-bulletins').innerHTML='<div class="empty">Sélectionnez une classe et un élève.</div>'; return; }
   const cl=DB.classes.find(c=>c.id===classeId)||{};
   const e=DB.eleves.find(x=>x.matricule===matricule);
-  const lignes=DB.matieres.map(m=>{
+  const lignes=DB.matieres.filter(m=>sansAccents(m.nom)!=='assiduite').map(m=>{
     const cells=['T1','T2','T3'].map(t=>{
       const n=DB.notes[classeId]?.[t]?.[matricule]?.[m.nom];
       const v=n?valNote(n):null;
